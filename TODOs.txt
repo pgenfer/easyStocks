@@ -1,0 +1,16 @@
+﻿1.  Create stock service and inject it into stock ticker. (check)
+2.  Stock service should return stock data (check)
+3.  Create use cases
+	 1. Request a share by id (check) => already done by stock ticker
+	 2. Add share to portfolio (check) => already implemented by portfolio
+	 3. Update the portfolio in intervals (check)
+4.  Store portfolio information in storage (json?)
+5.  Create simple WPF UI
+6.  Create Android / Xamarin UI
+7.  Create Windows Universal Application
+8.  Add notification in case the daily data of the share changes
+9.  Add notification if the rate is below the stop rate
+10. Calculate other metrics
+	1. Difference since buying date
+	2. Gain/loss since buying date
+	3. Difference of share compared to yesterday
