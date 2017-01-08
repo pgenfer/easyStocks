@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasyStocks.Model;
 using NUnit.Framework;
 
 namespace EasyStocks.Test.Integration
@@ -18,6 +19,16 @@ namespace EasyStocks.Test.Integration
             var result = await ticker.GetShareBySymbolAsync(tesla);
             Assert.That(result.IsSuccessful);
             Assert.That(result.Value.IsValid);
+        }
+
+        [Test]
+        public async Task RetrieveInvalidSymbol()
+        {
+            const string tesla = "nosymbol";
+            var ticker = new YahooFinanceStockTicker();
+            var result = await ticker.GetShareBySymbolAsync(tesla);
+            Assert.That(result.IsSuccessful,Is.False);
+            Assert.That(result.Value.IsValid,Is.False);
         }
 
         [Test]

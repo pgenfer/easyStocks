@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="EasyStocks.View.AccountItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:EasyStocks.Converter"
+             mc:Ignorable="d"
+             Margin="5">
+  <UserControl.Resources>
+    <Style x:Key="Headline" TargetType="{x:Type TextBlock}">
+      <Style.Setters>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Margin" Value="0,0,0,5"/>
+      </Style.Setters>
+    </Style>
+    <Style x:Key="Subtext" TargetType="{x:Type TextBlock}">
+      <Style.Setters>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="12"/>
+      </Style.Setters>
+    </Style>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30"/>
+      <RowDefinition Height="20"/>
+      <RowDefinition Height="20"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <!-- name of the share -->
+    <TextBlock
+      Grid.ColumnSpan="2"
+      x:Name="ShareName"
+      Style="{StaticResource Headline}"
+      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+    <!-- change in percentage -->
+    <TextBlock
+      Grid.Row="0"
+      Grid.Column="2"
+      x:Name="ChangePercentString"
+      Style="{StaticResource Headline}"
+      HorizontalAlignment="Right"
+      Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
+      Foreground="{Binding ChangeOfCurrentRate,Converter={converter:RateChangeToColorConverter}}"/>
+    <!-- symbol -->
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="1"
+      x:Name="Symbol"
+      Style="{StaticResource Subtext}"
+      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+    <!-- current rate and stop rate -->
+    <Grid
+      Grid.Column="1"
+      Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock
+        Grid.Column="0"
+        x:Name="CurrentRateString"
+        Style="{StaticResource Subtext}"
+        HorizontalAlignment="Right"
+        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+      <TextBlock
+        Grid.Column="1"
+        Text=" / "
+        Style="{StaticResource Subtext}"
+        HorizontalAlignment="Left"
+        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+      <TextBlock
+        Grid.Column="2"
+        x:Name="StopString"
+        Style="{StaticResource Subtext}"
+        HorizontalAlignment="Left"
+        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+    </Grid>
+    <!-- daily change in absolute numbers -->
+    <TextBlock
+      Grid.Row="1"
+      Grid.Column="2"
+      x:Name="ChangeAbsoluteString"
+      Style="{StaticResource Subtext}"
+      HorizontalAlignment="Right"
+      Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/> 
+    <!-- buying date -->
+    <TextBlock
+      Grid.Row="2"
+      Grid.Column="0"
+      x:Name="BuyingDateString"
+      Style="{StaticResource Subtext}"
+      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+    <!-- buying rate -->
+    <TextBlock
+      Grid.Row="2"
+      Grid.Column="1"
+      x:Name="BuyingRateString"
+      Style="{StaticResource Subtext}"
+      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+    <!-- change since buying -->
+    <TextBlock
+      Grid.Row="2"
+      Grid.Column="2"
+      x:Name="BuyingChangeString"
+      Style="{StaticResource Subtext}"
+      Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+    <!-- line separator -->
+    <Separator 
+      Grid.Row="3"
+      Grid.Column="0"
+      Grid.ColumnSpan="3"
+      BorderBrush="#E0E0E0"
+      BorderThickness="1"
+      Margin="0,2"/>
+  </Grid>
+</UserControl>

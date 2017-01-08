@@ -38,24 +38,34 @@
     <Content Include="TODOs.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountItem.cs" />
+    <Compile Include="Dto\IStorage.cs" />
+    <Compile Include="Model\AccountItem.cs" />
     <Compile Include="Dto\AccountItemDto.cs" />
     <Compile Include="Dto\PortfolioDeserializer.cs" />
     <Compile Include="Dto\PortfolioSerializer.cs" />
-    <Compile Include="HistoricalQuote.cs" />
-    <Compile Include="IStockTicker.cs" />
-    <Compile Include="Portfolio.cs" />
+    <Compile Include="Model\HistoricalQuote.cs" />
+    <Compile Include="Model\IStockTicker.cs" />
+    <Compile Include="Model\Portfolio.cs" />
     <Compile Include="Dto\PortfolioDto.cs" />
-    <Compile Include="PortfolioUpdater.cs" />
+    <Compile Include="Model\PortfolioUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quote.cs" />
-    <Compile Include="QuoteChangePercent.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="Share.cs" />
-    <Compile Include="ShareDailyInformation.cs" />
-    <Compile Include="StockTicker.cs" />
+    <Compile Include="Model\Quote.cs" />
+    <Compile Include="Model\QuoteChangePercent.cs" />
+    <Compile Include="Model\Result.cs" />
+    <Compile Include="Model\Share.cs" />
+    <Compile Include="Model\ShareDailyInformation.cs" />
+    <Compile Include="Model\StockTicker.cs" />
+    <Compile Include="ViewModel\AccountItemViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PortfolioViewModel.cs" />
+    <Compile Include="ViewModel\RateChange.cs" />
+    <Compile Include="ViewModel\SearchShareViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>packages\Caliburn.Micro.Core.3.0.2\lib\portable-net45+win8+wp8+wpa81+MonoAndroid10+Xamarin.iOS10+MonoTouch10+uap10.0\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +74,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using EasyStocks.Model;
 
 namespace EasyStocks.Dto
 {
@@ -23,6 +25,12 @@ namespace EasyStocks.Dto
                     StopRate = x.StopQuote.Value
                 }).ToList()
             };
+        }
+
+        public async Task<Result<bool>> SaveAsync(Portfolio portfolio, IStorage storage)
+        {
+            var result = await storage.SaveToStorageAsync(ToDto(portfolio));
+            return result;
         }
     }
 }

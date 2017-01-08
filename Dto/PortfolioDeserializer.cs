@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using EasyStocks.Model;
 
 namespace EasyStocks.Dto
 {
@@ -23,8 +24,16 @@ namespace EasyStocks.Dto
                 var share = await _stockTicker.GetShareBySymbolAsync(dto.Symbol);
                 // no matter if this share could be loaded or not, we will add it
                 // we might have invalid stock items in the portfolio, but the user has to fix this manually
-                portfolio.AddShare(share.Value, dto.BuyingDate, dto.BuyingRate, dto.StopRate);
+                portfolio.AddShareFromPersistantStorage(share.Value, dto.BuyingDate, dto.BuyingRate, dto.StopRate);
             }
+        }
+
+        public async Task  LoadAsync(Portfolio portfolio, IStorage storage)
+        {
+            var result = await storage.LoadFromStorageAsync();
+            if (result.IsSuccessful)
+                await FromDto(portfolio, result.Value);
+            portfolio.FireLoaded(); // portfolio loaded, notify viewmodels and other listeners
         }
     }
 }

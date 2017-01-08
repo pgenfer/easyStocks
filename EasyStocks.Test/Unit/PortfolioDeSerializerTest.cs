@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EasyStocks.Dto;
+using EasyStocks.Model;
 using NSubstitute;
 using NUnit.Framework.Internal;
 using NUnit.Framework;
