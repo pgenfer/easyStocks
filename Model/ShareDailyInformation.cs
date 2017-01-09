@@ -5,22 +5,35 @@
     /// </summary>
     public class ShareDailyInformation
     {
-        public static readonly ShareDailyInformation NoInfo = new ShareDailyInformation(0.0f) {IsAccurate =  false};
+        public static readonly ShareDailyInformation NoInfo = new ShareDailyInformation();
         
         /// <summary>
         /// the rate at which this share is currently traded
         /// </summary>
         public Quote Rate { get; }
-        public QuoteChangePercent Percent { get; }
+        public QuoteChangePercent ChangeInPercent { get; }
+        public QuoteChangeAbsolute ChangeAbsolute { get; }
 
-        public ShareDailyInformation(float value,string percent = QuoteChangePercent.NoChange)
+        public ShareDailyInformation()
+        {
+            Rate = new Quote(0.0f);
+            ChangeInPercent = new QuoteChangePercent(QuoteChangePercent.NoChange);
+            ChangeAbsolute = new QuoteChangeAbsolute(QuoteChangeAbsolute.NoChange);
+            IsAccurate = false;
+        }
+
+        public ShareDailyInformation(
+            float value,
+            string percent = QuoteChangePercent.NoChange,
+            string absolute = QuoteChangeAbsolute.NoChange)
         {
             Rate = new Quote(value);
-            Percent = new QuoteChangePercent(percent);
+            ChangeInPercent = new QuoteChangePercent(percent);
+            ChangeAbsolute = new QuoteChangeAbsolute(absolute);
             IsAccurate = true;
         }
 
         public bool IsAccurate { get; private set; }
-        public override string ToString() => IsAccurate ? $"{Rate} ({Percent})" : "no data available";
+        public override string ToString() => IsAccurate ? $"{Rate} ({ChangeInPercent})" : "no data available";
     }
 }

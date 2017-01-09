@@ -73,12 +73,15 @@ namespace EasyStocks.Model
                     var quote = results.quote;
                     var ask = quote.Ask;
                     var percentageChange = quote.PercentChange;
-                    if (ask == null || percentageChange == null)
+                    var change = quote.Change;
+
+                    if (ask == null || percentageChange == null || change == null)
                         return DataResult.Error(ShareDailyInformation.NoInfo, "no quote data available");
                     return DataResult.Success(
                         new ShareDailyInformation(
                             float.Parse(ask.ToString(),CultureInfo.InvariantCulture),
-                            percentageChange.ToString()));
+                            percentageChange.ToString(),
+                            change.ToString()));
                 }
                 return DataResult.Error(ShareDailyInformation.NoInfo, response.ReasonPhrase);
             }

@@ -36,7 +36,7 @@ namespace EasyStocks.Model
         /// <summary>
         /// the daily information for this share.
         /// </summary>
-        public ShareDailyInformation DailyData { get; set; } = new ShareDailyInformation(0.0f);
+        public ShareDailyInformation DailyData { get; set; } = new ShareDailyInformation();
 
         /// <summary>
         /// a flag used to determine if this share is valid or not

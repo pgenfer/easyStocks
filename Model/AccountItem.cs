@@ -15,7 +15,6 @@ namespace EasyStocks.Model
         /// this multiplicator is used to calculate the new stop rate.
         /// </summary>
         private const float StopRatePercentage = 0.9f;
-
         /// <summary>
         /// the share that is stored under this account item
         /// </summary>
@@ -29,12 +28,19 @@ namespace EasyStocks.Model
         /// The stop quote will be adjusted whenever the current quote increases.
         /// </summary>
         public Quote StopQuote { get; private set; }
-
         /// <summary>
         /// flag is set in case that this account item should be sold
         /// because it dropped below the stop rate
         /// </summary>
-        public bool ShouldBeSold => Share.DailyData?.Rate < StopQuote;
+        public bool ShouldBeSold => Share.DailyData.IsAccurate && Share.DailyData.Rate < StopQuote;
+        /// <summary>
+        /// the overall profit this share has produced since it was bought
+        /// </summary>
+        public float Profit { get; private set; } = 0.0f;
+        /// <summary>
+        /// the overall profit in percent this share has produced since it was bought
+        /// </summary>
+        public float ProfitInPercent { get; private set; } = 0.0f;
 
         /// <summary>
         /// constructor used when a new account item was created by the user
@@ -58,7 +64,7 @@ namespace EasyStocks.Model
         /// <param name="buyingDate">date when share was bought</param>
         /// <param name="buyingRate">rate at which the share was bought</param>
         /// <param name="stopQuote">the quote at which the share should be sold</param>
-        public AccountItem(Share share, DateTime buyingDate,float buyingRate, float stopQuote)
+        public AccountItem(Share share, DateTime buyingDate, float buyingRate, float stopQuote)
         {
             Share = share;
             BuyingQuote = new HistoricalQuote(new Quote(buyingRate), buyingDate);
@@ -68,11 +74,17 @@ namespace EasyStocks.Model
         public void AdjustStopRate(Quote newShareRate)
         {
             // the stop rate should
-            var newStopQuote = newShareRate* StopRatePercentage;
+            var newStopQuote = newShareRate * StopRatePercentage;
             // the stop quote does never decrease, so if it reaches one value
             // it can only become higher but never decrease
             if (newStopQuote > StopQuote)
                 StopQuote = newStopQuote;
+        }
+
+        private void UpdateProfit()
+        {
+            Profit = Share.DailyData.Rate.Value - BuyingQuote.Quote.Value;
+            ProfitInPercent = 100f/BuyingQuote.Quote.Value*Profit;
         }
 
         public void UpdateDailyData(ShareDailyInformation newData)
@@ -84,6 +96,7 @@ namespace EasyStocks.Model
                 AdjustStopRate(newData.Rate);
                 Share.DailyData = newData;
             }
+            UpdateProfit();
             AccountItemUpdated?.Invoke(this);
         }
     }

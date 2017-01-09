@@ -33,13 +33,12 @@
       <RowDefinition Height="20"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-
     <!-- name of the share -->
     <TextBlock
       Grid.ColumnSpan="2"
       x:Name="ShareName"
       Style="{StaticResource Headline}"
-      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+      Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"/>
     <!-- change in percentage -->
     <TextBlock
       Grid.Row="0"
@@ -82,7 +81,9 @@
         x:Name="StopString"
         Style="{StaticResource Subtext}"
         HorizontalAlignment="Left"
-        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
+        FontWeight="{Binding IsStopQuoteHit,Converter={converter:BooleanToBoldTextConverter}}"
+        Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"/>
     </Grid>
     <!-- daily change in absolute numbers -->
     <TextBlock
@@ -91,6 +92,7 @@
       x:Name="ChangeAbsoluteString"
       Style="{StaticResource Subtext}"
       HorizontalAlignment="Right"
+      Foreground="{Binding ChangeOfCurrentRate,Converter={converter:RateChangeToColorConverter}}"
       Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/> 
     <!-- buying date -->
     <TextBlock
@@ -110,8 +112,10 @@
     <TextBlock
       Grid.Row="2"
       Grid.Column="2"
-      x:Name="BuyingChangeString"
+      x:Name="ProfitString"
       Style="{StaticResource Subtext}"
+      HorizontalAlignment="Right"
+      Foreground="{Binding ChangeOfProfit,Converter={converter:RateChangeToColorConverter}}"
       Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
     <!-- line separator -->
     <Separator 

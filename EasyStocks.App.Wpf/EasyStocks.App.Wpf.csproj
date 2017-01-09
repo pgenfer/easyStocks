@@ -99,8 +99,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\BooleanToHiddenConverter.cs" />
+    <Compile Include="Converter\BooleanToBoldTextConverter.cs" />
+    <Compile Include="Converter\BooleanToWarningColor.cs" />
     <Compile Include="Converter\IsAvailableToColorConverter.cs" />
     <Compile Include="Converter\RateChangeToColorConverter.cs" />
+    <Compile Include="Platform\CustomColors.cs" />
     <Compile Include="Platform\JsonStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

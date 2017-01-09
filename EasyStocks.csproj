@@ -48,6 +48,8 @@
     <Compile Include="Model\Portfolio.cs" />
     <Compile Include="Dto\PortfolioDto.cs" />
     <Compile Include="Model\PortfolioUpdater.cs" />
+    <Compile Include="Model\QuoteChange.cs" />
+    <Compile Include="Model\QuoteChangeAbsolute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Quote.cs" />
     <Compile Include="Model\QuoteChangePercent.cs" />
