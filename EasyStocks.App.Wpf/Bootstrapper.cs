@@ -44,6 +44,7 @@ namespace EasyStocks.App.Wpf
             var serializer = new PortfolioSerializer();
             // save the portfolio whenever a new item was added
             portfolio.AccountItemAdded += async _ => await serializer.SaveAsync(portfolio, new JsonStorage());
+            portfolio.AccountDataChanged += async _ => await serializer.SaveAsync(portfolio, new JsonStorage());
             
             var portfolioUpdater = new PortfolioUpdater(portfolio, stockTicker);
             portfolioUpdater.StartUpdate();

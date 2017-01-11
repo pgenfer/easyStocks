@@ -4,28 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converter="clr-namespace:EasyStocks.Converter"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:platform="clr-namespace:EasyStocks.Platform"
              mc:Ignorable="d"
              Margin="5">
-  <UserControl.Resources>
-    <Style x:Key="Headline" TargetType="{x:Type TextBlock}">
-      <Style.Setters>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="Margin" Value="0,0,0,5"/>
-      </Style.Setters>
-    </Style>
-    <Style x:Key="Subtext" TargetType="{x:Type TextBlock}">
-      <Style.Setters>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="FontSize" Value="12"/>
-      </Style.Setters>
-    </Style>
-  </UserControl.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="30"/>
@@ -63,6 +51,7 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <TextBlock
         Grid.Column="0"
@@ -84,6 +73,27 @@
         Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
         FontWeight="{Binding IsStopQuoteHit,Converter={converter:BooleanToBoldTextConverter}}"
         Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"/>
+      <TextBlock
+        Grid.Column="3"
+        x:Name="StopQuoteChange"
+        Style="{StaticResource Subtext}"
+        HorizontalAlignment="Left"
+        Opacity="0"
+        Foreground="{x:Static platform:CustomColors.OkBrush}"/>
+     <i:Interaction.Triggers>
+        <ei:DataTrigger Binding="{Binding StopQuoteRaisedTriggeredTriggered,Mode=OneWay}" Value="True">
+          <ei:ControlStoryboardAction ControlStoryboardOption="Play">
+            <ei:ControlStoryboardAction.Storyboard>
+              <Storyboard>
+                <DoubleAnimation 
+                  Storyboard.TargetName="StopQuoteChange"
+                  Storyboard.TargetProperty="Opacity"
+                  To="1" Duration="0:0:1" AutoReverse="True"/>
+              </Storyboard>
+            </ei:ControlStoryboardAction.Storyboard>
+          </ei:ControlStoryboardAction>
+        </ei:DataTrigger> 
+      </i:Interaction.Triggers>
     </Grid>
     <!-- daily change in absolute numbers -->
     <TextBlock

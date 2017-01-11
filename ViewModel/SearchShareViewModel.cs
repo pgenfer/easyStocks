@@ -17,7 +17,7 @@ namespace EasyStocks.ViewModel
     {
         private string _searchString;
         private readonly IStockTicker _stockTicker;
-        private readonly Portfolio _portfolio;
+        private readonly Action<Share> _createNewAccountAction;
         private string _message;
         private bool _hasError;
 
@@ -28,15 +28,15 @@ namespace EasyStocks.ViewModel
         /// so the command itself must be created ouside of the view model but can be initialized
         /// with the methods that are provided by the view model.</param>
         /// <param name="stockTicker">used to retrieved the stock data for the search symbol.</param>
-        /// <param name="portfolio"></param>
+        /// <param name="createNewAccountAction"></param>
         public SearchShareViewModel(
             ICommand findShareCommand, 
             IStockTicker stockTicker,
-            Portfolio portfolio)
+            Action<Share> createNewAccountAction)
         {
             FindShareByNameCommand = findShareCommand;
             _stockTicker = stockTicker;
-            _portfolio = portfolio;
+            _createNewAccountAction = createNewAccountAction;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace EasyStocks.ViewModel
         /// </summary>
         /// <returns>returns the share object if found or null if no share was found.
         /// Updates the error state of the view model.</returns>
-        public async Task<Share> Search()
+        public async Task Search()
         {
             // reset error state before a new search starts
             ResetMessage();
@@ -104,20 +104,16 @@ namespace EasyStocks.ViewModel
             var result = await _stockTicker.GetShareBySymbolAsync(SearchString);
             if (result.IsSuccessful)
             {
-                Message = result.Value.Name;
-                // TODO: show dialog where user can decide whether the
-                // share should be added
-                // currently, the share will be added directly
+                SearchString = string.Empty; // clear search after we found the share
+                var share = result.Value;
                 var dailyData = await _stockTicker.GetDailyInformationForShareAsync(result.Value);
                 if(dailyData.IsSuccessful)
-                   result.Value.DailyData = dailyData.Value;
-                _portfolio.AddShare(result.Value, DateTime.Now);
-                return result.Value;
+                    share.DailyData = dailyData.Value;
+                _createNewAccountAction(share);
             }
             // if no symbol was found, show error message
             HasError = true;
             Message = result.ErrorMessage;
-            return null;
         }
 
         public bool CanSearch => !string.IsNullOrEmpty(SearchString);

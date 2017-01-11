@@ -31,7 +31,8 @@ namespace EasyStocks.App.Wpf.Platform
                     {
                         var content = await reader.ReadToEndAsync();
                         var portfolioDto = JsonConvert.DeserializeObject<PortfolioDto>(content);
-                        return Result<PortfolioDto>.Success(portfolioDto);
+                        // result can be null in case the file is empty
+                        return Result<PortfolioDto>.Success(portfolioDto ?? new PortfolioDto());
                     }
                 }
                 catch (Exception exception)

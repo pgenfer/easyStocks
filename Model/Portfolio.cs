@@ -22,6 +22,11 @@ namespace EasyStocks.Model
         private readonly Dictionary<Share, AccountItem> _items = new Dictionary<Share, AccountItem>();
 
         /// <summary>
+        /// event is fired whenever the account data has changed
+        /// </summary>
+        public event Action<AccountItem> AccountDataChanged;
+
+        /// <summary>
         /// add a share not by user but by reading it from the persistent storage
         /// </summary>
         /// <param name="newShare"></param>
@@ -42,6 +47,9 @@ namespace EasyStocks.Model
             {
                 item = new AccountItem(newShare, buyingDate, buyingRate, stopQuote);
                 _items.Add(newShare, item);
+                // in case the stop quote of the account item has 
+                // changed, raise an event 
+                item.StopQuoteRaised += (_,__) => AccountDataChanged?.Invoke(item);
             }
         }
 
@@ -60,6 +68,7 @@ namespace EasyStocks.Model
                     item = new AccountItem(newShare, buyingDate);
                     _items.Add(newShare, item);
                     AccountItemAdded?.Invoke(item);
+                    item.StopQuoteRaised += (_, __) => AccountDataChanged?.Invoke(item);
                 }
             }
             // TODO: show message in case item would be added twice

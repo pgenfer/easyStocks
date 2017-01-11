@@ -6,14 +6,5 @@
         xmlns:local="clr-namespace:EasyStocks.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="775" Width="340">
-  <DockPanel>
-    <ContentControl
-      Margin="5"
-      x:Name="Search"
-      DockPanel.Dock="Top"/>
-    <ContentControl
-      Margin="5"
-      x:Name="Portfolio"
-      DockPanel.Dock="Bottom"/>
-  </DockPanel>
+  <ContentControl x:Name="ActiveItem"/>
 </Window>

@@ -10,7 +10,7 @@ namespace EasyStocks.Model
     {
         private readonly Portfolio _portfolio;
         private readonly IStockTicker _stockTicker;
-        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(1);
+        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(10);
         private readonly Timer _portfolioUpdateTimer;
 
         public PortfolioUpdater(Portfolio portfolio,IStockTicker stockTicker)

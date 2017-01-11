@@ -39,6 +39,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\IStorage.cs" />
+    <Compile Include="EasyStocksStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyStocksStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Extension\FloatExtension.cs" />
     <Compile Include="Model\AccountItem.cs" />
     <Compile Include="Dto\AccountItemDto.cs" />
     <Compile Include="Dto\PortfolioDeserializer.cs" />
@@ -57,8 +63,15 @@
     <Compile Include="Model\Share.cs" />
     <Compile Include="Model\ShareDailyInformation.cs" />
     <Compile Include="Model\StockTicker.cs" />
+    <Compile Include="ViewModel\AccountItemCreateViewModel.cs" />
+    <Compile Include="ViewModel\AccountItemDataViewModel.cs" />
+    <Compile Include="ViewModel\AccountItemEditViewModel.cs" />
     <Compile Include="ViewModel\AccountItemViewModel.cs" />
+    <Compile Include="ViewModel\DailyDataViewModel.cs" />
+    <Compile Include="ViewModel\EditShareViewModel.cs" />
+    <Compile Include="ViewModel\INavigationService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PortfolioSearchViewModel.cs" />
     <Compile Include="ViewModel\PortfolioViewModel.cs" />
     <Compile Include="ViewModel\RateChange.cs" />
     <Compile Include="ViewModel\SearchShareViewModel.cs" />
@@ -76,7 +89,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="EasyStocksStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EasyStocksStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

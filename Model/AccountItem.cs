@@ -14,7 +14,7 @@ namespace EasyStocks.Model
         /// <summary>
         /// this multiplicator is used to calculate the new stop rate.
         /// </summary>
-        private const float StopRatePercentage = 0.9f;
+        public const float StopRatePercentage = 0.9f;
         /// <summary>
         /// the share that is stored under this account item
         /// </summary>
@@ -22,12 +22,12 @@ namespace EasyStocks.Model
         /// <summary>
         /// the rate and the date when this account item was created.
         /// </summary>
-        public HistoricalQuote BuyingQuote { get; }
+        public HistoricalQuote BuyingQuote { get; set; }
         /// <summary>
         /// the quote at which this account item should be sold.
         /// The stop quote will be adjusted whenever the current quote increases.
         /// </summary>
-        public Quote StopQuote { get; private set; }
+        public Quote StopQuote { get; set; }
         /// <summary>
         /// flag is set in case that this account item should be sold
         /// because it dropped below the stop rate
@@ -55,6 +55,7 @@ namespace EasyStocks.Model
         }
 
         public event Action<AccountItem> AccountItemUpdated;
+        public event Action<Quote, Quote> StopQuoteRaised;
 
         /// <summary>
         /// creates a new accountitem with all provided information.
@@ -78,7 +79,11 @@ namespace EasyStocks.Model
             // the stop quote does never decrease, so if it reaches one value
             // it can only become higher but never decrease
             if (newStopQuote > StopQuote)
+            {
+                var oldStopQuote = StopQuote;
                 StopQuote = newStopQuote;
+                StopQuoteRaised?.Invoke(oldStopQuote, newStopQuote);
+            }
         }
 
         private void UpdateProfit()

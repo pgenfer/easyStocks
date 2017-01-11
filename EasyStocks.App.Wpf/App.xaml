@@ -8,6 +8,19 @@
           <ResourceDictionary>
             <!-- bootstrapper must be in resource dictionary, otherwise it won't be called! -->
             <wpf:Bootstrapper x:Key="Bootstrapper"/>
+            <Style x:Key="Headline" TargetType="{x:Type TextBlock}">
+              <Style.Setters>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+              </Style.Setters>
+            </Style>
+            <Style x:Key="Subtext" TargetType="{x:Type TextBlock}">
+              <Style.Setters>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="12"/>
+              </Style.Setters>
+            </Style>
           </ResourceDictionary>
         </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
