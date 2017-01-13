@@ -57,6 +57,7 @@ namespace EasyStocks.Model
         /// event will be fired whenever an account item is added to the portfolio
         /// </summary>
         public event Action<AccountItem> AccountItemAdded;
+        public event Action<AccountItem> AccountItemRemoved;
 
         public virtual void AddShare(Share newShare, DateTime buyingDate)
         {
@@ -72,6 +73,12 @@ namespace EasyStocks.Model
                 }
             }
             // TODO: show message in case item would be added twice
+        }
+
+        public virtual void RemoveAccountItem(AccountItem item)
+        {
+            _items.Remove(item.Share);
+            AccountItemRemoved?.Invoke(item);
         }
 
         public virtual IEnumerable<AccountItem> Items => _items.Values.ToList();

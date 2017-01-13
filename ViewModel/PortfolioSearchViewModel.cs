@@ -8,7 +8,7 @@ using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
 {
-    public class PortfolioSearchViewModel : PropertyChangedBase
+    public class PortfolioSearchViewModel : Screen
     {
         private PortfolioViewModel _portfolio;
 
@@ -26,10 +26,10 @@ namespace EasyStocks.ViewModel
         public SearchShareViewModel Search { get; private set; }
 
         public PortfolioSearchViewModel(
-            Portfolio portfolioBusinessModel, 
+            PortfolioViewModel portfolioViewModel,
             SearchShareViewModel searchViewModel)
         {
-            Portfolio = new PortfolioViewModel(portfolioBusinessModel);
+            Portfolio = portfolioViewModel;
             Search = searchViewModel;
         }
     }

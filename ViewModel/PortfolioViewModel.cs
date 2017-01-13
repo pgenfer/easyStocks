@@ -14,12 +14,19 @@ namespace EasyStocks.ViewModel
     /// </summary>
     public class PortfolioViewModel : PropertyChangedBase
     {
+        private readonly Action<AccountItem> _editAccountItemAction;
         public BindableCollection<AccountItemViewModel> Items { get; } = new BindableCollection<AccountItemViewModel>();
 
-        public PortfolioViewModel(Portfolio portfolio)
+        public AccountItemViewModel SelectedItem { get; set; }
+
+        public PortfolioViewModel(
+            Portfolio portfolio,
+            Action<AccountItem> editAccountItemAction)
         {
-            portfolio.Loaded += x => OnPortfolioLoaded(x);
+            _editAccountItemAction = editAccountItemAction;
+            portfolio.Loaded += OnPortfolioLoaded;
             portfolio.AccountItemAdded += x => Items.Add(new AccountItemViewModel(x));
+            portfolio.AccountItemRemoved += x => Items.Remove(Items.Single(vm => vm.BusinessObject == x));
         }
 
         private void OnPortfolioLoaded(Portfolio portfolio)
@@ -31,5 +38,11 @@ namespace EasyStocks.ViewModel
                 Items.Add(itemViewModel);
             }
         }
+
+        public void OnAccountItemSelected()
+        {
+            if(SelectedItem != null)
+               _editAccountItemAction(SelectedItem.BusinessObject);
+        } 
     }
 }

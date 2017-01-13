@@ -36,7 +36,9 @@ namespace EasyStocks.ViewModel
         {
             _portfolio = portfolio;
             PortfolioAndSearch = new PortfolioSearchViewModel(
-                portfolio,
+                new PortfolioViewModel(
+                    portfolio,
+                    OnEditAccountViewModel), 
                 new SearchShareViewModel(
                     findShareCommand, 
                     stockTicker,
@@ -58,6 +60,13 @@ namespace EasyStocks.ViewModel
         {
             var createAccountItemViewModel = new AccountItemCreateViewModel(newShare,_portfolio);
             ActivateItem(createAccountItemViewModel);
+        }
+
+        private void OnEditAccountViewModel(AccountItem accountItem)
+        {
+            var editAccountItemViewModel = new AccountItemEditViewModel(accountItem,_portfolio);
+            ActivateItem(editAccountItemViewModel);
+
         }
     }
 }

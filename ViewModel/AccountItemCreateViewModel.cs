@@ -31,6 +31,8 @@ namespace EasyStocks.ViewModel
             TryClose();
         }
 
+        public void Cancel() => TryClose();
+
         public AccountItemDataViewModel AccountData { get; }
     }
 }

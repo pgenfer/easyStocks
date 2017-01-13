@@ -62,7 +62,7 @@ namespace EasyStocks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to portfolio.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string AddToPortfolio {
             get {
@@ -85,6 +85,33 @@ namespace EasyStocks {
         public static string BuyingQuote {
             get {
                 return ResourceManager.GetString("BuyingQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
         

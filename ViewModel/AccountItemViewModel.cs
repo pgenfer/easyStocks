@@ -7,11 +7,12 @@ namespace EasyStocks.ViewModel
 {
     /// <summary>
     /// view model for account items.
-    /// Observes the account item business object
+    /// Observes the account BusinessObject business object
     /// and reacts on its changes.
     /// </summary>
     public class AccountItemViewModel : PropertyChangedBase
     {
+        public AccountItem BusinessObject { get; }
         private readonly AccountItemDataViewModel _accountData;
     
         private float _profit;
@@ -52,22 +53,23 @@ namespace EasyStocks.ViewModel
             Update(item.Share.DailyData);
         }
 
-        public AccountItemViewModel(AccountItem item)
+        public AccountItemViewModel(AccountItem businessObject)
         {
-            
+            BusinessObject = businessObject;
+
             _accountData = new AccountItemDataViewModel(
-                item.Share,
-                item.BuyingQuote.Date,
-                item.BuyingQuote.Quote.Value, 
-                item.StopQuote.Value);
+                businessObject.Share,
+                businessObject.BuyingQuote.Date,
+                businessObject.BuyingQuote.Quote.Value, 
+                businessObject.StopQuote.Value);
 
             // reroute the property changes from the mixins
             _accountData.PropertyChanged += (s, e) => NotifyOfPropertyChange(e.PropertyName);
 
-            Update(item);
+            Update(businessObject);
 
-            item.AccountItemUpdated += OnAccountItemUpdated;
-            item.StopQuoteRaised += StopQuoteRaised;
+            businessObject.AccountItemUpdated += OnAccountItemUpdated;
+            businessObject.StopQuoteRaised += StopQuoteRaised;
         }
 
         private void StopQuoteRaised(Quote old, Quote @new)
