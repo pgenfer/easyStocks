@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
+             xmlns:converter="clr-namespace:EasyStocks.Converter;assembly=EasyStocks.App"
+             x:Class="EasyStocks.View.AccountItemDataView">
+  <ContentView.Resources>
+    <ResourceDictionary>
+      <converter:RateChangeToColorConverter x:Key="RateChangeToColor"/>
+    </ResourceDictionary>
+  </ContentView.Resources>
+  <Grid VerticalOptions="Start">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <!-- name and symbol -->
+    <Label
+      Text="{Binding NameAndSymbol}"
+      Margin="10"
+      Style="{StaticResource Headline}"/>
+    <Label
+     Grid.Row="0"
+     Grid.Column="1"
+     HorizontalOptions="End"
+     Text="{Binding ChangeAbsoluteAndPercentString}"
+     IsVisible="{Binding IsActualDataAvailable}"
+     TextColor="{Binding ChangeOfCurrentRate,Converter={x:StaticResource RateChangeToColor}}"
+     Margin="10"
+     Style="{StaticResource Headline}"/>
+  </Grid>
+</ContentView>

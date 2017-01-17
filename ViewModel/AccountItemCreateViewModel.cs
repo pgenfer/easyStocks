@@ -11,10 +11,10 @@ namespace EasyStocks.ViewModel
 {
     public class AccountItemCreateViewModel : Screen
     {
-        private readonly Share _share;
-        private readonly Portfolio _portfolio;
+        private Share _share;
+        private Portfolio _portfolio;
 
-        public AccountItemCreateViewModel(Share share, Portfolio portfolio)
+        private void Setup(Share share, Portfolio portfolio)
         {
             _share = share;
             _portfolio = portfolio;
@@ -31,8 +31,16 @@ namespace EasyStocks.ViewModel
             TryClose();
         }
 
+        /// <summary>
+        /// called by caliburn during creation
+        /// </summary>
+        public Tuple<Share, Portfolio> Parameter
+        {
+            set { Setup(value.Item1, value.Item2); }
+        }
+
         public void Cancel() => TryClose();
 
-        public AccountItemDataViewModel AccountData { get; }
+        public AccountItemDataViewModel AccountData { get; private set; }
     }
 }

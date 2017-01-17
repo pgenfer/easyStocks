@@ -92,12 +92,21 @@ namespace EasyStocks.Model
                 itemsCopy = _items.Values.ToList();
             }
 
-            foreach (var accountItem in itemsCopy)
+            try
             {
-                // TODO: if share could not be loaded, try to load it again, then add daily data
-                var newDailyData = await ticker.GetDailyInformationForShareAsync(accountItem.Share);
-                accountItem.UpdateDailyData(newDailyData.Value);
+                foreach (var accountItem in itemsCopy)
+                {
+                    // TODO: if share could not be loaded, try to load it again, then add daily data
+                    var newDailyData = await ticker.GetDailyInformationForShareAsync(accountItem.Share);
+                    accountItem.UpdateDailyData(newDailyData.Value);
+                    AccountDataChanged?.Invoke(accountItem);
+                }
             }
+            catch (TaskCanceledException)
+            {
+                // task was aborted because user might have closed the app
+            }
+            
         }
 
         /// <summary>

@@ -97,7 +97,14 @@ namespace EasyStocks.ViewModel
 
             _dailyData = new DailyDataViewModel(share.DailyData);
             _dailyData.PropertyChanged += (s, e) => NotifyOfPropertyChange(e.PropertyName);
+            _dailyData.PercentChanged += x => PercentChanged?.Invoke(x);
         }
+
+        /// <summary>
+        /// event is triggered when the daily percentage has changed,
+        /// AccountItemViewModel can react on this and fire a property update
+        /// </summary>
+        public event Action<float> PercentChanged;
 
         public string NameAndSymbol => $"{ShareName} ({Symbol})";
 

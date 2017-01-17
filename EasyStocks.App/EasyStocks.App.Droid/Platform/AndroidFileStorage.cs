@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EasyStocks.Dto;
 using EasyStocks.Model;
 using Newtonsoft.Json;
 
-namespace EasyStocks
+namespace EasyStocks.App.Droid.Platform
 {
-    public class JsonStorage : IStorage
+    public class AndroidFileStorage : IStorage
     {
         private readonly string _fileName;
 
-        public JsonStorage()
+        public AndroidFileStorage()
         {
             _fileName = System.IO.Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                 "easystocks.json");
         }
-
 
         public async Task<Result<PortfolioDto>> LoadFromStorageAsync()
         {
@@ -48,7 +44,7 @@ namespace EasyStocks
             try
             {
                 var content = JsonConvert.SerializeObject(
-                    portfolio, 
+                    portfolio,
                     Formatting.Indented,
                     new JsonSerializerSettings
                     {

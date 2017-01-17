@@ -38,6 +38,7 @@
     <Content Include="TODOs.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Dto\IStorage.cs" />
     <Compile Include="EasyStocksStrings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -63,6 +64,8 @@
     <Compile Include="Model\Share.cs" />
     <Compile Include="Model\ShareDailyInformation.cs" />
     <Compile Include="Model\StockTicker.cs" />
+    <Compile Include="Setup\BootstrapperHelper.cs" />
+    <Compile Include="Styles\ColorValues.cs" />
     <Compile Include="ViewModel\AccountItemCreateViewModel.cs" />
     <Compile Include="ViewModel\AccountItemDataViewModel.cs" />
     <Compile Include="ViewModel\AccountItemEditViewModel.cs" />

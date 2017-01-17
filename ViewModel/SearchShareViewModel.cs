@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
+using EasyStocks.Commands;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
@@ -24,17 +26,15 @@ namespace EasyStocks.ViewModel
         /// <summary>
         /// creates a new search view model.
         /// </summary>
-        /// <param name="findShareCommand">Command implementation is platform dependent (WPF or Xamarin),
         /// so the command itself must be created ouside of the view model but can be initialized
-        /// with the methods that are provided by the view model.</param>
+        /// with the methods that are provided by the view model.
         /// <param name="stockTicker">used to retrieved the stock data for the search symbol.</param>
         /// <param name="createNewAccountAction"></param>
         public SearchShareViewModel(
-            ICommand findShareCommand, 
             IStockTicker stockTicker,
             Action<Share> createNewAccountAction)
         {
-            FindShareByNameCommand = findShareCommand;
+            FindShareByNameCommand = new SimpleCommand(async () => await Search(),() => CanSearch);
             _stockTicker = stockTicker;
             _createNewAccountAction = createNewAccountAction;
         }
@@ -98,6 +98,10 @@ namespace EasyStocks.ViewModel
         /// Updates the error state of the view model.</returns>
         public async Task Search()
         {
+            // if user did not provide any search string, skip search
+            if (string.IsNullOrEmpty(SearchString))
+                return;
+
             // reset error state before a new search starts
             ResetMessage();
 
@@ -116,7 +120,7 @@ namespace EasyStocks.ViewModel
             Message = result.ErrorMessage;
         }
 
-        public bool CanSearch => !string.IsNullOrEmpty(SearchString);
+        public bool CanSearch => true;
         /// <summary>
         /// command can be used for search operation
         /// </summary>

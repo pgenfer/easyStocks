@@ -14,11 +14,23 @@ namespace EasyStocks.ViewModel
     /// </summary>
     public class DailyDataViewModel : PropertyChangedBase
     {
-        private float _changePercent;
+        private float ChangePercent
+        {
+            get { return _changePercent; }
+            set
+            {
+                if (value.Equals(_changePercent)) return;
+                _changePercent = value;
+                PercentChanged?.Invoke(value);
+                NotifyOfPropertyChange(nameof(ChangePercentString));
+            }
+        }
+
         private float _changeAbsolute;
         private float _currentRate;
         private RateChange _changeOfCurrentRate = RateChange.NoChange;
         private bool _isActualDataAvailable;
+        private float _changePercent;
 
         public DailyDataViewModel(ShareDailyInformation info)
         {
@@ -29,15 +41,14 @@ namespace EasyStocks.ViewModel
         {
             _currentRate = info.Rate.Value;
             _changeAbsolute = info.ChangeAbsolute.Value;
-            _changePercent = info.ChangeInPercent.Value;
+            ChangePercent = info.ChangeInPercent.Value;
 
             // check if data is accurate
             IsActualDataAvailable = info.IsAccurate;
 
             NotifyOfPropertyChange(nameof(CurrentRateString));
             NotifyOfPropertyChange(nameof(ChangeAbsoluteString));
-            NotifyOfPropertyChange(nameof(ChangePercentString));
-
+           
             ChangeOfCurrentRate =
                 info.ChangeInPercent.IsPositive
                     ? RateChange.Positive
@@ -46,7 +57,13 @@ namespace EasyStocks.ViewModel
                         : RateChange.NoChange;
         }
 
-        public string ChangePercentString => $"{_changePercent.WithSign()} %";
+        /// <summary>
+        /// specific event that is used to oberserve changes of the percentage change,
+        /// so that the sorting of the portfolio items can be adjusted.
+        /// </summary>
+        public event Action<float> PercentChanged;
+
+        public string ChangePercentString => $"{ChangePercent.WithSign()} %";
         public string ChangeAbsoluteString => _changeAbsolute.WithSign();
         public string CurrentRateString => _currentRate.ToString("N2");
         public string ChangeAbsoluteAndPercentString => $"{ChangeAbsoluteString} ({ChangePercentString})";

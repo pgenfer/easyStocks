@@ -98,6 +98,15 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter stock symbol here .
+        /// </summary>
+        public static string EnterStockSymbol {
+            get {
+                return ResourceManager.GetString("EnterStockSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string Ok {
@@ -121,6 +130,15 @@ namespace EasyStocks {
         public static string StopQuote {
             get {
                 return ResourceManager.GetString("StopQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Symbol was not found.
+        /// </summary>
+        public static string SymbolNotFound {
+            get {
+                return ResourceManager.GetString("SymbolNotFound", resourceCulture);
             }
         }
     }

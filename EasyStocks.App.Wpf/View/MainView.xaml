@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyStocks.View"
         mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="775" Width="340">
+        Title="MainWindow" Height="775" Width="375">
   <ContentControl x:Name="ActiveItem"/>
 </Window>

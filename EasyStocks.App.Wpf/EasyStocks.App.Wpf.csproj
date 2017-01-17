@@ -122,6 +122,8 @@
     <Compile Include="Converter\RateChangeToColorConverter.cs" />
     <Compile Include="Platform\CustomColors.cs" />
     <Compile Include="Platform\JsonStorage.cs" />
+    <Compile Include="Platform\WpfBootstrapperHelper.cs" />
+    <Compile Include="Platform\WpfNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

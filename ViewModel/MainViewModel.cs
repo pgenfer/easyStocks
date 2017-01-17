@@ -17,6 +17,8 @@ namespace EasyStocks.ViewModel
     public class MainViewModel : Conductor<object>.Collection.OneActive
     {
         private readonly Portfolio _portfolio;
+        private readonly INavigationService _navigationService;
+
         /// <summary>
         /// view model that handles the search and navigation within the portfolio.
         /// </summary>
@@ -27,20 +29,19 @@ namespace EasyStocks.ViewModel
         /// </summary>
         /// <param name="portfolio"></param>
         /// <param name="stockTicker"></param>
-        ///  <param name="findShareCommand">command that is used for searching a share,
-        /// needs to be injected because command implementation is platform dependent.</param>
+        /// <param name="navigationService"></param>
         public MainViewModel(
             Portfolio portfolio,
             IStockTicker stockTicker,
-            ICommand findShareCommand)
+            INavigationService navigationService)
         {
             _portfolio = portfolio;
+            _navigationService = navigationService;
             PortfolioAndSearch = new PortfolioSearchViewModel(
                 new PortfolioViewModel(
                     portfolio,
                     OnEditAccountViewModel), 
-                new SearchShareViewModel(
-                    findShareCommand, 
+                new SearchShareViewModel( 
                     stockTicker,
                     OnNavigateToCreateAccountViewModel));
         }
@@ -48,7 +49,7 @@ namespace EasyStocks.ViewModel
         /// <summary>
         /// show the portfolio and search view as soon as the main view is activated
         /// </summary>
-        protected override void OnActivate() => ActivateItem(PortfolioAndSearch);
+        protected override void OnActivate() => _navigationService.NavigateToPortfolio();
 
         /// <summary>
         /// handler is called when the search for a share was completed and the new share
@@ -58,15 +59,12 @@ namespace EasyStocks.ViewModel
         /// <param name="newShare">the new share that should be added to the portfolio</param>
         private void OnNavigateToCreateAccountViewModel(Share newShare)
         {
-            var createAccountItemViewModel = new AccountItemCreateViewModel(newShare,_portfolio);
-            ActivateItem(createAccountItemViewModel);
+            _navigationService.NavigateToCreateAccountItem(newShare, _portfolio);
         }
 
         private void OnEditAccountViewModel(AccountItem accountItem)
         {
-            var editAccountItemViewModel = new AccountItemEditViewModel(accountItem,_portfolio);
-            ActivateItem(editAccountItemViewModel);
-
+            _navigationService.NavigateToEditAccountItem(accountItem, _portfolio);
         }
     }
 }

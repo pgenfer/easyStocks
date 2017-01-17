@@ -53,7 +53,7 @@ namespace EasyStocks.Model
         public async Task<Result<ShareDailyInformation>> GetDailyInformationForShareAsync(Share share)
         {
             if(!share.IsValid) // TODO: translate message
-                return DataResult.Error(ShareDailyInformation.NoInfo,"symbol not found");
+                return DataResult.Error(ShareDailyInformation.NoInfo,EasyStocksStrings.SymbolNotFound);
             try
             {
                 var response = await _yahooFinanceClient.GetAsync(

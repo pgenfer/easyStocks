@@ -6,6 +6,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Caliburn.Micro;
+using EasyStocks.App.Droid.Platform;
+using EasyStocks.Setup;
 
 namespace EasyStocks.App.Droid
 {
@@ -20,7 +23,8 @@ namespace EasyStocks.App.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+            var bootstrapper = IoC.Get<BootstrapperHelper>();
+            LoadApplication(new App(bootstrapper));
         }
     }
 }

@@ -1,36 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using Caliburn.Micro;
+using Caliburn.Micro.Xamarin.Forms;
+using EasyStocks.Setup;
+using EasyStocks.View;
+using EasyStocks.ViewModel;
 using Xamarin.Forms;
+using INavigationService = Caliburn.Micro.Xamarin.Forms.INavigationService;
 
 namespace EasyStocks.App
 {
-    public partial class App : Application
+    public partial class App
     {
-        public App()
+        private readonly BootstrapperHelper _bootstrapper;
+
+        public App(BootstrapperHelper bootstrapper)
         {
             InitializeComponent();
-            // TODO: setup application here
-            // model + view models
 
-            MainPage = new EasyStocks.App.MainPage();
+            _bootstrapper = bootstrapper;
+            Initialize();
         }
 
-        protected override void OnStart()
+        private void SetupViewLocators()
         {
-            // Handle when your app starts
+            // mapping viewmodel and views from different assemblies
+            // can be difficult, so configure the mapping explicitly:
+            // http://www.jerriepelser.com/blog/split-views-and-viewmodels-in-caliburn-micro/
+            var config = new TypeMappingConfiguration
+            {
+                DefaultSubNamespaceForViews = nameof(View),
+                DefaultSubNamespaceForViewModels = nameof(ViewModel)
+            };
+            ViewLocator.ConfigureTypeMappings(config);
+            ViewModelLocator.ConfigureTypeMappings(config);
         }
 
-        protected override void OnSleep()
+        protected override async void OnStart()
         {
-            // Handle when your app sleeps
+            SetupViewLocators();
+            // this is a bit weird, but in order to have a working navigation, you have
+            // to start with a View and not with a ViewModel. See here:
+            // https://github.com/Caliburn-Micro/Caliburn.Micro/issues/71
+            DisplayRootView<MainView>();
+            await _bootstrapper.LoadModelFromStorage();
+            _bootstrapper.StartNotification();
         }
 
-        protected override void OnResume()
+        protected override void PrepareViewFirst(NavigationPage navigationPage)
         {
-            // Handle when your app resumes
+            _bootstrapper.Container.Instance<INavigationService>(new NavigationPageAdapter(navigationPage));
         }
     }
 }

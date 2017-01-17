@@ -1,10 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
+<forms:FormsApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Caliburn.Micro.Xamarin.Forms;assembly=Caliburn.Micro.Platform.Xamarin.Forms"
              x:Class="EasyStocks.App.App">
-  <Application.Resources>
-
-    <!-- Application resource dictionary -->
-
-  </Application.Resources>
-</Application>
+  <forms:FormsApplication.Resources>
+    <ResourceDictionary>
+      <Style x:Key="Headline" TargetType="{x:Type Label}">
+        <Style.Setters>
+          <Setter Property="FontAttributes" Value="Bold"/>
+          <Setter Property="FontSize" Value="20"/>
+          <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style.Setters>
+      </Style>
+      <Style x:Key="Subtext" TargetType="{x:Type Label}">
+        <Style.Setters>
+          <Setter Property="FontAttributes" Value="None"/>
+          <Setter Property="FontSize" Value="12"/>
+        </Style.Setters>
+      </Style>
+    </ResourceDictionary>
+  </forms:FormsApplication.Resources>
+</forms:FormsApplication>

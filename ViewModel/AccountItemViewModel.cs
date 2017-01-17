@@ -21,6 +21,8 @@ namespace EasyStocks.ViewModel
         private bool _isStopQuoteHit;
         private bool _stopQuoteRaisedTriggered;
         private float _stopQuoteChange;
+        private float _changePercent;
+        private bool _isExpanded;
 
         private void Update(AccountItem item)
         {
@@ -65,12 +67,20 @@ namespace EasyStocks.ViewModel
 
             // reroute the property changes from the mixins
             _accountData.PropertyChanged += (s, e) => NotifyOfPropertyChange(e.PropertyName);
+            _accountData.PercentChanged += x => ChangePercent = x;
 
             Update(businessObject);
 
             businessObject.AccountItemUpdated += OnAccountItemUpdated;
             businessObject.StopQuoteRaised += StopQuoteRaised;
         }
+
+        /// <summary>
+        /// portfolio view model should react on this event
+        /// and reorder the list. This event uses the account item view model
+        /// itself as parameter so that the portfolio knows which element to remove and readd
+        /// </summary>
+        public event Action<AccountItemViewModel> PercentChanged;
 
         private void StopQuoteRaised(Quote old, Quote @new)
         {
@@ -110,6 +120,17 @@ namespace EasyStocks.ViewModel
             {
                 if (value == _isStopQuoteHit) return;
                 _isStopQuoteHit = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (value == _isExpanded) return;
+                _isExpanded = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -155,6 +176,19 @@ namespace EasyStocks.ViewModel
         public bool IsActualDataAvailable => _accountData.IsActualDataAvailable;
         public void RecalculateStopRate() => _accountData.RecalculateStopRate();
         protected void Update(ShareDailyInformation info) => _accountData.Update(info);
+
+        public float ChangePercent
+        {
+            get { return _changePercent; }
+            private set
+            {
+                if (value.Equals(_changePercent)) return;
+                _changePercent = value;
+                PercentChanged?.Invoke(this);
+            }
+        }
+
+        public override string ToString() => $"{ShareName}({Symbol})";
     }
 }
 

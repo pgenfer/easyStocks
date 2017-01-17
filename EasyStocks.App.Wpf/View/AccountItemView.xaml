@@ -9,131 +9,165 @@
              xmlns:platform="clr-namespace:EasyStocks.Platform"
              mc:Ignorable="d"
              Margin="5">
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="90"/>
-      <ColumnDefinition Width="110"/>
-      <ColumnDefinition Width="90"/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="30"/>
-      <RowDefinition Height="20"/>
-      <RowDefinition Height="20"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    <!-- name of the share -->
-    <TextBlock
-      Grid.ColumnSpan="2"
-      x:Name="ShareName"
-      Style="{StaticResource Headline}"
-      Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"/>
-    <!-- change in percentage -->
-    <TextBlock
-      Grid.Row="0"
-      Grid.Column="2"
-      x:Name="ChangePercentString"
-      Style="{StaticResource Headline}"
-      HorizontalAlignment="Right"
-      Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
-      Foreground="{Binding ChangeOfCurrentRate,Converter={converter:RateChangeToColorConverter}}"/>
-    <!-- symbol -->
-    <TextBlock
-      Grid.Column="0"
-      Grid.Row="1"
-      x:Name="Symbol"
-      Style="{StaticResource Subtext}"
-      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
-    <!-- current rate and stop rate -->
-    <Grid
-      Grid.Column="1"
-      Grid.Row="1">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <TextBlock
-        Grid.Column="0"
-        x:Name="CurrentRateString"
-        Style="{StaticResource Subtext}"
-        HorizontalAlignment="Right"
-        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
-      <TextBlock
-        Grid.Column="1"
-        Text=" / "
-        Style="{StaticResource Subtext}"
-        HorizontalAlignment="Left"
-        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
-      <TextBlock
-        Grid.Column="2"
-        x:Name="StopString"
-        Style="{StaticResource Subtext}"
-        HorizontalAlignment="Left"
-        Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
-        FontWeight="{Binding IsStopQuoteHit,Converter={converter:BooleanToBoldTextConverter}}"
-        Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"/>
-      <TextBlock
-        Grid.Column="3"
-        x:Name="StopQuoteChange"
-        Style="{StaticResource Subtext}"
-        HorizontalAlignment="Left"
-        Opacity="0"
-        Foreground="{x:Static platform:CustomColors.OkBrush}"/>
-     <i:Interaction.Triggers>
-        <ei:DataTrigger Binding="{Binding StopQuoteRaisedTriggeredTriggered,Mode=OneWay}" Value="True">
-          <ei:ControlStoryboardAction ControlStoryboardOption="Play">
-            <ei:ControlStoryboardAction.Storyboard>
-              <Storyboard>
-                <DoubleAnimation 
-                  Storyboard.TargetName="StopQuoteChange"
-                  Storyboard.TargetProperty="Opacity"
-                  To="1" Duration="0:0:1" AutoReverse="True"/>
-              </Storyboard>
-            </ei:ControlStoryboardAction.Storyboard>
-          </ei:ControlStoryboardAction>
-        </ei:DataTrigger> 
-      </i:Interaction.Triggers>
-    </Grid>
-    <!-- daily change in absolute numbers -->
-    <TextBlock
-      Grid.Row="1"
-      Grid.Column="2"
-      x:Name="ChangeAbsoluteString"
-      Style="{StaticResource Subtext}"
-      HorizontalAlignment="Right"
-      Foreground="{Binding ChangeOfCurrentRate,Converter={converter:RateChangeToColorConverter}}"
-      Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/> 
-    <!-- buying date -->
-    <TextBlock
-      Grid.Row="2"
-      Grid.Column="0"
-      x:Name="BuyingDateString"
-      Style="{StaticResource Subtext}"
-      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
-    <!-- buying rate -->
-    <TextBlock
-      Grid.Row="2"
-      Grid.Column="1"
-      x:Name="BuyingRateString"
-      Style="{StaticResource Subtext}"
-      Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
-    <!-- change since buying -->
-    <TextBlock
-      Grid.Row="2"
-      Grid.Column="2"
-      x:Name="ProfitString"
-      Style="{StaticResource Subtext}"
-      HorizontalAlignment="Right"
-      Foreground="{Binding ChangeOfProfit,Converter={converter:RateChangeToColorConverter}}"
-      Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
-    <!-- line separator -->
-    <Separator 
-      Grid.Row="3"
-      Grid.Column="0"
-      Grid.ColumnSpan="3"
-      BorderBrush="#E0E0E0"
-      BorderThickness="1"
-      Margin="0,2"/>
-  </Grid>
+  <DockPanel>
+    <!-- headline of the entry -->
+    <!-- 
+    Now I remember why I never use Expanders:
+    They don't stretch their header's content, so the header template needs to be overridden. 
+    See here for details:
+    http://stackoverflow.com/questions/31161591/wpf-expander-header-horizontal-stretch
+    -->
+    <Expander HorizontalAlignment="Stretch"
+              x:Name="AccountItemExpander">
+      <Expander.HeaderTemplate>
+        <DataTemplate>
+          <Grid
+            HorizontalAlignment="{Binding Path=HorizontalAlignment, 
+            RelativeSource={RelativeSource FindAncestor, 
+            AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}"
+            DataContext="{Binding DataContext,ElementName=AccountItemExpander}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- name -->
+            <TextBlock
+              Text="{Binding ShareName}"
+              Grid.Column="0"
+              x:Name="ShareName"
+              Style="{StaticResource Headline}"
+              Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"
+              TextTrimming="CharacterEllipsis"/>
+            <!-- change in percentage -->
+            <TextBlock
+              Grid.Column="1"
+              Margin="5,0,0,0"
+              Text="{Binding ChangePercentString}"
+              x:Name="ChangePercentString"
+              Style="{StaticResource Headline}"
+              HorizontalAlignment="Right"
+              Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
+              Foreground="{Binding ChangeOfCurrentRate,Converter={converter:RateChangeToColorConverter}}"/>
+          </Grid>
+        </DataTemplate>
+      </Expander.HeaderTemplate>
+      <!-- additional stock data -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <!-- 
+          first column is to indent the expander content
+          so it aligns with the expander header 
+          -->
+          <ColumnDefinition Width="30"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="20"/>
+          <RowDefinition Height="20"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- symbol -->
+        <TextBlock
+          Grid.Column="1"
+          Grid.Row="0"
+          x:Name="Symbol"
+          Style="{StaticResource Subtext}"
+          Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+        <!-- current rate and stop rate -->
+        <Grid
+          Grid.Column="2"
+          Grid.Row="0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            Grid.Column="0"
+            x:Name="CurrentRateString"
+            Style="{StaticResource Subtext}"
+            HorizontalAlignment="Right"
+            Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+          <TextBlock
+            Grid.Column="1"
+            Text=" / "
+            Style="{StaticResource Subtext}"
+            HorizontalAlignment="Left"
+            Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+          <TextBlock
+            Grid.Column="2"
+            x:Name="StopString"
+            Style="{StaticResource Subtext}"
+            HorizontalAlignment="Left"
+            Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"
+            FontWeight="{Binding IsStopQuoteHit,Converter={converter:BooleanToBoldTextConverter}}"
+            Foreground="{Binding IsStopQuoteHit,Converter={converter:BooleanToWarningColor}}"/>
+          <TextBlock
+            Grid.Column="3"
+            x:Name="StopQuoteChange"
+            Style="{StaticResource Subtext}"
+            HorizontalAlignment="Left"
+            Opacity="0"
+            Foreground="{x:Static platform:CustomColors.OkBrush}"/>
+          <i:Interaction.Triggers>
+            <ei:DataTrigger Binding="{Binding StopQuoteRaisedTriggeredTriggered,Mode=OneWay}" Value="True">
+              <ei:ControlStoryboardAction ControlStoryboardOption="Play">
+                <ei:ControlStoryboardAction.Storyboard>
+                  <Storyboard>
+                    <DoubleAnimation
+                      Storyboard.TargetName="StopQuoteChange"
+                      Storyboard.TargetProperty="Opacity"
+                      To="1" Duration="0:0:1" AutoReverse="True"/>
+                  </Storyboard>
+                </ei:ControlStoryboardAction.Storyboard>
+              </ei:ControlStoryboardAction>
+            </ei:DataTrigger>
+          </i:Interaction.Triggers>
+        </Grid>
+        <!-- daily change in absolute numbers -->
+        <TextBlock
+          Grid.Row="0"
+          Grid.Column="3"
+          x:Name="ChangeAbsoluteString"
+          Style="{StaticResource Subtext}"
+          HorizontalAlignment="Right"
+          Foreground="{Binding ChangeOfCurrentRate,Converter={converter:RateChangeToColorConverter}}"
+          Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+        <!-- buying date -->
+        <TextBlock
+          Grid.Row="1"
+          Grid.Column="1"
+          x:Name="BuyingDateString"
+          Style="{StaticResource Subtext}"
+          Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+        <!-- buying rate -->
+        <TextBlock
+          Grid.Row="1"
+          Grid.Column="2"
+          x:Name="BuyingRateString"
+          Style="{StaticResource Subtext}"
+          Foreground="{Binding IsActualDataAvailable,Converter={converter:IsAvailableToColorConverter}}"/>
+        <!-- change since buying -->
+        <TextBlock
+          Grid.Row="1"
+          Grid.Column="3"
+          x:Name="ProfitString"
+          Style="{StaticResource Subtext}"
+          HorizontalAlignment="Right"
+          Foreground="{Binding ChangeOfProfit,Converter={converter:RateChangeToColorConverter}}"
+          Visibility="{Binding IsActualDataAvailable,Converter={converter:BooleanToHiddenConverter}}"/>
+        <!-- line separator -->
+        <Separator
+          Grid.Row="2"
+          Grid.Column="0"
+          Grid.ColumnSpan="4"
+          BorderBrush="#E0E0E0"
+          BorderThickness="1"
+          Margin="0,2"/>
+      </Grid>
+    </Expander>
+  </DockPanel>
 </UserControl>
