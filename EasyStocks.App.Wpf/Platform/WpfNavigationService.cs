@@ -22,7 +22,7 @@ namespace EasyStocks.App.Wpf.Platform
         {
             var mainViewModel = _container.GetInstance<MainViewModel>();
             var createAccountItemViewModel = 
-                new AccountItemCreateViewModel {Parameter = Tuple.Create(newShare, portfolio)};
+                new AccountItemCreateViewModel(this) {Parameter = Tuple.Create(newShare, portfolio)};
             mainViewModel.ActivateItem(createAccountItemViewModel);
         }
 

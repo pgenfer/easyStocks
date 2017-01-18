@@ -8,8 +8,12 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
+      
     </Grid.RowDefinitions>
-    <ContentView Grid.Row="2" forms:View.Model="{Binding AccountData}"/>
+    <ContentView Grid.Row="0" forms:View.Model="{Binding AccountData}"/>
+    <Button 
+      Grid.Row="1" 
+      Text="{x:Static easyStocks:EasyStocksStrings.AddToPortfolio}"
+      Command="{Binding CreateAccountItemCommand}"/>
   </Grid>
 </ContentView>

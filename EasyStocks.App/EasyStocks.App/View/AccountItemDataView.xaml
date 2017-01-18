@@ -15,16 +15,18 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-      <RowDefinition Height="50"/>
-      <RowDefinition Height="50"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="50"/>
-      <RowDefinition Height="50"/>
-      <RowDefinition Height="50"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <!-- name and symbol -->
     <Label
+      Grid.Row="0"
+      Grid.Column="0"
       Text="{Binding NameAndSymbol}"
       Margin="10"
       Style="{StaticResource Headline}"/>
@@ -37,5 +39,47 @@
      TextColor="{Binding ChangeOfCurrentRate,Converter={x:StaticResource RateChangeToColor}}"
      Margin="10"
      Style="{StaticResource Headline}"/>
+    <!-- buying quote -->
+    <Label
+      Grid.Row="1"
+      Grid.Column="0"
+      Text="{x:Static easyStocks:EasyStocksStrings.BuyingQuote}"
+      VerticalTextAlignment="Center"
+      Margin="10"/>
+    <Entry
+      Keyboard="Numeric"
+      HorizontalTextAlignment="End"
+      Grid.Row="1"
+      Grid.Column="1"
+      Text="{Binding BuyingRateString }"
+      Margin="10"/>
+    <!-- buying date -->
+    <Label
+      Grid.Row="2"
+      Grid.Column="0"
+      Text="{x:Static easyStocks:EasyStocksStrings.BuyingDate}"
+      VerticalTextAlignment="Center"
+      Margin="10"/>
+    <DatePicker
+      Grid.Row="2"
+      Grid.Column="1"
+      Date="{Binding BuyingDate }"
+      HorizontalOptions="End"
+      Margin="10"/>
+    <!-- stop quote -->
+    <Label
+      Grid.Row="3"
+      Grid.Column="0"
+      Text="{x:Static easyStocks:EasyStocksStrings.StopQuote}"
+      Margin="10"
+      VerticalTextAlignment="Center"/>
+    <Entry
+      Grid.Row="3"
+      Grid.Column="1"
+      x:Name="StopRate"
+      Text="{Binding StopRate}"
+      Margin="10"
+      HorizontalTextAlignment="End"
+      IsEnabled="False"/>
   </Grid>
 </ContentView>

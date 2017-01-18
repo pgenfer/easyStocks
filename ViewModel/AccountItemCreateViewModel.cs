@@ -4,15 +4,24 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Caliburn.Micro;
+using EasyStocks.Commands;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
 {
     public class AccountItemCreateViewModel : Screen
     {
+        private readonly INavigationService _navigationService;
         private Share _share;
         private Portfolio _portfolio;
+
+        public AccountItemCreateViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            CreateAccountItemCommand = new SimpleCommand(CreateAccountItem, () => true);
+        }
 
         private void Setup(Share share, Portfolio portfolio)
         {
@@ -23,12 +32,16 @@ namespace EasyStocks.ViewModel
                 DateTime.Now,
                 share.DailyData.Rate.Value,
                 share.DailyData.Rate.Value * AccountItem.StopRatePercentage);
+
+            DisplayName = EasyStocksStrings.AddShare;
         }
+
+        public ICommand CreateAccountItemCommand { get; }
 
         public void CreateAccountItem()
         {
             _portfolio.AddShare(_share, AccountData.BuyingDate);
-            TryClose();
+            _navigationService.NavigateToPortfolio();
         }
 
         /// <summary>
@@ -42,5 +55,7 @@ namespace EasyStocks.ViewModel
         public void Cancel() => TryClose();
 
         public AccountItemDataViewModel AccountData { get; private set; }
+
+        public override string DisplayName { get; set; }
     }
 }

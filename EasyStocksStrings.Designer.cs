@@ -62,6 +62,15 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add share.
+        /// </summary>
+        public static string AddShare {
+            get {
+                return ResourceManager.GetString("AddShare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string AddToPortfolio {
@@ -103,6 +112,15 @@ namespace EasyStocks {
         public static string EnterStockSymbol {
             get {
                 return ResourceManager.GetString("EnterStockSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
