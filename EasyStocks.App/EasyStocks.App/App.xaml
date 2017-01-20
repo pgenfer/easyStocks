@@ -2,6 +2,7 @@
 <forms:FormsApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:Caliburn.Micro.Xamarin.Forms;assembly=Caliburn.Micro.Platform.Xamarin.Forms"
+             xmlns:converter="clr-namespace:EasyStocks.Converter;assembly=EasyStocks.App"
              x:Class="EasyStocks.App.App">
   <forms:FormsApplication.Resources>
     <ResourceDictionary>
@@ -18,6 +19,7 @@
           <Setter Property="FontSize" Value="12"/>
         </Style.Setters>
       </Style>
+      <converter:RateChangeToColorConverter x:Key="RateChangeToColor"/>
     </ResourceDictionary>
   </forms:FormsApplication.Resources>
 </forms:FormsApplication>

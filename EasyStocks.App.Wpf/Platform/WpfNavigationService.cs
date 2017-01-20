@@ -29,7 +29,7 @@ namespace EasyStocks.App.Wpf.Platform
         public void NavigateToEditAccountItem(AccountItem accountItem, Portfolio portfolio)
         {
             var mainViewModel = _container.GetInstance<MainViewModel>();
-            var editAccountItemViewModel = new AccountItemEditViewModel(accountItem, portfolio);
+            var editAccountItemViewModel = new AccountItemEditViewModel(this) {Parameter = Tuple.Create(accountItem, portfolio)};
             mainViewModel.ActivateItem(editAccountItemViewModel);
         }
 

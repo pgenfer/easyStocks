@@ -32,7 +32,7 @@ namespace EasyStocks.App.Platform
         {
             _pageCount++;
             _xamarinNavigationService.NavigateToViewModelAsync<AccountItemEditViewModel>(
-                new object[] { accountItem, portfolio });
+                Tuple.Create(accountItem, portfolio));
         }
 
         public void NavigateToPortfolio()

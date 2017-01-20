@@ -3,19 +3,30 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Caliburn.Micro;
+using EasyStocks.Commands;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
 {
     public class AccountItemEditViewModel : Screen
     {
-        private readonly AccountItem _accountItem;
-        private readonly Portfolio _portfolio;
-        public AccountItemDataViewModel AccountData { get; }
+        private AccountItem _accountItem;
+        private Portfolio _portfolio;
+        private readonly INavigationService _navigationService;
+        public AccountItemDataViewModel AccountData { get; private set; }
         
+        public ICommand ConfirmAccountItemChangesCommand { get; }
 
-        public AccountItemEditViewModel(AccountItem accountItem,Portfolio portfolio)
+        public AccountItemEditViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            ConfirmAccountItemChangesCommand = new SimpleCommand(ConfirmChanges, () => true);
+        }
+
+
+        private void Setup(AccountItem accountItem, Portfolio portfolio)
         {
             _accountItem = accountItem;
             _portfolio = portfolio;
@@ -24,6 +35,16 @@ namespace EasyStocks.ViewModel
                 accountItem.BuyingQuote.Date,
                 accountItem.BuyingQuote.Quote.Value,
                 accountItem.StopQuote.Value);
+
+            DisplayName = accountItem.Share.Symbol;
+        }
+
+        /// <summary>
+        /// called by caliburn during creation
+        /// </summary>
+        public Tuple<AccountItem, Portfolio> Parameter
+        {
+            set { Setup(value.Item1, value.Item2); }
         }
 
         public void ConfirmChanges()
@@ -31,13 +52,13 @@ namespace EasyStocks.ViewModel
             _accountItem.BuyingQuote = new HistoricalQuote(
                 new Quote(AccountData.BuyingRate), AccountData.BuyingDate);
             _accountItem.StopQuote = new Quote(AccountData.StopRate);
-            TryClose();
+            _navigationService.NavigateToPortfolio();
         }
 
         public void RemoveAccountItem()
         {
             _portfolio.RemoveAccountItem(_accountItem);
-            TryClose();
+            _navigationService.NavigateToPortfolio();
         }
     }
 }

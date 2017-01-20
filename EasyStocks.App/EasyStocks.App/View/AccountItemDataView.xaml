@@ -4,11 +4,6 @@
              xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
              xmlns:converter="clr-namespace:EasyStocks.Converter;assembly=EasyStocks.App"
              x:Class="EasyStocks.View.AccountItemDataView">
-  <ContentView.Resources>
-    <ResourceDictionary>
-      <converter:RateChangeToColorConverter x:Key="RateChangeToColor"/>
-    </ResourceDictionary>
-  </ContentView.Resources>
   <Grid VerticalOptions="Start">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>

@@ -48,6 +48,7 @@ namespace EasyStocks.Setup
             // important: don't forget to register all view models
             // https://github.com/Caliburn-Micro/Caliburn.Micro/issues/182
             container.PerRequest<AccountItemCreateViewModel>();
+            container.PerRequest<AccountItemEditViewModel>();
         }
 
         public void SetupContainer()
