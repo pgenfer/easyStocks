@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:Caliburn.Micro.Xamarin.Forms;assembly=Caliburn.Micro.Platform.Xamarin.Forms"
              xmlns:converter="clr-namespace:EasyStocks.Converter;assembly=EasyStocks.App"
+             xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
              x:Class="EasyStocks.App.App">
   <forms:FormsApplication.Resources>
     <ResourceDictionary>
@@ -20,6 +21,39 @@
         </Style.Setters>
       </Style>
       <converter:RateChangeToColorConverter x:Key="RateChangeToColor"/>
+      <platform:AccountItemComparer x:Key="AccountItemComparer"/>
+      <!-- data template for portfolio items -->
+      <DataTemplate x:Key="AccountItemDataTemplate">
+        <ViewCell>
+          <Grid Margin="5,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label
+              Grid.Column="0"
+              VerticalTextAlignment="Center"
+              FontAttributes="Bold"
+              Text="{Binding ShareName}"
+              FontSize="Medium"/>
+            <Label
+              Grid.Column="1"
+              VerticalTextAlignment="Center"
+              HorizontalTextAlignment="End"
+              FontAttributes="Bold"
+              FontSize="Medium"
+              Text="{Binding ChangePercentString}"
+              TextColor="{Binding ChangeOfCurrentRate,Converter={StaticResource RateChangeToColor}}"/>
+          </Grid>
+          <ViewCell.ContextActions>
+            <MenuItem
+              Command="{Binding DeleteAccountItemCommand}"
+              CommandParameter="{Binding .}"
+              Text="Delete"
+              IsDestructive="True" />
+          </ViewCell.ContextActions>
+        </ViewCell>
+      </DataTemplate>
     </ResourceDictionary>
   </forms:FormsApplication.Resources>
 </forms:FormsApplication>

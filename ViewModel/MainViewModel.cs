@@ -66,5 +66,10 @@ namespace EasyStocks.ViewModel
         {
             _navigationService.NavigateToEditAccountItem(accountItem, _portfolio);
         }
+
+        public void RemoveAccountItem(AccountItemViewModel accountItem)
+        {
+            _portfolio.RemoveAccountItem(accountItem.BusinessObject);
+        }
     }
 }

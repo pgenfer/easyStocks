@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using DataResult = EasyStocks.Model.Result<EasyStocks.Model.ShareDailyInformation>;
@@ -71,7 +72,7 @@ namespace EasyStocks.Model
                     var query = json.query;
                     var results = query.results;
                     var quote = results.quote;
-                    var ask = quote.Ask;
+                    var ask = quote.Ask?.Value ?? quote.LastTradePriceOnly;
                     var percentageChange = quote.PercentChange;
                     var change = quote.Change;
 

@@ -65,6 +65,8 @@ namespace EasyStocks.ViewModel
                 businessObject.BuyingQuote.Quote.Value, 
                 businessObject.StopQuote.Value);
 
+            _changePercent = businessObject.Share.DailyData.ChangeInPercent.Value;
+
             // reroute the property changes from the mixins
             _accountData.PropertyChanged += (s, e) => NotifyOfPropertyChange(e.PropertyName);
             _accountData.PercentChanged += x => ChangePercent = x;

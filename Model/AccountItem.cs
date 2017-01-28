@@ -96,13 +96,25 @@ namespace EasyStocks.Model
         {
             // check if we have already any daily data stored
             var oldData = Share.DailyData;
+            var needUpdate = true;
             if (oldData != null)
             {
-                AdjustStopRate(newData.Rate);
-                Share.DailyData = newData;
+                if (Math.Abs(newData.Rate.Value - oldData.Rate.Value) > 0.009)
+                {
+                    AdjustStopRate(newData.Rate);
+                    Share.DailyData = newData;
+                }
+                else
+                {
+                    needUpdate = false;
+                }
+                
             }
-            UpdateProfit();
-            AccountItemUpdated?.Invoke(this);
+            if (needUpdate)
+            {
+                UpdateProfit();
+                AccountItemUpdated?.Invoke(this);
+            }
         }
     }
 }

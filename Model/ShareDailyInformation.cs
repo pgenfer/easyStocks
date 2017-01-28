@@ -33,7 +33,7 @@
             IsAccurate = true;
         }
 
-        public bool IsAccurate { get; private set; }
+        public bool IsAccurate { get;}
         public override string ToString() => IsAccurate ? $"{Rate} ({ChangeInPercent})" : "no data available";
     }
 }

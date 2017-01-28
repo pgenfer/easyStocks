@@ -4,8 +4,10 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml.Linq;
 using Caliburn.Micro;
+using EasyStocks.Commands;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
@@ -18,6 +20,11 @@ namespace EasyStocks.ViewModel
         private readonly Action<AccountItem> _editAccountItemAction;
         public BindableCollection<AccountItemViewModel> Items { get; } = new BindableCollection<AccountItemViewModel>();
 
+        /// <summary>
+        /// flag that can be used to control sorting of the vie wmodel
+        /// </summary>
+        public bool IsSorting { get;} = true;
+      
         public AccountItemViewModel SelectedItem { get; set; }
 
         public PortfolioViewModel(
@@ -26,7 +33,7 @@ namespace EasyStocks.ViewModel
         {
             _editAccountItemAction = editAccountItemAction;
             portfolio.Loaded += OnPortfolioLoaded;
-            portfolio.AccountItemAdded += CreateAndAddAccountItemViewModel;
+            portfolio.AccountItemAdded += OnPortfolioItemAdded;
             portfolio.AccountItemRemoved += RemoveAccountItemViewModel;
         }
 
@@ -34,15 +41,35 @@ namespace EasyStocks.ViewModel
         {
             Items.Clear();
             foreach (var item in portfolio.Items)
-            {
                 CreateAndAddAccountItemViewModel(item);
-            }
+        }
+
+        public void OnPortfolioItemAdded(AccountItem businessObject)
+        {
+            CreateAndAddAccountItemViewModel(businessObject);
         }
 
         private void CreateAndAddAccountItemViewModel(AccountItem businessObject)
         {
             var accountItemViewModel = new AccountItemViewModel(businessObject);
             accountItemViewModel.PercentChanged += ItemViewModelOnPercentChanged;
+            AddItemAtCorrectPosition(accountItemViewModel);
+        }
+
+        private void AddItemAtCorrectPosition(AccountItemViewModel accountItemViewModel)
+        {
+            if (IsSorting)
+            {
+                for (var i = 0; i < Items.Count; i++)
+                {
+                    var nextItem = Items[i];
+                    if (accountItemViewModel.ChangePercent > nextItem.ChangePercent)
+                    {
+                        Items.Insert(i, accountItemViewModel);
+                        return;
+                    }
+                }
+            }
             Items.Add(accountItemViewModel);
         }
 
@@ -65,8 +92,11 @@ namespace EasyStocks.ViewModel
         /// <param name="accountItemViewModel"></param>
         private void ItemViewModelOnPercentChanged(AccountItemViewModel accountItemViewModel)
         {
+            if (!IsSorting) // check if sorting is disabled
+                return;
+            Items.Refresh();
             Items.Remove(accountItemViewModel);
-            Items.Add(accountItemViewModel);
+            AddItemAtCorrectPosition(accountItemViewModel);
         }
 
         public void OnAccountItemSelected()

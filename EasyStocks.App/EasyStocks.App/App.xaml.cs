@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using Caliburn.Micro.Xamarin.Forms;
 using EasyStocks.Setup;
 using EasyStocks.View;
@@ -40,7 +41,15 @@ namespace EasyStocks.App
             // this is a bit weird, but in order to have a working navigation, you have
             // to start with a View and not with a ViewModel. See here:
             // https://github.com/Caliburn-Micro/Caliburn.Micro/issues/71
-            DisplayRootView<MainView>();
+            try
+            {
+                DisplayRootView<MainView>();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
             await _bootstrapper.LoadModelFromStorage();
             _bootstrapper.StartNotification();
         }

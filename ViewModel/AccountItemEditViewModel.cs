@@ -18,11 +18,13 @@ namespace EasyStocks.ViewModel
         public AccountItemDataViewModel AccountData { get; private set; }
         
         public ICommand ConfirmAccountItemChangesCommand { get; }
+        public ICommand RemoveAccountItemCommand { get; }
 
         public AccountItemEditViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             ConfirmAccountItemChangesCommand = new SimpleCommand(ConfirmChanges, () => true);
+            RemoveAccountItemCommand = new SimpleCommand(RemoveAccountItem, () => true);
         }
 
 

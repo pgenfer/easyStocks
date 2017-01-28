@@ -3,16 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
              xmlns:forms="clr-namespace:Caliburn.Micro.Xamarin.Forms;assembly=Caliburn.Micro.Platform.Xamarin.Forms"
+             xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
              x:Class="EasyStocks.View.AccountItemEditView">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
+       <RowDefinition Height="Auto"/>
       
     </Grid.RowDefinitions>
     <ContentView Grid.Row="0" forms:View.Model="{Binding AccountData}"/>
-    <Button 
+     <Button 
       Grid.Row="1" 
+      Text="{x:Static easyStocks:EasyStocksStrings.Remove}"
+      Command="{Binding RemoveAccountItemCommand}"
+      TextColor="{x:Static platform:CustomColors.FailureColor}"/>
+    <Button 
+      Grid.Row="2" 
       Text="{x:Static easyStocks:EasyStocksStrings.Ok}"
       Command="{Binding ConfirmAccountItemChangesCommand}"/>
   </Grid>

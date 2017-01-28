@@ -31,6 +31,10 @@ namespace EasyStocks.ViewModel
         {
             Portfolio = portfolioViewModel;
             Search = searchViewModel;
+
+            Items = new BindableCollection<string> {"hello 1", "hello 2"};
         }
+
+        public BindableCollection<string> Items { get; set; }
     }
 }
