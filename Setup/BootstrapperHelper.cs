@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Dto;
 using EasyStocks.Model;
+using EasyStocks.Model.Account;
 using EasyStocks.ViewModel;
 
 namespace EasyStocks.Setup
@@ -30,15 +31,21 @@ namespace EasyStocks.Setup
             var stockTicker = new YahooFinanceStockTicker();
             container.Instance<IStockTicker>(stockTicker);
             // portfolio where stocks are stored
-            var portfolio = new Portfolio();
+            // must be registered for every interface
+            var portfolio = new PortfolioRepository();
             container.Instance(portfolio);
-            // serializer used to save portfolio data
-            var serializer = new PortfolioSerializer();
+            container.Instance<IPortfolioRepository>(portfolio);
+            container.Instance<IPortfolioPersistentRepository>(portfolio);
+            container.Instance<IPortfolioUpdateRepository>(portfolio);
+
             var storage = container.GetInstance<IStorage>();
-            // save the portfolio whenever a new item was added
-            portfolio.AccountItemAdded += async _ => await serializer.SaveAsync(portfolio, storage);
-            portfolio.AccountItemRemoved += async _ => await serializer.SaveAsync(portfolio, storage);
-            portfolio.AccountDataChanged += async _ => await serializer.SaveAsync(portfolio, storage);
+            // serializer used to save portfolio data
+            var serializer = new PortfolioSerializer(storage);
+
+            // save the portfolio whenever it changes
+            portfolio.AccountItemAdded += async _ => await serializer.SaveAsync(portfolio);
+            portfolio.AccountItemRemoved += async _ => await serializer.SaveAsync(portfolio);
+            portfolio.AccountItemsUpdated += async _ => await serializer.SaveAsync(portfolio);
         }
 
         private static void SetupViewModel(SimpleContainer container)
@@ -61,16 +68,18 @@ namespace EasyStocks.Setup
         public async Task LoadModelFromStorage()
         {
             var storage = Container.GetInstance<IStorage>();
-            var portfolio = Container.GetInstance<Portfolio>();
+            var portfolio = Container.GetInstance<PortfolioRepository>();
             var stockTicker = Container.GetInstance<IStockTicker>();
 
-            var deserializer = new PortfolioDeserializer(stockTicker);
-            await deserializer.LoadAsync(portfolio, storage);
+            var deserializer = new PortfolioSerializer(storage);
+            await deserializer.LoadAsync(portfolio);
+            await portfolio.CheckForUpdatesAsync(stockTicker);
+            portfolio.FirePortfolioLoaded();
         }
 
         public void StartNotification()
         {
-            var portfolio = Container.GetInstance<Portfolio>();
+            var portfolio = Container.GetInstance<IPortfolioUpdateRepository>();
             var stockTicker = Container.GetInstance<IStockTicker>();
             var portfolioUpdater = new PortfolioUpdater(portfolio, stockTicker);
             portfolioUpdater.StartUpdate();

@@ -1,0 +1,120 @@
+using System;
+using EasyStocks.Extension;
+using EasyStocks.ViewModel;
+
+namespace EasyStocks.Model.Account
+{
+    /// <summary>
+    /// stores information and logic for a single portfolio item
+    /// </summary>
+    internal class PortfolioItem
+    {
+        public static PortfolioItem CreateByUser(
+            string symbol,
+            string shareName,
+            float buyingRate,
+            DateTime buyingDate,
+            float dailyChange,
+            float dailyChangeInPercent)
+        {
+            var portfolioItem = new PortfolioItem
+            {
+                Symbol = symbol,
+                ShareName = shareName,
+                CurrentRate = buyingRate,
+                BuyingRate = buyingRate,
+                BuyingDate = buyingDate,
+                DailyChange = dailyChange,
+                DailyChangeInPercent = dailyChangeInPercent,
+                StopRate = buyingRate * StopRatePercentage
+            };
+            return portfolioItem;
+        }
+
+        public static PortfolioItem CreateFromStorage(
+            string symbol,
+            float buyingRate,
+            DateTime buyingDate,
+            float stopRate)
+        {
+            var portfolioItem = new PortfolioItem
+            {
+                Symbol = symbol,
+                BuyingRate = buyingRate,
+                BuyingDate = buyingDate,
+                StopRate = stopRate
+            };
+            return portfolioItem;
+        }
+
+        /// <summary>
+        /// value that is used to calculate the stop rate initially
+        /// </summary>
+        private const float StopRatePercentage = 0.9f;
+
+        /// <summary>
+        /// symbol can only be set initially
+        /// </summary>
+        public string Symbol { get; private set; }
+        /// <summary>
+        /// stop rate is calculated initially but is then updated whenever
+        /// the current rate changes
+        /// </summary>
+        public float StopRate { get; private set; }
+        /// <summary>
+        /// buying information can be changed any time by the user
+        /// </summary>
+        public DateTime BuyingDate { get; set; }
+        public float BuyingRate { get; set; }
+        /// <summary>
+        /// stock information can only be changed by the stock ticker
+        /// </summary>
+        public string ShareName { get; set; }
+        public float CurrentRate { get; set; }
+        public float DailyChange { get; set; }
+        public float DailyChangeInPercent { get; set; }
+        /// <summary>
+        /// calculated values
+        /// </summary>
+        public float OverallChange => CurrentRate - BuyingRate;
+        public float OverallChangeInPercent => 100f / BuyingRate * OverallChange;
+        public bool StopQuoteReached => CurrentRate < StopRate;
+        public RateChange DailyTrend => DailyChange.GetTrend();
+        public RateChange OverallTrend => OverallChange.GetTrend();
+
+        private void RecalculateStopRate()
+        {
+            // the stop rate should
+            var newStopRate = CurrentRate * StopRatePercentage;
+            // the stop quote does never decrease, so if it reaches one value
+            // it can only become higher but never decrease
+            if (newStopRate > StopRate)
+            {
+                StopRate = newStopRate;
+            }
+        }
+
+        /// <summary>
+        /// updates the current account information with the lasted daily stock data.
+        /// </summary>
+        /// <param name="dailyInformation">the latest daily stock data</param>
+        /// <returns>true if the item has changed since the last update,
+        /// returns false in case the account item did not change</returns>
+        public bool Update(ShareDailyInformation dailyInformation)
+        {
+            // check if the current rate has changed compared to the last time
+            // we received the values.
+            var rateHasChanged = Math.Abs(dailyInformation.CurrentRate - CurrentRate) > 0.009;
+            // if rate has changed, also update the stop rate
+            if (rateHasChanged)
+            {
+                ShareName = dailyInformation.ShareName;
+                CurrentRate = dailyInformation.CurrentRate;
+                DailyChange = dailyInformation.DailyChange;
+                DailyChangeInPercent = dailyInformation.DailyChangeInPercent;
+                RecalculateStopRate();
+            }
+            return rateHasChanged;
+        }
+    }
+}

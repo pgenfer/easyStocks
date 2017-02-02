@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
 using EasyStocks.Commands;
+using EasyStocks.Extension;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
@@ -14,24 +15,45 @@ namespace EasyStocks.ViewModel
     public class AccountItemCreateViewModel : Screen
     {
         private readonly INavigationService _navigationService;
-        private Share _share;
-        private Portfolio _portfolio;
-
-        public AccountItemCreateViewModel(INavigationService navigationService)
+        private readonly IPortfolioRepository _portfolio;
+        private NewAccountItem _newItem;
+      
+        public AccountItemCreateViewModel(
+            INavigationService navigationService,
+            IPortfolioRepository portfolio)
         {
             _navigationService = navigationService;
+            _portfolio = portfolio;
             CreateAccountItemCommand = new SimpleCommand(CreateAccountItem, () => true);
         }
 
-        private void Setup(Share share, Portfolio portfolio)
+        public string ShareName => _newItem.ShareName;
+        public string Symbol => _newItem.Symbol;
+
+        public float CurrentRate
         {
-            _share = share;
-            _portfolio = portfolio;
-            AccountData = new AccountItemDataViewModel(
-                share,
-                DateTime.Now,
-                share.DailyData.Rate.Value,
-                share.DailyData.Rate.Value * AccountItem.StopRatePercentage);
+            get { return _newItem.BuyingRate; }
+            set { _newItem.BuyingRate = value; }
+        }
+
+        public DateTime BuyingDate
+        {
+            get { return _newItem.BuyingDate; }
+            set { _newItem.BuyingDate = value; }
+        }
+
+        public string DailyChangeString => _newItem.DailyChange.ToStringWithSign();
+        public string DailyChangeInPercentString => _newItem.DailyChangeInPercent.ToPercentStringWithSign();
+        public RateChange DailyTrend => _newItem.DailyTrend;
+
+        private void Setup(ShareDailyInformation dailyInformation)
+        {
+            _newItem = new NewAccountItem(
+                dailyInformation.ShareName,
+                dailyInformation.Symbol,
+                dailyInformation.CurrentRate,
+                dailyInformation.DailyChange,
+                dailyInformation.DailyChangeInPercent);
 
             DisplayName = EasyStocksStrings.AddShare;
         }
@@ -40,22 +62,19 @@ namespace EasyStocks.ViewModel
 
         public void CreateAccountItem()
         {
-            _portfolio.AddShare(_share, AccountData.BuyingDate);
+            _portfolio.CreateNewAccountItem(_newItem);
             _navigationService.NavigateToPortfolio();
         }
 
         /// <summary>
         /// called by caliburn during creation
         /// </summary>
-        public Tuple<Share, Portfolio> Parameter
+        public ShareDailyInformation Parameter
         {
-            set { Setup(value.Item1, value.Item2); }
+            set { Setup(value); }
         }
 
         public void Cancel() => TryClose();
-
-        public AccountItemDataViewModel AccountData { get; private set; }
-
         public override string DisplayName { get; set; }
     }
 }

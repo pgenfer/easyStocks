@@ -23,8 +23,7 @@
       Grid.Row="0"
       Grid.Column="0"
       Text="{Binding NameAndSymbol}"
-      Margin="10"
-      Style="{StaticResource Headline}"/>
+      Margin="10"/>
     <Label
      Grid.Row="0"
      Grid.Column="1"
@@ -32,8 +31,7 @@
      Text="{Binding ChangeAbsoluteAndPercentString}"
      IsVisible="{Binding IsActualDataAvailable}"
      TextColor="{Binding ChangeOfCurrentRate,Converter={x:StaticResource RateChangeToColor}}"
-     Margin="10"
-     Style="{StaticResource Headline}"/>
+     Margin="10"/>
     <!-- buying quote -->
     <Label
       Grid.Row="1"

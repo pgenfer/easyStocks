@@ -17,7 +17,7 @@ namespace EasyStocks.App.Droid.Platform
                 "easystocks.json");
         }
 
-        public async Task<Result<PortfolioDto>> LoadFromStorageAsync()
+        public async Task<PortfolioDto> LoadFromStorageAsync()
         {
             if (System.IO.File.Exists(_fileName))
             {
@@ -28,18 +28,19 @@ namespace EasyStocks.App.Droid.Platform
                         var content = await reader.ReadToEndAsync();
                         var portfolioDto = JsonConvert.DeserializeObject<PortfolioDto>(content);
                         // result can be null in case the file is empty
-                        return Result<PortfolioDto>.Success(portfolioDto ?? new PortfolioDto());
+                        return portfolioDto ?? new PortfolioDto();
                     }
                 }
-                catch (Exception exception)
+                catch (Exception exception) 
                 {
-                    return Result<PortfolioDto>.Error(new PortfolioDto(), exception.Message);
+                    // TODO: show error message somewhere
+                    return new PortfolioDto();
                 }
             }
-            return Result<PortfolioDto>.Success(new PortfolioDto()); // no file => just return empty portfolio
+            return new PortfolioDto(); // no file => just return empty portfolio
         }
 
-        public async Task<Result<bool>> SaveToStorageAsync(PortfolioDto portfolio)
+        public async Task<bool> SaveToStorageAsync(PortfolioDto portfolio)
         {
             try
             {
@@ -55,12 +56,12 @@ namespace EasyStocks.App.Droid.Platform
                 {
                     // always overwrite the file
                     await writer.WriteAsync(content);
-                    return Result<bool>.Success(true);
+                    return true;
                 }
             }
             catch (Exception exception)
             {
-                return Result<bool>.Error(false, exception.Message);
+                return false;
             }
         }
     }

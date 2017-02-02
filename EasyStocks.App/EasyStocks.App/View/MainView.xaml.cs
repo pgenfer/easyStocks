@@ -15,11 +15,11 @@ namespace EasyStocks.View
         {
             if (e.SwipeOffset >= SwipeOffset)
             {
-                var accountItemViewModel = e.ItemData as AccountItemViewModel;
-                if (accountItemViewModel != null)
+                var accountItemSlot = e.ItemData as AccountItemSlot;
+                if (accountItemSlot != null)
                 {
                     var mainViewModel = BindingContext as MainViewModel;
-                    mainViewModel?.RemoveAccountItem(accountItemViewModel);
+                    mainViewModel?.RemoveAccountItem(accountItemSlot.Id);
                 }
             }
             PortfolioListView.ResetSwipe();

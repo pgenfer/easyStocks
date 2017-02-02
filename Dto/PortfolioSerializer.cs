@@ -1,36 +1,50 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EasyStocks.Model;
+using EasyStocks.Model.Account;
 
 namespace EasyStocks.Dto
 {
-    /// <summary>
-    /// used to convert the portfolio into a dto object
-    /// that can be stored later.
-    /// </summary>
     public class PortfolioSerializer
     {
-        public PortfolioDto ToDto(Portfolio portfolio)
+        private readonly IStorage _storage;
+
+        public PortfolioSerializer(IStorage storage)
         {
-            return new PortfolioDto
-            {
-                AccountItems = portfolio.Items.Select(x => new AccountItemDto
-                {
-                    Symbol = x.Share.Symbol,
-                    BuyingDate = x.BuyingQuote.Date,
-                    BuyingRate = x.BuyingQuote.Quote.Value,
-                    StopRate = x.StopQuote.Value
-                }).ToList()
-            };
+            _storage = storage;
         }
 
-        public async Task<Result<bool>> SaveAsync(Portfolio portfolio, IStorage storage)
+        public async Task LoadAsync(IPortfolioPersistentRepository portfolio)
         {
-            var result = await storage.SaveToStorageAsync(ToDto(portfolio));
-            return result;
+            portfolio.Clear();
+            try
+            {
+                var portfolioDto = await _storage.LoadFromStorageAsync();
+                foreach (var dto in portfolioDto.AccountItems)
+                    portfolio.AddAccountItemFromPersistentStorage(dto);
+            }
+            catch (Exception ex)
+            {
+                // TODO: show message with error
+                portfolio.Clear();
+            }
+        }
+
+        public async Task SaveAsync(IPortfolioPersistentRepository portfolio)
+        {
+            try
+            {
+                var newPortfolioDto = new PortfolioDto
+                {
+                    AccountItems = new List<AccountItemDto>(portfolio.ToDtos())
+                };
+                await _storage.SaveToStorageAsync(newPortfolioDto);
+            }
+            catch (Exception ex)
+            {
+                // TODO: show message that saving was not possible
+            }
         }
     }
-}
+ }

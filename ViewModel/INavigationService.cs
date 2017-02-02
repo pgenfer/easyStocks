@@ -12,8 +12,8 @@ namespace EasyStocks.ViewModel
     /// </summary>
     public interface INavigationService
     {
-        void NavigateToCreateAccountItem(Share newShare,Portfolio portfolio);
-        void NavigateToEditAccountItem(AccountItem accountItem,Portfolio portfolio);
+        void NavigateToCreateAccountItem(ShareDailyInformation stockInformation);
+        void NavigateToEditAccountItem(AccountItemId accountItemId);
         void NavigateToPortfolio();
     }
 }

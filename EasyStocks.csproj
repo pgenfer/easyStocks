@@ -46,32 +46,31 @@
       <DependentUpon>EasyStocksStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Extension\FloatExtension.cs" />
-    <Compile Include="Model\AccountItem.cs" />
     <Compile Include="Dto\AccountItemDto.cs" />
-    <Compile Include="Dto\PortfolioDeserializer.cs" />
     <Compile Include="Dto\PortfolioSerializer.cs" />
-    <Compile Include="Model\HistoricalQuote.cs" />
-    <Compile Include="Model\IStockTicker.cs" />
-    <Compile Include="Model\Portfolio.cs" />
+    <Compile Include="Model\Account\AccountItemBase.cs" />
+    <Compile Include="Model\Account\AccountItemId.cs" />
+    <Compile Include="Model\Portfolio\IPortfolioPersistentRepository.cs" />
+    <Compile Include="Model\Portfolio\PortfolioItem.cs" />
+    <Compile Include="Model\Portfolio\PortfolioRepository.cs" />
+    <Compile Include="Model\Portfolio\IPortfolioRepository.cs" />
+    <Compile Include="Model\Share\IStockTicker.cs" />
     <Compile Include="Dto\PortfolioDto.cs" />
-    <Compile Include="Model\PortfolioUpdater.cs" />
-    <Compile Include="Model\QuoteChange.cs" />
-    <Compile Include="Model\QuoteChangeAbsolute.cs" />
+    <Compile Include="Model\Portfolio\PortfolioUpdater.cs" />
+    <Compile Include="Model\Account\ReadonlyAccountItem.cs" />
+    <Compile Include="Model\Account\NewAccountItem.cs" />
+    <Compile Include="Model\Account\WritableAccountItem.cs" />
+    <Compile Include="Model\Share\StockDataParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Quote.cs" />
-    <Compile Include="Model\QuoteChangePercent.cs" />
-    <Compile Include="Model\Result.cs" />
-    <Compile Include="Model\Share.cs" />
-    <Compile Include="Model\ShareDailyInformation.cs" />
+    <Compile Include="Model\Share\ShareDailyInformation.cs" />
     <Compile Include="Model\YahooStockTicker.cs" />
     <Compile Include="Setup\BootstrapperHelper.cs" />
     <Compile Include="Styles\ColorValues.cs" />
     <Compile Include="ViewModel\AccountItemCreateViewModel.cs" />
-    <Compile Include="ViewModel\AccountItemDataViewModel.cs" />
     <Compile Include="ViewModel\AccountItemEditViewModel.cs" />
-    <Compile Include="ViewModel\AccountItemViewModel.cs" />
-    <Compile Include="ViewModel\DailyDataViewModel.cs" />
-    <Compile Include="ViewModel\EditShareViewModel.cs" />
+    <Compile Include="ViewModel\AccountItemSlot.cs" />
+    <Compile Include="ViewModel\AccountItemSlotCopy.cs" />
+    <Compile Include="ViewModel\AccountItemSlotList.cs" />
     <Compile Include="ViewModel\INavigationService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PortfolioSearchViewModel.cs" />
@@ -99,6 +98,7 @@
       <LastGenOutput>EasyStocksStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

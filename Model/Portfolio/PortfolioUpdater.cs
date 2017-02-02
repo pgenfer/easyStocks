@@ -8,12 +8,12 @@ namespace EasyStocks.Model
     /// </summary>
     public class PortfolioUpdater
     {
-        private readonly Portfolio _portfolio;
+        private readonly IPortfolioUpdateRepository _portfolio;
         private readonly IStockTicker _stockTicker;
         private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(10);
         private readonly Timer _portfolioUpdateTimer;
 
-        public PortfolioUpdater(Portfolio portfolio,IStockTicker stockTicker)
+        public PortfolioUpdater(IPortfolioUpdateRepository portfolio,IStockTicker stockTicker)
         {
             _portfolio = portfolio;
             _stockTicker = stockTicker;
@@ -41,7 +41,7 @@ namespace EasyStocks.Model
         public async void OnUpdatePortfolioAsync(object state)
         {
             _portfolioUpdateTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
-            await _portfolio.UpdatePortfolioItemsAsync(_stockTicker);
+            await _portfolio.CheckForUpdatesAsync(_stockTicker);
             _portfolioUpdateTimer.Change(_updateInterval, Timeout.InfiniteTimeSpan);
         }
     }

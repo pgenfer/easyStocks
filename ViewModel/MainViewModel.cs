@@ -16,7 +16,7 @@ namespace EasyStocks.ViewModel
     /// </summary>
     public class MainViewModel : Conductor<object>.Collection.OneActive
     {
-        private readonly Portfolio _portfolio;
+        private readonly IPortfolioRepository _portfolio;
         private readonly INavigationService _navigationService;
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace EasyStocks.ViewModel
         /// <param name="stockTicker"></param>
         /// <param name="navigationService"></param>
         public MainViewModel(
-            Portfolio portfolio,
+            IPortfolioRepository portfolio,
             IStockTicker stockTicker,
             INavigationService navigationService)
         {
@@ -56,20 +56,20 @@ namespace EasyStocks.ViewModel
         /// should be added to the portfolio. This method will activate the view model
         /// for creating new account items.
         /// </summary>
-        /// <param name="newShare">the new share that should be added to the portfolio</param>
-        private void OnNavigateToCreateAccountViewModel(Share newShare)
+        /// <param name="shareDailyInformation">the new share that should be added to the portfolio</param>
+        private void OnNavigateToCreateAccountViewModel(ShareDailyInformation shareDailyInformation)
         {
-            _navigationService.NavigateToCreateAccountItem(newShare, _portfolio);
+            _navigationService.NavigateToCreateAccountItem(shareDailyInformation);
         }
 
-        private void OnEditAccountViewModel(AccountItem accountItem)
+        private void OnEditAccountViewModel(AccountItemId accountItem)
         {
-            _navigationService.NavigateToEditAccountItem(accountItem, _portfolio);
+            _navigationService.NavigateToEditAccountItem(accountItem);
         }
 
-        public void RemoveAccountItem(AccountItemViewModel accountItem)
+        public void RemoveAccountItem(AccountItemId accountItem)
         {
-            _portfolio.RemoveAccountItem(accountItem.BusinessObject);
+            _portfolio.RemoveAccountItem(accountItem);
         }
     }
 }

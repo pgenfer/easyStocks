@@ -19,12 +19,12 @@ namespace EasyStocks.Dto
         /// it into the given portfolio
         /// </summary>
         /// <returns>A result object with an error message in case data could not be loaded.</returns>
-        Task<Result<PortfolioDto>>  LoadFromStorageAsync();
+        Task<PortfolioDto>  LoadFromStorageAsync();
         /// <summary>
         /// saves the given portfolio into persistent storage.
         /// </summary>
         /// <param name="portfolio">DTO object with the portfolio data</param>
         /// <returns>result object with an error message in case data could not be written.</returns>
-        Task<Result<bool>>  SaveToStorageAsync(PortfolioDto portfolio);
+        Task<bool>  SaveToStorageAsync(PortfolioDto portfolio);
     }
 }

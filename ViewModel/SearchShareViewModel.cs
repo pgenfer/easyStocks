@@ -19,7 +19,7 @@ namespace EasyStocks.ViewModel
     {
         private string _searchString;
         private readonly IStockTicker _stockTicker;
-        private readonly Action<Share> _createNewAccountAction;
+        private readonly Action<ShareDailyInformation> _createNewAccountAction;
         private string _message;
         private bool _hasError;
 
@@ -32,7 +32,7 @@ namespace EasyStocks.ViewModel
         /// <param name="createNewAccountAction"></param>
         public SearchShareViewModel(
             IStockTicker stockTicker,
-            Action<Share> createNewAccountAction)
+            Action<ShareDailyInformation> createNewAccountAction)
         {
             FindShareByNameCommand = new SimpleCommand(async () => await Search(),() => CanSearch);
             _stockTicker = stockTicker;
@@ -105,19 +105,14 @@ namespace EasyStocks.ViewModel
             // reset error state before a new search starts
             ResetMessage();
 
-            var result = await _stockTicker.GetShareBySymbolAsync(SearchString);
-            if (result.IsSuccessful)
+            var result = await _stockTicker
+                .GetDailyInformationForShareAsync(new [] {SearchString});
+            if (result.Any())
             {
                 SearchString = string.Empty; // clear search after we found the share
-                var share = result.Value;
-                var dailyData = await _stockTicker.GetDailyInformationForShareAsync(result.Value);
-                if(dailyData.IsSuccessful)
-                    share.DailyData = dailyData.Value;
+                var share = result.First();
                 _createNewAccountAction(share);
             }
-            // if no symbol was found, show error message
-            HasError = true;
-            Message = result.ErrorMessage;
         }
 
         public bool CanSearch => true;

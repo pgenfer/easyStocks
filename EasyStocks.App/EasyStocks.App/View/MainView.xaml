@@ -23,6 +23,7 @@
       forms:View.Model="{Binding Search}"
       VerticalOptions="Start"/>
     <xForms:SfListView
+      ItemSize="72"
       AllowSwiping="True"
       x:Name="PortfolioListView"
       BindingContext="{Binding Portfolio}"

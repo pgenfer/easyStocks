@@ -6,60 +6,69 @@ using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
 using EasyStocks.Commands;
+using EasyStocks.Extension;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
 {
     public class AccountItemEditViewModel : Screen
     {
-        private AccountItem _accountItem;
-        private Portfolio _portfolio;
+        private readonly IPortfolioRepository _portfolio;
         private readonly INavigationService _navigationService;
-        public AccountItemDataViewModel AccountData { get; private set; }
+        private WritableAccountItem _accountItem;
         
         public ICommand ConfirmAccountItemChangesCommand { get; }
-        public ICommand RemoveAccountItemCommand { get; }
-
-        public AccountItemEditViewModel(INavigationService navigationService)
+        
+        public AccountItemEditViewModel(
+            INavigationService navigationService,
+            IPortfolioRepository portfolio)
         {
             _navigationService = navigationService;
+            _portfolio = portfolio;
             ConfirmAccountItemChangesCommand = new SimpleCommand(ConfirmChanges, () => true);
-            RemoveAccountItemCommand = new SimpleCommand(RemoveAccountItem, () => true);
         }
 
+        public string DailyChangeString => _accountItem.DailyChange.ToStringWithSign();
+        public string DailyChangeInPercentString => _accountItem.DailyChangeInPercent.ToPercentStringWithSign();
+        public string OverallChangeInPercentString => _accountItem.OverallChangeInPercent.ToPercentStringWithSign();
+        public string OverallChangeString => _accountItem.OverallChange.ToStringWithSign();
+        public RateChange OverallTrend => _accountItem.OverallTrend;
+        public RateChange DailyTrend => _accountItem.DailyTrend;
+        public float CurrentRate => _accountItem.CurrentRate;
+        public float StopRate => _accountItem.StopRate;
+        public bool IsStopRateReached => _accountItem.IsStopQuoteReached;
 
-        private void Setup(AccountItem accountItem, Portfolio portfolio)
+        public float BuyingRate
         {
-            _accountItem = accountItem;
-            _portfolio = portfolio;
-            AccountData = new AccountItemDataViewModel(
-                accountItem.Share,
-                accountItem.BuyingQuote.Date,
-                accountItem.BuyingQuote.Quote.Value,
-                accountItem.StopQuote.Value);
+            get { return _accountItem.BuyingRate; }
+            set { _accountItem.BuyingRate = value; }
+        }
 
-            DisplayName = accountItem.Share.Symbol;
+        public DateTime BuyingDate
+        {
+            get { return _accountItem.BuyingDate; }
+            set { _accountItem.BuyingDate = value; }
+        }
+
+        private void Setup(AccountItemId accountItemId)
+        {
+            _accountItem = _portfolio.GetWriteableAccountItemById(accountItemId);
         }
 
         /// <summary>
         /// called by caliburn during creation
         /// </summary>
-        public Tuple<AccountItem, Portfolio> Parameter
+        public AccountItemId Parameter
         {
-            set { Setup(value.Item1, value.Item2); }
+            set { Setup(value); }
         }
 
         public void ConfirmChanges()
         {
-            _accountItem.BuyingQuote = new HistoricalQuote(
-                new Quote(AccountData.BuyingRate), AccountData.BuyingDate);
-            _accountItem.StopQuote = new Quote(AccountData.StopRate);
-            _navigationService.NavigateToPortfolio();
-        }
-
-        public void RemoveAccountItem()
-        {
-            _portfolio.RemoveAccountItem(_accountItem);
+            _portfolio.WriteDataToAccountItem(new UserChangeableAccountData(
+                _accountItem.Id,
+                _accountItem.BuyingRate,
+                _accountItem.BuyingDate));
             _navigationService.NavigateToPortfolio();
         }
     }

@@ -18,21 +18,19 @@ namespace EasyStocks.App.Platform
             _xamarinNavigationService = xamarinNavigationService;
         }
 
-        public void NavigateToCreateAccountItem(Share share, Portfolio portfolio)
+        public void NavigateToCreateAccountItem(ShareDailyInformation shareInfo)
         {
             _pageCount++;
             // in order to create the view model, the parameters must either be provided
             // as dictionary (which does not work for us, since we want to set all parameters at once)
             // or by using a single parameter which will be set to the "Parameter" property. 
-            _xamarinNavigationService.NavigateToViewModelAsync<AccountItemCreateViewModel>(
-                Tuple.Create(share, portfolio));
+            _xamarinNavigationService.NavigateToViewModelAsync<AccountItemCreateViewModel>(shareInfo);
     }
 
-        public void NavigateToEditAccountItem(AccountItem accountItem, Portfolio portfolio)
+        public void NavigateToEditAccountItem(AccountItemId accountItemId)
         {
             _pageCount++;
-            _xamarinNavigationService.NavigateToViewModelAsync<AccountItemEditViewModel>(
-                Tuple.Create(accountItem, portfolio));
+            _xamarinNavigationService.NavigateToViewModelAsync<AccountItemEditViewModel>(accountItemId);
         }
 
         public void NavigateToPortfolio()
