@@ -55,6 +55,9 @@ namespace EasyStocks.ViewModel
                 NotifyOfPropertyChange();
             }
         }
+
+
+
         public string DailyChangeInPercentString => $"{DailyChangeInPercent.WithSign()} %";
         public RateChange DailyTrend
         {
@@ -139,6 +142,6 @@ namespace EasyStocks.ViewModel
             IsStopQuoteReached = copy.IsStopQuoteReached;
         }
 
-        public override string ToString() => Symbol;
+        public override string ToString() => $"{Symbol} ({DailyChangeInPercentString})";
     }
 }

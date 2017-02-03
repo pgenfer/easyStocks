@@ -33,7 +33,11 @@ namespace EasyStocks.ViewModel
         public float CurrentRate
         {
             get { return _newItem.BuyingRate; }
-            set { _newItem.BuyingRate = value; }
+            set
+            {
+                _newItem.BuyingRate = value;
+                NotifyOfPropertyChange(nameof(StopRate));
+            }
         }
 
         public DateTime BuyingDate
@@ -42,8 +46,11 @@ namespace EasyStocks.ViewModel
             set { _newItem.BuyingDate = value; }
         }
 
+        public string StopRate => (CurrentRate*Constants.StopRatePercentage).ToString("N2");
+
         public string DailyChangeString => _newItem.DailyChange.ToStringWithSign();
         public string DailyChangeInPercentString => _newItem.DailyChangeInPercent.ToPercentStringWithSign();
+
         public RateChange DailyTrend => _newItem.DailyTrend;
 
         private void Setup(ShareDailyInformation dailyInformation)

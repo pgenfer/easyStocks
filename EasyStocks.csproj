@@ -50,6 +50,7 @@
     <Compile Include="Dto\PortfolioSerializer.cs" />
     <Compile Include="Model\Account\AccountItemBase.cs" />
     <Compile Include="Model\Account\AccountItemId.cs" />
+    <Compile Include="Model\Portfolio\Constants.cs" />
     <Compile Include="Model\Portfolio\IPortfolioPersistentRepository.cs" />
     <Compile Include="Model\Portfolio\PortfolioItem.cs" />
     <Compile Include="Model\Portfolio\PortfolioRepository.cs" />

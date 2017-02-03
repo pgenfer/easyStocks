@@ -60,7 +60,14 @@ namespace EasyStocks.ViewModel
         }
 
         public void RemoveAccountItem(AccountItemId accountItem)
-        { }
+        {
+            // normally, single should be enough here instead of FirstOrDefault,
+            // but be a bit defensive in case an item was already deleted and
+            // the list did not reflect it
+            var item = this.FirstOrDefault(x => Equals(x.Id, accountItem));
+            if (item != null)
+                Remove(item);
+        }
 
         public void ChangeAccountItem(ReadonlyAccountItem accountItem)
         {
@@ -96,6 +103,9 @@ namespace EasyStocks.ViewModel
             // 1. item is moved up in list
             if (oldPos < newPos)
             {
+                // because we remove the item from the list
+                // the new pos will be -1
+                newPos--;
                 for (var i = oldPos; i < newPos; i++)
                     this[i].Set(this[i + 1].Copy());
                 this[newPos].Set(accountItem);

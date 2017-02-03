@@ -26,7 +26,7 @@ namespace EasyStocks.Model.Account
                 BuyingDate = buyingDate,
                 DailyChange = dailyChange,
                 DailyChangeInPercent = dailyChangeInPercent,
-                StopRate = buyingRate * StopRatePercentage
+                StopRate = buyingRate * Constants.StopRatePercentage
             };
             return portfolioItem;
         }
@@ -46,11 +46,6 @@ namespace EasyStocks.Model.Account
             };
             return portfolioItem;
         }
-
-        /// <summary>
-        /// value that is used to calculate the stop rate initially
-        /// </summary>
-        private const float StopRatePercentage = 0.9f;
 
         /// <summary>
         /// symbol can only be set initially
@@ -85,7 +80,7 @@ namespace EasyStocks.Model.Account
         private void RecalculateStopRate()
         {
             // the stop rate should
-            var newStopRate = CurrentRate * StopRatePercentage;
+            var newStopRate = CurrentRate * Constants.StopRatePercentage;
             // the stop quote does never decrease, so if it reaches one value
             // it can only become higher but never decrease
             if (newStopRate > StopRate)

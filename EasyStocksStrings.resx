@@ -124,13 +124,19 @@
     <value>Add</value>
   </data>
   <data name="BuyingDate" xml:space="preserve">
-    <value>Buying date</value>
+    <value>Buying Date</value>
   </data>
   <data name="BuyingQuote" xml:space="preserve">
-    <value>Buying quote</value>
+    <value>Buying Rate</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ChangePercent" xml:space="preserve">
+    <value>Change (%)</value>
   </data>
   <data name="EnterStockSymbol" xml:space="preserve">
     <value>Enter stock symbol here </value>
@@ -141,11 +147,14 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
   <data name="StopQuote" xml:space="preserve">
-    <value>Stop quote</value>
+    <value>Stop Rate</value>
   </data>
   <data name="SymbolNotFound" xml:space="preserve">
     <value>Symbol was not found</value>
