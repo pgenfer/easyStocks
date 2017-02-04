@@ -1,4 +1,5 @@
 ﻿using System;
+using EasyStocks.Extension;
 using EasyStocks.ViewModel;
 
 namespace EasyStocks.Model
@@ -14,10 +15,10 @@ namespace EasyStocks.Model
         public DateTime BuyingDate { get; set; }
         public float DailyChange { get; }
         public float DailyChangeInPercent { get; }
-        public float OverallChange { get; }
-        public float OverallChangeInPercent { get; }
+        public float OverallChange => CurrentRate - BuyingRate;
+        public float OverallChangeInPercent => 100f / BuyingRate * OverallChange;
         public RateChange DailyTrend { get; }
-        public RateChange OverallTrend { get; }
+        public RateChange OverallTrend => OverallChange.GetTrend();
         public bool IsStopQuoteReached { get; }
 
         public WritableAccountItem(
@@ -30,10 +31,7 @@ namespace EasyStocks.Model
             DateTime buyingDate, 
             float dailyChange, 
             float dailyChangeInPercent, 
-            float overallChange, 
-            float overallChangeInPercent, 
             RateChange dailyTrend, 
-            RateChange overallTrend,
             bool isStopQuoteReached)
             :base(id,shareName,symbol)
         {
@@ -43,10 +41,7 @@ namespace EasyStocks.Model
             BuyingDate = buyingDate;
             DailyChange = dailyChange;
             DailyChangeInPercent = dailyChangeInPercent;
-            OverallChange = overallChange;
-            OverallChangeInPercent = overallChangeInPercent;
             DailyTrend = dailyTrend;
-            OverallTrend = overallTrend;
             IsStopQuoteReached = isStopQuoteReached;
         }
     }

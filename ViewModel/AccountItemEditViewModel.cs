@@ -38,10 +38,19 @@ namespace EasyStocks.ViewModel
         public float StopRate => _accountItem.StopRate;
         public bool IsStopRateReached => _accountItem.IsStopQuoteReached;
 
+        public string ShareName => _accountItem.ShareName;
+        public string Symbol => _accountItem.Symbol;
+
         public float BuyingRate
         {
             get { return _accountItem.BuyingRate; }
-            set { _accountItem.BuyingRate = value; }
+            set
+            {
+                _accountItem.BuyingRate = value;
+                NotifyOfPropertyChange(nameof(OverallChangeInPercentString));
+                NotifyOfPropertyChange(nameof(OverallChangeString));
+                NotifyOfPropertyChange(nameof(OverallTrend));
+            }
         }
 
         public DateTime BuyingDate
@@ -53,6 +62,7 @@ namespace EasyStocks.ViewModel
         private void Setup(AccountItemId accountItemId)
         {
             _accountItem = _portfolio.GetWriteableAccountItemById(accountItemId);
+            DisplayName = _accountItem.ShareName;
         }
 
         /// <summary>

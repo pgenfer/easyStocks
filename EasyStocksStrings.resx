@@ -147,6 +147,12 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="Overall" xml:space="preserve">
+    <value>Overall</value>
+  </data>
+  <data name="OverallPercent" xml:space="preserve">
+    <value>Overall (%)</value>
+  </data>
   <data name="Rate" xml:space="preserve">
     <value>Rate</value>
   </data>

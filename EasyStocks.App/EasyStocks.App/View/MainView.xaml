@@ -25,15 +25,15 @@
     <xForms:SfListView
       ItemSize="72"
       AllowSwiping="True"
+      SelectionMode="None"
       x:Name="PortfolioListView"
       BindingContext="{Binding Portfolio}"
       ItemsSource="{Binding Items}"
-      SelectedItem="{Binding SelectedItem}"
-      forms:Message.Attach="[Event ItemTapped] = [OnAccountItemSelected]"
       ItemTemplate="{StaticResource AccountItemDataTemplate}"
       SwipeThreshold="30"
       SwipeOffset="{x:Static view:MainView.SwipeOffset}"
-      SwipeEnded="OnSwipeEnded">
+      SwipeEnded="OnSwipeEnded"
+      ItemTapped="OnPortfolioItemTapped">
       <xForms:SfListView.RightSwipeTemplate>
         <DataTemplate x:Name="DeleteSwipeTemplate">
             <Grid BackgroundColor="{x:Static platform:CustomColors.FailureColor}" 

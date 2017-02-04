@@ -18,7 +18,6 @@ namespace EasyStocks.ViewModel
     public class PortfolioViewModel : PropertyChangedBase
     {
         public AccountItemSlotList Items { get; } = new AccountItemSlotList();
-        public AccountItemSlot SelectedItem { get; set; }
         private readonly IPortfolioRepository _portfolio;
         private readonly Action<AccountItemId> _editAccountItemAction;
 
@@ -39,10 +38,10 @@ namespace EasyStocks.ViewModel
             Items.AddAccountItems(accountItems);
         }
 
-        public void OnAccountItemSelected()
+        public void SelectAccountItem(AccountItemId accountItemId)
         {
-            if(SelectedItem != null)
-               _editAccountItemAction(SelectedItem.Id);
+            if(accountItemId != null)
+               _editAccountItemAction(accountItemId);
         }
     }
 }

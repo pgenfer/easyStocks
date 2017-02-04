@@ -152,6 +152,24 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overall.
+        /// </summary>
+        public static string Overall {
+            get {
+                return ResourceManager.GetString("Overall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overall (%).
+        /// </summary>
+        public static string OverallPercent {
+            get {
+                return ResourceManager.GetString("OverallPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rate.
         /// </summary>
         public static string Rate {

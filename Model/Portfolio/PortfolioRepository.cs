@@ -27,10 +27,7 @@ namespace EasyStocks.Model.Account
                 portfolioItem.BuyingDate,
                 portfolioItem.DailyChange,
                 portfolioItem.DailyChangeInPercent,
-                portfolioItem.OverallChange,
-                portfolioItem.OverallChangeInPercent,
                 portfolioItem.DailyTrend,
-                portfolioItem.OverallTrend,
                 portfolioItem.StopQuoteReached);
         }
 
