@@ -47,11 +47,9 @@
       </xForms:SfListView.RightSwipeTemplate>
     </xForms:SfListView>
     <forms1:FloatingActionButton
+        Style="{StaticResource FloatingActionButton}"
          Source="add_24.png"
-         Size="Normal"
          Command="{Binding SearchCommand}"
-         RippleColor="{x:Static platform:CustomColors.AccentColor}"
-         NormalColor="{x:Static platform:CustomColors.AccentColor}"
          RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80}"
          RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
   </RelativeLayout>

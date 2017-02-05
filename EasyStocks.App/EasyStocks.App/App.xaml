@@ -6,6 +6,7 @@
              xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
              xmlns:converter1="clr-namespace:EasyStocks.App.Converter;assembly=EasyStocks.App"
              xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=EasyStocks"
+             xmlns:forms1="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              x:Class="EasyStocks.App.App">
   <forms:FormsApplication.Resources>
     <ResourceDictionary>
@@ -13,6 +14,14 @@
         x:Key="RateChangeToTextColorConverter"
         DarkColor="{x:Static platform:CustomColors.PrimaryTextColor}"
         LightColor="{x:Static platform:CustomColors.PrimaryTextLightColor}"/>
+      <!-- floating action button -->
+      <Style 
+        x:Key="FloatingActionButton" 
+        TargetType="{x:Type forms1:FloatingActionButton}">
+        <Setter Property="Size" Value="Normal"/>
+        <Setter Property="RippleColor" Value="{x:Static platform:CustomColors.AccentColor}"/>
+        <Setter Property="NormalColor" Value="{x:Static platform:CustomColors.AccentColor}"/>
+      </Style>
       <!-- basic label -->
       <Style x:Key="LabelBase" TargetType="{x:Type Label}">
         <Setter Property="VerticalTextAlignment" Value="Center"/>
