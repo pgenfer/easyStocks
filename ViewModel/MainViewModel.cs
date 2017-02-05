@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
+using EasyStocks.Commands;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
@@ -18,32 +19,33 @@ namespace EasyStocks.ViewModel
     {
         private readonly IPortfolioRepository _portfolio;
         private readonly INavigationService _navigationService;
+        public ICommand SearchCommand { get; }
 
         /// <summary>
         /// view model that handles the search and navigation within the portfolio.
         /// </summary>
-        public PortfolioSearchViewModel PortfolioAndSearch { get;}
+        public PortfolioViewModel Portfolio { get;}
 
         /// <summary>
         /// creates a new mainviewmodel and activates the portfolio and search view
         /// </summary>
         /// <param name="portfolio"></param>
-        /// <param name="stockTicker"></param>
         /// <param name="navigationService"></param>
         public MainViewModel(
             IPortfolioRepository portfolio,
-            IStockTicker stockTicker,
             INavigationService navigationService)
         {
             _portfolio = portfolio;
             _navigationService = navigationService;
-            PortfolioAndSearch = new PortfolioSearchViewModel(
-                new PortfolioViewModel(
-                    portfolio,
-                    OnEditAccountViewModel), 
-                new SearchShareViewModel( 
-                    stockTicker,
-                    OnNavigateToCreateAccountViewModel));
+            Portfolio = new PortfolioViewModel(
+                portfolio,
+                OnEditAccountViewModel);
+            SearchCommand = new SimpleCommand(OnSearchNewShare,() => true);
+        }
+
+        private void OnSearchNewShare()
+        {
+            _navigationService.NavigateToSearchView();
         }
 
         /// <summary>

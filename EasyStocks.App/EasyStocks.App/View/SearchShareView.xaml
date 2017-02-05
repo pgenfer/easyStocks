@@ -2,8 +2,76 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
+             xmlns:xForms="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:view="clr-namespace:EasyStocks.View;assembly=EasyStocks.App"
+             xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
+             xmlns:model="clr-namespace:EasyStocks.Model;assembly=EasyStocks"
              x:Class="EasyStocks.View.SearchShareView">
-  <SearchBar Placeholder="{x:Static easyStocks:EasyStocksStrings.EnterStockSymbol}"
-             SearchCommand="{Binding FindShareByNameCommand}"
-             Text="{Binding SearchString}"/>
+  <StackLayout Orientation="Vertical">
+    <SearchBar
+      Placeholder="{x:Static easyStocks:EasyStocksStrings.EnterStockSymbol}"
+      SearchCommand="{Binding FindShareByNameCommand}"
+      Text="{Binding SearchString}"/>
+    <xForms:SfListView
+      Margin="0,16"
+      ItemsSource="{Binding Items}"
+      ItemSize="72"
+      SelectionMode="None"
+      ItemTapped="OnSearchItemTapped">
+      <xForms:SfListView.ItemTemplate>
+        <!-- data template for search items -->
+        <DataTemplate>
+          <ViewCell>
+            <Grid
+              Margin="16,1"
+              RowSpacing="0"
+              ColumnSpacing="0"
+              VerticalOptions="Fill">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75*" />
+                <ColumnDefinition Width="25*" />
+              </Grid.ColumnDefinitions>
+              <StackLayout
+                Orientation="Vertical"
+                VerticalOptions="Center"
+                Spacing="0"
+                Padding="0"
+                Grid.Column="0"
+                Grid.Row="0">
+                <Label
+                  Text="{Binding ShareName}"
+                  TextColor="{x:Static platform:CustomColors.PrimaryTextColor}"
+                  Style="{StaticResource Title}"/>
+                <Label
+                  Text="{Binding StockExchange}"
+                  Style="{StaticResource Body1}"
+                  TextColor="{x:Static platform:CustomColors.SecondaryTextColor}"/>
+              </StackLayout>
+              <Label
+                Grid.Column="1"
+                Grid.Row="0"
+                Text="{Binding CurrentRate}"
+                Style="{StaticResource Title}"
+                TextColor="{x:Static platform:CustomColors.PrimaryTextColor}"
+                HorizontalTextAlignment="Center"/>
+              <!-- separator -->
+              <StackLayout
+                Grid.ColumnSpan="2"
+                Grid.Column="0"
+                Grid.Row="1"
+                Spacing="0"
+                Padding="0"
+                BackgroundColor="{x:Static platform:CustomColors.DividerColor}"
+                HeightRequest="1"
+                HorizontalOptions="FillAndExpand"/>
+            </Grid>
+          </ViewCell>
+        </DataTemplate>
+      </xForms:SfListView.ItemTemplate>
+    </xForms:SfListView>
+  </StackLayout>
 </ContentView>

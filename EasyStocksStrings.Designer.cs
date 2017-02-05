@@ -188,6 +188,15 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search share.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop Rate.
         /// </summary>
         public static string StopQuote {

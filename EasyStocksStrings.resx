@@ -159,6 +159,9 @@
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search share</value>
+  </data>
   <data name="StopQuote" xml:space="preserve">
     <value>Stop Rate</value>
   </data>

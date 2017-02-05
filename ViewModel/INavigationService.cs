@@ -15,5 +15,6 @@ namespace EasyStocks.ViewModel
         void NavigateToCreateAccountItem(ShareDailyInformation stockInformation);
         void NavigateToEditAccountItem(AccountItemId accountItemId);
         void NavigateToPortfolio();
+        void NavigateToSearchView();
     }
 }

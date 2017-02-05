@@ -7,6 +7,7 @@
     {
         public string Symbol { get;}
         public string ShareName { get; }
+        public string StockExchange { get; set; }
         public float CurrentRate { get; }
         public float DailyChange { get;}
         public float DailyChangeInPercent { get; }

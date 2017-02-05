@@ -15,30 +15,45 @@ namespace EasyStocks.ViewModel
     /// search view model is responsible for retrieving
     /// a symbol string and tries to a share for this symbol.
     /// </summary>
-    public class SearchShareViewModel : PropertyChangedBase
+    public class SearchShareViewModel : Screen
     {
         private string _searchString;
         private readonly IStockTicker _stockTicker;
-        private readonly Action<ShareDailyInformation> _createNewAccountAction;
-        private string _message;
-        private bool _hasError;
+        private readonly INavigationService _navigationService;
 
+        /// <summary>
+        /// stores results of the fuzzy search
+        /// </summary>
+        public BindableCollection<ShareDailyInformation> Items { get; } = new BindableCollection<ShareDailyInformation>();
+       
         /// <summary>
         /// creates a new search view model.
         /// </summary>
         /// so the command itself must be created ouside of the view model but can be initialized
         /// with the methods that are provided by the view model.
         /// <param name="stockTicker">used to retrieved the stock data for the search symbol.</param>
-        /// <param name="createNewAccountAction"></param>
+        /// <param name="navigationService"></param>
         public SearchShareViewModel(
             IStockTicker stockTicker,
-            Action<ShareDailyInformation> createNewAccountAction)
+            INavigationService navigationService)
         {
             FindShareByNameCommand = new SimpleCommand(async () => await Search(),() => CanSearch);
             _stockTicker = stockTicker;
-            _createNewAccountAction = createNewAccountAction;
+            _navigationService = navigationService;
+
+            DisplayName = EasyStocksStrings.Search;
         }
 
+        /// <summary>
+        /// called when the user chooses one of the item of the fuzzy search.
+        /// </summary>
+        /// <param name="shareInfo"></param>
+        public void SelectShare(ShareDailyInformation shareInfo)
+        {
+            if(shareInfo != null)
+                _navigationService.NavigateToCreateAccountItem(shareInfo);
+        } 
+        
         /// <summary>
         /// search string entered by the user
         /// </summary>
@@ -52,44 +67,10 @@ namespace EasyStocks.ViewModel
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(CanSearch));
                 // everytime the user enters text, we reset the message
-                ResetMessage();
             }
         }
 
-        /// <summary>
-        /// message that is shown as search result,
-        /// can either be an error or the search result.
-        /// </summary>
-        public string Message
-        {
-            get { return _message; }
-            private set
-            {
-                if (value == _message) return;
-                _message = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// flag is set in case an error occured while searching the share (e.g. share not found or no connection).
-        /// </summary>
-        public bool HasError
-        {
-            get { return _hasError; }
-            private set
-            {
-                if (value == _hasError) return;
-                _hasError = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        private void ResetMessage()
-        {
-            HasError = false;
-            Message = string.Empty;
-        }
+        public bool HasSearchResult => Items.Count > 0;
 
         /// <summary>
         /// searches for the given symbol.
@@ -102,20 +83,13 @@ namespace EasyStocks.ViewModel
             if (string.IsNullOrEmpty(SearchString))
                 return;
 
-            // reset error state before a new search starts
-            ResetMessage();
-
-            var result = await _stockTicker
-                .GetDailyInformationForShareAsync(new [] {SearchString});
-            if (result.Any())
-            {
-                SearchString = string.Empty; // clear search after we found the share
-                var share = result.First();
-                _createNewAccountAction(share);
-            }
+            Items.Clear();
+            var result = await _stockTicker.FindStocksForSearchString(SearchString);
+            Items.AddRange(result);
+            NotifyOfPropertyChange(nameof(HasSearchResult));
         }
 
-        public bool CanSearch => true;
+        public bool CanSearch => true; // must always be true, otherwise user cannot enter text
         /// <summary>
         /// command can be used for search operation
         /// </summary>

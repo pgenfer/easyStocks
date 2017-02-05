@@ -39,5 +39,11 @@ namespace EasyStocks.App.Platform
                 _xamarinNavigationService.GoBackToRootAsync();
             _pageCount = 0;
         }
+
+        public void NavigateToSearchView()
+        {
+            _pageCount++;
+            _xamarinNavigationService.NavigateToViewModelAsync<SearchShareViewModel>();
+        }
     }
 }

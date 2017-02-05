@@ -11,11 +11,12 @@ namespace EasyStocks.Test.Integration
     [TestFixture]
     public class YahooStockTickerTest
     {
+        private readonly IStockTicker _ticker = new YahooFinanceStockTicker();
+
         [Test]
         public async Task RetrieveStockData()
         {
-            var ticker = new YahooFinanceStockTicker();
-            var result = await ticker.GetDailyInformationForShareAsync(new [] {"TSLA"});
+            var result = await _ticker.GetDailyInformationForShareAsync(new [] {"TSLA"});
             Assert.That(result.Count(), Is.EqualTo(1));
             Assert.That(result.Single().Symbol, Is.EqualTo("TSLA"));
         }
@@ -23,9 +24,15 @@ namespace EasyStocks.Test.Integration
         [Test]
         public async Task RetrieveSeveralStockData()
         {
-            var ticker = new YahooFinanceStockTicker();
-            var result = await ticker.GetDailyInformationForShareAsync(new[] { "TSLA","MSFT" });
+            var result = await _ticker.GetDailyInformationForShareAsync(new[] { "TSLA","MSFT" });
             Assert.That(result.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task FindStocksByName()
+        {
+            var result = await _ticker.FindStocksForSearchString("TES");
+            Assert.That(result.Any(x => x.Symbol == "TSLA"));
         }
     }
 }

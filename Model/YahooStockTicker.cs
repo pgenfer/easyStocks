@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using EasyStocks.Model.Share;
 using Newtonsoft.Json.Linq;
 
@@ -19,6 +21,7 @@ namespace EasyStocks.Model
         private readonly HttpClient _yahooFinanceClient = new HttpClient{BaseAddress = new Uri("https://query.yahooapis.com/v1/public/yql")};
         private const string Format = "json";
         private const string Environment = "store://datatables.org/alltableswithkeys";
+        private readonly HttpClient _yahooFinanceLookupClient = new HttpClient {BaseAddress = new Uri("https://s.yimg.com/aq/autoc")};
         
         public async Task<IEnumerable<ShareDailyInformation>> GetDailyInformationForShareAsync(IEnumerable<string> symbols)
         {
@@ -62,6 +65,50 @@ namespace EasyStocks.Model
                                 StockDataParser.DailyChangeInPercentFromString(percentageChange.ToString())));
                     }
                     
+                }
+                return dailyInformations;
+            }
+            catch (Exception ex)
+            {
+                // TODO: Show error message somewhere
+                return dailyInformations;
+            }
+        }
+
+        public async Task<IEnumerable<ShareDailyInformation>> FindStocksForSearchString(string searchString)
+        {
+            var dailyInformations = new List<ShareDailyInformation>();
+            try
+            {
+                var response = await _yahooFinanceLookupClient.GetAsync($"?query={searchString}&region=\"US, DE\"&lang=en-EN");
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    // get the content from the response message
+                    var content = response.Content.ReadAsStringAsync();
+                    // read the result information from the response
+                    var contentResult = content.Result;
+                    // convert to json object
+                    var json = JObject.Parse(contentResult);
+                    // retrieve data from content
+                    var resultSet = json["ResultSet"];
+                    var result = resultSet["Result"];
+
+                    // we store each share with its stock exchange in a list
+                    // for retrieving the daily information later.
+                    var sharesAndStockExchanges = result
+                        .Where(x => x["type"].ToString() == "S")
+                        .ToDictionary(
+                            x => x["symbol"].ToString(), 
+                            x => x["exchDisp"].ToString());
+
+                    // now retrieve the daily data for each stock
+                    dailyInformations = new List<ShareDailyInformation>(
+                        await GetDailyInformationForShareAsync(sharesAndStockExchanges.Keys));
+                    
+                    // now store the exchange data for every share
+                    foreach (var dailyInformation in dailyInformations)
+                        dailyInformation.StockExchange = sharesAndStockExchanges[dailyInformation.Symbol];
                 }
                 return dailyInformations;
             }

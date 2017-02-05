@@ -16,7 +16,7 @@ namespace EasyStocks.View
             if (accountItemSlot != null)
             {
                 var mainViewModel = BindingContext as MainViewModel;
-                mainViewModel?.PortfolioAndSearch.Portfolio.SelectAccountItem(accountItemSlot.Id);
+                mainViewModel?.Portfolio.SelectAccountItem(accountItemSlot.Id);
             }
         }
 

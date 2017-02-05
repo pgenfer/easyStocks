@@ -7,22 +7,21 @@
              xmlns:view="clr-namespace:EasyStocks.View;assembly=EasyStocks.App"
              xmlns:dataSource="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
              xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
+             xmlns:forms1="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              x:Class="EasyStocks.View.MainView"
              Title="{x:Static easyStocks:EasyStocksStrings.Home}">
   <!-- 
   somehow Syncfusion ListView does not render when placed inside a content view
   so we have to put all controls inside this content page directly.
   -->
-  <StackLayout
-    VerticalOptions="FillAndExpand"
-    HorizontalOptions="FillAndExpand"
-    Orientation="Vertical"
-    BindingContext="{Binding PortfolioAndSearch}">
-    <ContentView
-      Margin="5"
-      forms:View.Model="{Binding Search}"
-      VerticalOptions="Start"/>
+
+  <RelativeLayout
+      VerticalOptions="FillAndExpand"
+      HorizontalOptions="FillAndExpand">
     <xForms:SfListView
+      Margin="0,16"
+      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
       ItemSize="72"
       AllowSwiping="True"
       SelectionMode="None"
@@ -36,16 +35,24 @@
       ItemTapped="OnPortfolioItemTapped">
       <xForms:SfListView.RightSwipeTemplate>
         <DataTemplate x:Name="DeleteSwipeTemplate">
-            <Grid BackgroundColor="{x:Static platform:CustomColors.FailureColor}" 
-                  HorizontalOptions="Fill" 
-                  VerticalOptions="Fill" 
-                  HeightRequest="35"
-                  WidthRequest="35">
-                <Image
-                  Source="delete_24.png"/>
-            </Grid>
+          <Grid BackgroundColor="{x:Static platform:CustomColors.FailureColor}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
+                HeightRequest="35"
+                WidthRequest="35">
+            <Image
+              Source="delete_24.png"/>
+          </Grid>
         </DataTemplate>
       </xForms:SfListView.RightSwipeTemplate>
     </xForms:SfListView>
-  </StackLayout>
+    <forms1:FloatingActionButton
+         Source="add_24.png"
+         Size="Normal"
+         Command="{Binding SearchCommand}"
+         RippleColor="{x:Static platform:CustomColors.AccentColor}"
+         NormalColor="{x:Static platform:CustomColors.AccentColor}"
+         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80}"
+         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
+  </RelativeLayout>
 </ContentPage>

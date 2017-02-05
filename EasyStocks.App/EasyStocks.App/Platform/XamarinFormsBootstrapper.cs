@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Setup;
+using Xamarin.Forms;
 
 namespace EasyStocks.App.Platform
 {
@@ -12,6 +13,7 @@ namespace EasyStocks.App.Platform
     {
         public XamarinFormsBootstrapper(SimpleContainer container) : base(container)
         {
+            
         }
 
         protected override void RegisterPlatformDependentServices(SimpleContainer container)
