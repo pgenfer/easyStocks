@@ -113,6 +113,8 @@
           Grid.Column="2"
           Text="{Binding StopRate}"
           Style="{StaticResource Title}"
+          TextColor="{Binding IsStopRateReached,Converter={StaticResource TextColorToStopRate}}"
+          BackgroundColor="{Binding IsStopRateReached,Converter={StaticResource BackgroundColorToStopRate}}"
           HorizontalTextAlignment="Center"/>
         <!-- separator -->
         <StackLayout
