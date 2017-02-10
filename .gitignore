@@ -286,3 +286,6 @@ $RECYCLE.BIN/
 
 # do not ignore lib folder
 !*.lib
+
+# ignore token files
+*.token

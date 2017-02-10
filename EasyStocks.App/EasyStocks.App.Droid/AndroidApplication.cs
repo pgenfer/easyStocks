@@ -13,6 +13,7 @@ using Android.Widget;
 using Caliburn.Micro;
 using EasyStocks.App.Droid.Platform;
 using EasyStocks.Setup;
+using EasyStocks.Storage.Dropbox;
 using EasyStocks.ViewModel;
 
 namespace EasyStocks.App.Droid
@@ -38,6 +39,9 @@ namespace EasyStocks.App.Droid
         protected override void Configure()
         {
             _container = new SimpleContainer();
+            // token provider must be registered here because it needs the asset manager
+            _container.Instance<ITokenProvider>(new AndroidTokenProvider(Assets));
+
             _bootstrapper = new AndroidBootstrapperHelper(_container);
             _bootstrapper.SetupContainer();
             _container.Instance(_container);

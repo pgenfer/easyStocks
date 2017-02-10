@@ -98,8 +98,11 @@ namespace EasyStocks.Model.Account
             // store all items that have changed in a list
             var changedAccountItems = new List<ReadonlyAccountItem>();
             // request update information for complete portfolio
-            var dailyInformations = await stockTicker.GetDailyInformationForShareAsync(
-                _portfolioItems.Values.Select(x => x.Symbol).Distinct());
+            var dailyInformations = (await stockTicker.GetDailyInformationForShareAsync(
+                _portfolioItems.Values
+                .Select(x => x.Symbol)
+                .Distinct()))
+                .ToList();
             // find the portfolio items that were updated
             foreach (var dailyInformation in dailyInformations)
             {
@@ -114,7 +117,8 @@ namespace EasyStocks.Model.Account
                     }
                 }
             }
-            AccountItemsUpdated?.Invoke(changedAccountItems);
+            if(dailyInformations.Any()) // no need to fire update if no data was retrieved
+               AccountItemsUpdated?.Invoke(changedAccountItems);
         }
 
         public void Clear() => _portfolioItems.Clear();

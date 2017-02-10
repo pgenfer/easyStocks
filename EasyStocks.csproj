@@ -39,24 +39,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\SimpleCommand.cs" />
-    <Compile Include="Dto\IStorage.cs" />
+    <Compile Include="Storage\CombinedStorage.cs" />
+    <Compile Include="Storage\Dropbox\DropBoxStorage.cs" />
+    <Compile Include="Storage\Dropbox\ITokenProvider.cs" />
+    <Compile Include="Storage\IStorage.cs" />
     <Compile Include="EasyStocksStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EasyStocksStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Extension\FloatExtension.cs" />
-    <Compile Include="Dto\AccountItemDto.cs" />
-    <Compile Include="Dto\PortfolioSerializer.cs" />
+    <Compile Include="Storage\Dto\AccountItemDto.cs" />
+    <Compile Include="Storage\JsonBaseStorage.cs" />
+    <Compile Include="Storage\PortfolioSerializer.cs" />
     <Compile Include="Model\Account\AccountItemBase.cs" />
     <Compile Include="Model\Account\AccountItemId.cs" />
     <Compile Include="Model\Portfolio\Constants.cs" />
-    <Compile Include="Model\Portfolio\IPortfolioPersistentRepository.cs" />
+    <Compile Include="Storage\IPortfolioPersistentRepository.cs" />
     <Compile Include="Model\Portfolio\PortfolioItem.cs" />
     <Compile Include="Model\Portfolio\PortfolioRepository.cs" />
     <Compile Include="Model\Portfolio\IPortfolioRepository.cs" />
     <Compile Include="Model\Share\IStockTicker.cs" />
-    <Compile Include="Dto\PortfolioDto.cs" />
+    <Compile Include="Storage\Dto\PortfolioDto.cs" />
     <Compile Include="Model\Portfolio\PortfolioUpdater.cs" />
     <Compile Include="Model\Account\ReadonlyAccountItem.cs" />
     <Compile Include="Model\Account\NewAccountItem.cs" />
@@ -81,6 +85,10 @@
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>packages\Caliburn.Micro.Core.3.0.2\lib\portable-net45+win8+wp8+wpa81+MonoAndroid10+Xamarin.iOS10+MonoTouch10+uap10.0\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dropbox.Api, Version=0.1.6229.33336, Culture=neutral, PublicKeyToken=310f0e82fbb45d01, processorArchitecture=MSIL">
+      <HintPath>packages\Dropbox.Api.4.1.3\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Dropbox.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

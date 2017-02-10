@@ -1,6 +1,9 @@
-﻿using Caliburn.Micro;
+﻿using Android.Content.Res;
+using Caliburn.Micro;
 using EasyStocks.App.Platform;
 using EasyStocks.Dto;
+using EasyStocks.Storage;
+using EasyStocks.Storage.Dropbox;
 
 namespace EasyStocks.App.Droid.Platform
 {
@@ -13,7 +16,11 @@ namespace EasyStocks.App.Droid.Platform
         protected override void RegisterPlatformDependentServices(SimpleContainer container)
         {
             base.RegisterPlatformDependentServices(container);
-            container.Instance<IStorage>(new AndroidFileStorage());
+            // token provider is registered at location where assetmanager is available
+            var tokenProvider = container.GetInstance<ITokenProvider>();
+            // TODO: if file storage has a separate interface, it could be registered here
+            // and the combined storage could be composed by the container
+            container.Instance<IStorage>(new CombinedStorage(new AndroidFileStorage(), new DropBoxStorage(tokenProvider)));
         }
     }
 }

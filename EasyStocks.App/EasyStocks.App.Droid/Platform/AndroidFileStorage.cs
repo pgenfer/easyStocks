@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using EasyStocks.Dto;
 using EasyStocks.Model;
+using EasyStocks.Storage;
 using Newtonsoft.Json;
 
 namespace EasyStocks.App.Droid.Platform
 {
-    public class AndroidFileStorage : IStorage
+    public class AndroidFileStorage : JsonBaseStorage
     {
         private readonly string _fileName;
 
@@ -17,7 +18,7 @@ namespace EasyStocks.App.Droid.Platform
                 "easystocks.json");
         }
 
-        public async Task<PortfolioDto> LoadFromStorageAsync()
+        public override async Task<PortfolioDto> LoadFromStorageAsync()
         {
             if (System.IO.File.Exists(_fileName))
             {
@@ -26,12 +27,10 @@ namespace EasyStocks.App.Droid.Platform
                     using (var reader = System.IO.File.OpenText(_fileName))
                     {
                         var content = await reader.ReadToEndAsync();
-                        var portfolioDto = JsonConvert.DeserializeObject<PortfolioDto>(content);
-                        // result can be null in case the file is empty
-                        return portfolioDto ?? new PortfolioDto();
+                        return FromJson(content);
                     }
                 }
-                catch (Exception exception) 
+                catch (Exception exception)
                 {
                     // TODO: show error message somewhere
                     return new PortfolioDto();
@@ -40,17 +39,11 @@ namespace EasyStocks.App.Droid.Platform
             return new PortfolioDto(); // no file => just return empty portfolio
         }
 
-        public async Task<bool> SaveToStorageAsync(PortfolioDto portfolio)
+        public override async Task<bool> SaveToStorageAsync(PortfolioDto portfolio)
         {
             try
             {
-                var content = JsonConvert.SerializeObject(
-                    portfolio,
-                    Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        DefaultValueHandling = DefaultValueHandling.Ignore
-                    });
+                var content = ToJson(portfolio);
 
                 using (var writer = System.IO.File.CreateText(_fileName))
                 {
@@ -63,6 +56,29 @@ namespace EasyStocks.App.Droid.Platform
             {
                 return false;
             }
+        }
+
+        public override Task<bool> HasDataAsync() => Task.Run(() => System.IO.File.Exists(_fileName));
+        public override Task<bool> ClearAsync()
+        {
+            return Task.Run(() =>
+            {
+                if (System.IO.File.Exists(_fileName))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(_fileName);
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        // TODO: something went wrong with the delete operation,
+                        // show error message
+                        return false;
+                    }
+                }
+                return true; // no file to delete, so don't bother
+            });
         }
     }
 }

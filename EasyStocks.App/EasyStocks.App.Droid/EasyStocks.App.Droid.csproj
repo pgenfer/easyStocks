@@ -165,6 +165,7 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Platform\AndroidBootstrapperHelper.cs" />
     <Compile Include="Platform\AndroidFileStorage.cs" />
+    <Compile Include="Platform\AndroidTokenProvider.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -172,7 +173,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
-    <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -206,6 +206,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\done_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\dropbox.token" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
