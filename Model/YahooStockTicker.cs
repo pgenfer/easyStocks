@@ -25,11 +25,12 @@ namespace EasyStocks.Model
         
         public async Task<IEnumerable<ShareDailyInformation>> GetDailyInformationForShareAsync(IEnumerable<string> symbols)
         {
+            StartRequest();
             var dailyInformations = new List<ShareDailyInformation>();
             try
             {
                 var response = await _yahooFinanceClient.GetAsync(
-                    $"?q=select * from yahoo.finance.quotes where symbol=\"{string.Join(",",symbols)}\"&format={Format}&env={Environment}");
+                    $"?q=select * from yahoo.finance.quotes where symbol=\"{string.Join(",", symbols)}\"&format={Format}&env={Environment}");
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
@@ -45,7 +46,7 @@ namespace EasyStocks.Model
                     var result = query.results;
                     var quote = result.quote;
                     // if there is only one item, we cannot iterate so we store them in a list
-                    var quotes = count == 0 ? new dynamic [] {} : count == 1 ? new [] {quote} : quote;
+                    var quotes = count == 0 ? new dynamic[] {} : count == 1 ? new[] {quote} : quote;
                     foreach (var entry in quotes)
                     {
                         var symbol = entry.symbol;
@@ -64,7 +65,7 @@ namespace EasyStocks.Model
                                 StockDataParser.DailyChangeFromString(change.ToString()),
                                 StockDataParser.DailyChangeInPercentFromString(percentageChange.ToString())));
                     }
-                    
+
                 }
                 return dailyInformations;
             }
@@ -73,14 +74,20 @@ namespace EasyStocks.Model
                 // TODO: Show error message somewhere
                 return dailyInformations;
             }
+            finally
+            {
+                StopRequest();
+            }
         }
 
         public async Task<IEnumerable<ShareDailyInformation>> FindStocksForSearchString(string searchString)
         {
+            StartRequest();
             var dailyInformations = new List<ShareDailyInformation>();
             try
             {
-                var response = await _yahooFinanceLookupClient.GetAsync($"?query={searchString}&region=\"US, DE\"&lang=en-EN");
+                var response =
+                    await _yahooFinanceLookupClient.GetAsync($"?query={searchString}&region=\"US, DE\"&lang=en-EN");
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
@@ -99,13 +106,13 @@ namespace EasyStocks.Model
                     var sharesAndStockExchanges = result
                         .Where(x => x["type"].ToString() == "S")
                         .ToDictionary(
-                            x => x["symbol"].ToString(), 
+                            x => x["symbol"].ToString(),
                             x => x["exchDisp"].ToString());
 
                     // now retrieve the daily data for each stock
                     dailyInformations = new List<ShareDailyInformation>(
                         await GetDailyInformationForShareAsync(sharesAndStockExchanges.Keys));
-                    
+
                     // now store the exchange data for every share
                     foreach (var dailyInformation in dailyInformations)
                         dailyInformation.StockExchange = sharesAndStockExchanges[dailyInformation.Symbol];
@@ -117,6 +124,26 @@ namespace EasyStocks.Model
                 // TODO: Show error message somewhere
                 return dailyInformations;
             }
+            finally
+            {
+                StopRequest();
+            }
         }
+
+        private void StartRequest()
+        {
+            RequestStarted?.Invoke();
+            IsProcessing = true;
+        }
+
+        private void StopRequest()
+        {
+            RequestFinished?.Invoke();
+            IsProcessing = false;
+        }
+
+        public event Action RequestStarted;
+        public event Action RequestFinished;
+        public bool IsProcessing { get; private set; }
     }
 }

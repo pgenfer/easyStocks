@@ -19,6 +19,19 @@ namespace EasyStocks.ViewModel
     {
         private readonly IPortfolioRepository _portfolio;
         private readonly INavigationService _navigationService;
+        private bool _isBusy;
+
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            private set
+            {
+                if (value == _isBusy) return;
+                _isBusy = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ICommand SearchCommand { get; }
 
         /// <summary>
@@ -31,9 +44,11 @@ namespace EasyStocks.ViewModel
         /// </summary>
         /// <param name="portfolio"></param>
         /// <param name="navigationService"></param>
+        /// <param name="stockTicker"></param>
         public MainViewModel(
             IPortfolioRepository portfolio,
-            INavigationService navigationService)
+            INavigationService navigationService,
+            IStockTicker stockTicker)
         {
             _portfolio = portfolio;
             _navigationService = navigationService;
@@ -41,6 +56,12 @@ namespace EasyStocks.ViewModel
                 portfolio,
                 OnEditAccountViewModel);
             SearchCommand = new SimpleCommand(OnSearchNewShare,() => true);
+
+            // in case the stock ticker is currently processing a request, keep the view model in sync
+            IsBusy = stockTicker.IsProcessing;
+            // get notified if a request is processed by the stock ticker
+            stockTicker.RequestStarted += () => IsBusy = true;
+            stockTicker.RequestFinished += () => IsBusy = false;
         }
 
         private void OnSearchNewShare()
@@ -52,17 +73,6 @@ namespace EasyStocks.ViewModel
         /// show the portfolio and search view as soon as the main view is activated
         /// </summary>
         protected override void OnActivate() => _navigationService.NavigateToPortfolio();
-
-        /// <summary>
-        /// handler is called when the search for a share was completed and the new share
-        /// should be added to the portfolio. This method will activate the view model
-        /// for creating new account items.
-        /// </summary>
-        /// <param name="shareDailyInformation">the new share that should be added to the portfolio</param>
-        private void OnNavigateToCreateAccountViewModel(ShareDailyInformation shareDailyInformation)
-        {
-            _navigationService.NavigateToCreateAccountItem(shareDailyInformation);
-        }
 
         private void OnEditAccountViewModel(AccountItemId accountItem)
         {

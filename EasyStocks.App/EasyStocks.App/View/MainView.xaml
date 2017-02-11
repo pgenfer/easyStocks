@@ -40,17 +40,20 @@
                 VerticalOptions="Fill"
                 HeightRequest="35"
                 WidthRequest="35">
-            <Image
-              Source="delete_24.png"/>
+            <Image Source="delete_24.png"/>
           </Grid>
         </DataTemplate>
       </xForms:SfListView.RightSwipeTemplate>
     </xForms:SfListView>
     <forms1:FloatingActionButton
-        Style="{StaticResource FloatingActionButton}"
-         Source="add_24.png"
-         Command="{Binding SearchCommand}"
-         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80}"
-         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
+      Style="{StaticResource FloatingActionButton}"
+      Source="add_24.png"
+      Command="{Binding SearchCommand}"
+      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80}"
+      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
+    <ActivityIndicator
+      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5,  Constant=-20 }"
+      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-20 }" 
+      IsRunning="{Binding IsBusy}"/>
   </RelativeLayout>
 </ContentPage>

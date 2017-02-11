@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EasyStocks.Model
@@ -22,5 +23,17 @@ namespace EasyStocks.Model
         /// <returns>list of shares that match the search string or an empty collection
         /// if no items were found.</returns>
         Task<IEnumerable<ShareDailyInformation>> FindStocksForSearchString(string searchString);
+        /// <summary>
+        /// event is fired when the ticker begins with retrieving the information
+        /// </summary>
+        event Action RequestStarted;
+        /// <summary>
+        /// event is fired when the stock ticker completes the request.
+        /// </summary>
+        event Action RequestFinished;
+        /// <summary>
+        /// flag can be used to evaulate whether a request is currently processed
+        /// </summary>
+        bool IsProcessing { get; }
     }
 }
