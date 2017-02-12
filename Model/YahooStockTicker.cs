@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using EasyStocks.Error;
 using EasyStocks.Model.Share;
 using Newtonsoft.Json.Linq;
 
@@ -18,11 +19,17 @@ namespace EasyStocks.Model
     /// </summary>
     public class YahooFinanceStockTicker : IStockTicker
     {
+        private readonly IErrorService _errorService;
         private readonly HttpClient _yahooFinanceClient = new HttpClient{BaseAddress = new Uri("https://query.yahooapis.com/v1/public/yql")};
         private const string Format = "json";
         private const string Environment = "store://datatables.org/alltableswithkeys";
         private readonly HttpClient _yahooFinanceLookupClient = new HttpClient {BaseAddress = new Uri("https://s.yimg.com/aq/autoc")};
-        
+
+        public YahooFinanceStockTicker(IErrorService errorService)
+        {
+            _errorService = errorService;
+        }
+
         public async Task<IEnumerable<ShareDailyInformation>> GetDailyInformationForShareAsync(IEnumerable<string> symbols)
         {
             StartRequest();
@@ -71,7 +78,8 @@ namespace EasyStocks.Model
             }
             catch (Exception ex)
             {
-                // TODO: Show error message somewhere
+                _errorService.TrackWarning(ex, ErrorId.CannotRetrieveDailyStockData);
+
                 return dailyInformations;
             }
             finally
@@ -121,7 +129,7 @@ namespace EasyStocks.Model
             }
             catch (Exception ex)
             {
-                // TODO: Show error message somewhere
+                _errorService.TrackWarning(ex, ErrorId.CannotLookupStocks);
                 return dailyInformations;
             }
             finally

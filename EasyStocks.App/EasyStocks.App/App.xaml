@@ -22,6 +22,7 @@
         x:Key="BackgroundColorToStopRate"
         StopRateNotReachedColor="{x:Static platform:CustomColors.NeutralColor}"
         StopRateReachedColor="{x:Static platform:CustomColors.FailureColor}"/>
+      <converter1:SeverityToColorConverter x:Key="SeverityToColor"/>
       <!-- floating action button -->
       <Style 
         x:Key="FloatingActionButton" 

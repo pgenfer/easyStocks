@@ -73,7 +73,7 @@ namespace EasyStocks.ViewModel
         {
             // old position in list
             var oldPos = 0;
-            var newPos = Count - 1;
+            var newPos = Count; // by default, we assume the item would be added at the end of the list
             for (var i = 0; i < Count; i++)
             {
                 if (Equals(accountItem.Id, this[i].Id))
@@ -105,10 +105,10 @@ namespace EasyStocks.ViewModel
             {
                 // because we remove the item from the list
                 // the new pos will be -1
-                newPos--;
-                for (var i = oldPos; i < newPos; i++)
+                // but only if the item would not go to the end
+                for (var i = oldPos; i < (newPos < Count - 1 ? newPos : Count - 1); i++)
                     this[i].Set(this[i + 1].Copy());
-                this[newPos].Set(accountItem);
+                this[--newPos].Set(accountItem);
                 return;
             }
             // 2. item is moved down

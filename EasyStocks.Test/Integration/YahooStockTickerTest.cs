@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasyStocks.Error;
 using EasyStocks.Model;
 using NUnit.Framework;
+using static NSubstitute.Substitute;
 
 namespace EasyStocks.Test.Integration
 {
     [TestFixture]
     public class YahooStockTickerTest
     {
-        private readonly IStockTicker _ticker = new YahooFinanceStockTicker();
+        private IStockTicker _ticker;
+
+        [SetUp]
+        public void Setup()
+        {
+            _ticker = new YahooFinanceStockTicker(For<IErrorService>());
+        }
 
         [Test]
         public async Task RetrieveStockData()

@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="Converter\RateChangeToColorConverter.cs" />
     <Compile Include="Converter\RateChangeToTextColorConverter.cs" />
+    <Compile Include="Converter\SeverityToColorConverter.cs" />
     <Compile Include="Converter\TestConverter.cs" />
     <Compile Include="Converter\TextColorToStopRateReachedConverter.cs" />
     <Compile Include="Platform\CustomColors.cs" />

@@ -34,8 +34,8 @@ namespace EasyStocks.Storage
         }
 
         public abstract Task<PortfolioDto> LoadFromStorageAsync();
-        public abstract Task<bool> SaveToStorageAsync(PortfolioDto portfolio);
+        public abstract Task SaveToStorageAsync(PortfolioDto portfolio);
         public abstract Task<bool> HasDataAsync();
-        public abstract Task<bool> ClearAsync();
+        public abstract Task ClearAsync();
     }
 }

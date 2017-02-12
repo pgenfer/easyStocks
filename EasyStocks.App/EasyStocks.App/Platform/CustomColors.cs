@@ -16,5 +16,6 @@ namespace EasyStocks.App.Platform
         public static readonly Color PrimaryTextLightColor = Color.FromHex(ColorValues.PrimaryTextLightColor);
         public static readonly Color SecondaryTextLightColor = Color.FromHex(ColorValues.SecondaryTextLightColor);
         public static readonly Color DividerColor = Color.FromHex(ColorValues.DividerColor);
+        public static readonly Color WarningColor = Color.FromHex(ColorValues.AccentColor);
     }
 }

@@ -7,16 +7,21 @@ using System.Threading.Tasks;
 using Dropbox.Api;
 using Dropbox.Api.Files;
 using EasyStocks.Dto;
+using EasyStocks.Error;
 
 namespace EasyStocks.Storage.Dropbox
 {
     public class DropBoxStorage : JsonBaseStorage
     {
         private readonly ITokenProvider _tokenProvider;
+        private readonly IErrorService _errorService;
 
-        public DropBoxStorage(ITokenProvider tokenProvider)
+        public DropBoxStorage(
+            ITokenProvider tokenProvider, 
+            IErrorService errorService)
         {
             _tokenProvider = tokenProvider;
+            _errorService = errorService;
         }
 
         public override async Task<PortfolioDto> LoadFromStorageAsync()
@@ -37,12 +42,12 @@ namespace EasyStocks.Storage.Dropbox
             }
             catch (Exception ex)
             {
-                // TODO: handle error here
+                _errorService.TrackError(ex,ErrorId.CannotLoadPortfolioFromStorage);
                 return new PortfolioDto();
             }
         }
 
-        public override async Task<bool> SaveToStorageAsync(PortfolioDto portfolio)
+        public override async Task SaveToStorageAsync(PortfolioDto portfolio)
         {
             try
             {
@@ -50,48 +55,23 @@ namespace EasyStocks.Storage.Dropbox
                 {
                     var content = ToJson(portfolio);
                     var commitInfo = new CommitInfo("/easystocks.json",WriteMode.Overwrite.Instance,mute:true);
-                    var metadata = await client.Files.UploadAsync(commitInfo, new MemoryStream(Encoding.UTF8.GetBytes(content)));
-                    return true;
+                    await client.Files.UploadAsync(commitInfo, new MemoryStream(Encoding.UTF8.GetBytes(content)));
                 }
             }
             catch (Exception ex)
             {
-                return false;
+                _errorService.TrackError(ex, ErrorId.CannotSavePortfolioToStorage);
             }
         }
 
-        public override async Task<bool> HasDataAsync()
+        public override Task<bool> HasDataAsync()
         {
-            try
-            {
-                using (var client = new DropboxClient(_tokenProvider.Token))
-                {
-                    var list = await client.Files.ListFolderAsync(string.Empty);
-                    return list?.Entries.FirstOrDefault(x => x.Name == "easystocks.json") != null;
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO: handle error here
-                return false;
-            }
+           throw new NotImplementedException("Dropbox Storage should not need HasData");
         }
 
-        public override async Task<bool> ClearAsync()
+        public override Task ClearAsync()
         {
-            try
-            {
-                using (var client = new DropboxClient(_tokenProvider.Token))
-                {
-                    await client.Files.DeleteAsync("/easystocks.jon");
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO: handle error here
-                return false;
-            }
+            throw new NotImplementedException("Dropbox Storage should not need Clear");
         }
     }
 }

@@ -25,7 +25,7 @@ namespace EasyStocks.Dto
         /// </summary>
         /// <param name="portfolio">DTO object with the portfolio data</param>
         /// <returns>result object with an error message in case data could not be written.</returns>
-        Task<bool> SaveToStorageAsync(PortfolioDto portfolio);
+        Task SaveToStorageAsync(PortfolioDto portfolio);
         /// <summary>
         /// checks whether data is available in this storage
         /// </summary>
@@ -35,6 +35,6 @@ namespace EasyStocks.Dto
         /// deletes data that is stored in this storage
         /// </summary>
         /// <returns></returns>
-        Task<bool> ClearAsync();
+        Task ClearAsync();
     }
 }

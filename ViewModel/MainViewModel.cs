@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
 using EasyStocks.Commands;
+using EasyStocks.Error;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
@@ -39,16 +40,20 @@ namespace EasyStocks.ViewModel
         /// </summary>
         public PortfolioViewModel Portfolio { get;}
 
+        public ErrorViewModel Error { get; }
+
         /// <summary>
         /// creates a new mainviewmodel and activates the portfolio and search view
         /// </summary>
         /// <param name="portfolio"></param>
         /// <param name="navigationService"></param>
         /// <param name="stockTicker"></param>
+        /// <param name="errorService"></param>
         public MainViewModel(
             IPortfolioRepository portfolio,
             INavigationService navigationService,
-            IStockTicker stockTicker)
+            IStockTicker stockTicker,
+            IErrorService errorService)
         {
             _portfolio = portfolio;
             _navigationService = navigationService;
@@ -56,6 +61,8 @@ namespace EasyStocks.ViewModel
                 portfolio,
                 OnEditAccountViewModel);
             SearchCommand = new SimpleCommand(OnSearchNewShare,() => true);
+
+            Error = new ErrorViewModel(errorService);
 
             // in case the stock ticker is currently processing a request, keep the view model in sync
             IsBusy = stockTicker.IsProcessing;

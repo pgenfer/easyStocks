@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Dto;
+using EasyStocks.Error;
 using EasyStocks.Model;
 using EasyStocks.Model.Account;
+using EasyStocks.Storage;
+using EasyStocks.Storage.Dropbox;
 using EasyStocks.ViewModel;
 
 namespace EasyStocks.Setup
@@ -27,8 +30,9 @@ namespace EasyStocks.Setup
 
         private static void SetupModel(SimpleContainer container)
         {
+            var errorService = container.GetInstance<IErrorService>();
             // stock ticker for retrieving stock information
-            var stockTicker = new YahooFinanceStockTicker();
+            var stockTicker = new YahooFinanceStockTicker(errorService);
             container.Instance<IStockTicker>(stockTicker);
             // portfolio where stocks are stored
             // must be registered for every interface
@@ -60,9 +64,30 @@ namespace EasyStocks.Setup
 
         public void SetupContainer()
         {
+            // register error service as soon as possible to track all problems
+            // during setup
+            Container.Instance<IErrorService>(new ErrorService());
+
             RegisterPlatformDependentServices(Container);
+            SetupStorage(Container);
             SetupModel(Container);
             SetupViewModel(Container);
+        }
+
+        private static void SetupStorage(SimpleContainer container)
+        {
+            // token provider is registered at location where assetmanager is available
+            var tokenProvider = container.GetInstance<ITokenProvider>();
+            var fileStorage = container.GetInstance<IFileSystemStorage>();
+            var errorService = container.GetInstance<IErrorService>();
+            // use drop box as default storage and the file system as failover
+            container.Instance<IStorage>(
+                new StorageWithBackupStrategy(
+                    new DropBoxStorage(
+                        tokenProvider,
+                        new ThrowExceptionErrorService()),
+                    fileStorage,
+                    errorService));
         }
 
         public async Task LoadModelFromStorage()

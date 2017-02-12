@@ -55,5 +55,18 @@
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5,  Constant=-20 }"
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-20 }" 
       IsRunning="{Binding IsBusy}"/>
+    <StackLayout
+      Padding="5"
+      RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=1,  Constant=0 }"
+      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=1,  Constant=0 }"
+      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+      BackgroundColor="{Binding Error.Severity,Converter={StaticResource SeverityToColor}}"
+      IsVisible="{Binding Error.HasMessage}">
+      <Label
+        Text="{Binding Error.Message}"
+        IsVisible="{Binding Error.HasMessage}"
+        TextColor="{x:Static platform:CustomColors.PrimaryTextLightColor}"
+        HorizontalTextAlignment="Center"/>  
+    </StackLayout>
   </RelativeLayout>
 </ContentPage>

@@ -39,9 +39,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\SimpleCommand.cs" />
-    <Compile Include="Storage\CombinedStorage.cs" />
+    <Compile Include="EasyStocksErrorStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyStocksErrorStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Error\Error.cs" />
+    <Compile Include="Error\ErrorId.cs" />
+    <Compile Include="Error\ErrorService.cs" />
+    <Compile Include="Error\IErrorService.cs" />
+    <Compile Include="Error\Severity.cs" />
+    <Compile Include="Error\ThrowExceptionErrorService.cs" />
     <Compile Include="Storage\Dropbox\DropBoxStorage.cs" />
     <Compile Include="Storage\Dropbox\ITokenProvider.cs" />
+    <Compile Include="Storage\IFileSystemStorage.cs" />
     <Compile Include="Storage\IStorage.cs" />
     <Compile Include="EasyStocksStrings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -70,12 +81,14 @@
     <Compile Include="Model\Share\ShareDailyInformation.cs" />
     <Compile Include="Model\YahooStockTicker.cs" />
     <Compile Include="Setup\BootstrapperHelper.cs" />
+    <Compile Include="Storage\StorageWithBackupStrategy.cs" />
     <Compile Include="Styles\ColorValues.cs" />
     <Compile Include="ViewModel\AccountItemCreateViewModel.cs" />
     <Compile Include="ViewModel\AccountItemEditViewModel.cs" />
     <Compile Include="ViewModel\AccountItemSlot.cs" />
     <Compile Include="ViewModel\AccountItemSlotCopy.cs" />
     <Compile Include="ViewModel\AccountItemSlotList.cs" />
+    <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\INavigationService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PortfolioViewModel.cs" />
@@ -101,6 +114,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EasyStocksErrorStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EasyStocksErrorStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="EasyStocksStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EasyStocksStrings.Designer.cs</LastGenOutput>
