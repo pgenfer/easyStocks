@@ -8,16 +8,42 @@
           <ResourceDictionary>
             <!-- bootstrapper must be in resource dictionary, otherwise it won't be called! -->
             <wpf:Bootstrapper x:Key="Bootstrapper"/>
-            <Style x:Key="Headline" TargetType="{x:Type TextBlock}">
+            <!-- basic TextBlock -->
+            <Style x:Key="TextBlockBase" TargetType="{x:Type TextBlock}">
+              <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <!-- title -->
+            <Style
+              x:Key="Title"
+              TargetType="{x:Type TextBlock}"
+              BasedOn="{StaticResource TextBlockBase}">
               <Style.Setters>
-                <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="FontSize" Value="20"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
               </Style.Setters>
             </Style>
-            <Style x:Key="Subtext" TargetType="{x:Type TextBlock}">
+            <Style
+              x:Key="Subheading"
+              TargetType="{x:Type TextBlock}"
+              BasedOn="{StaticResource TextBlockBase}">
               <Style.Setters>
-                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="16"/>
+              </Style.Setters>
+            </Style>
+            <!-- body1 -->
+            <Style
+              x:Key="Body1"
+              TargetType="{x:Type TextBlock}"
+              BasedOn="{StaticResource TextBlockBase}">
+              <Style.Setters>
+                <Setter Property="FontSize" Value="14"/>
+              </Style.Setters>
+            </Style>
+            <!-- caption -->
+            <Style
+              x:Key="Caption"
+              TargetType="{x:Type TextBlock}"
+              BasedOn="{StaticResource TextBlockBase}">
+              <Style.Setters>
                 <Setter Property="FontSize" Value="12"/>
               </Style.Setters>
             </Style>

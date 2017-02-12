@@ -117,7 +117,7 @@ namespace EasyStocks.Model.Account
                     }
                 }
             }
-            if(dailyInformations.Any()) // no need to fire update if no data was retrieved
+            if(changedAccountItems.Any()) // no need to fire update if no data was retrieved
                AccountItemsUpdated?.Invoke(changedAccountItems);
         }
 

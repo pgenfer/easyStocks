@@ -74,7 +74,7 @@ namespace EasyStocks.Setup
             SetupViewModel(Container);
         }
 
-        private static void SetupStorage(SimpleContainer container)
+        protected virtual void SetupStorage(SimpleContainer container)
         {
             // token provider is registered at location where assetmanager is available
             var tokenProvider = container.GetInstance<ITokenProvider>();

@@ -17,5 +17,9 @@ namespace EasyStocks.Platform
         public static readonly SolidColorBrush NeutralBrush = new SolidColorBrush(NeutralColor);
         public static readonly SolidColorBrush OkBrush = new SolidColorBrush(OkColor);
         public static readonly SolidColorBrush FailureBrush = new SolidColorBrush(FailureColor);
+
+        public static readonly SolidColorBrush PrimaryTextLightColorBrush = Brushes.White;
+        public static readonly SolidColorBrush PrimaryTextColorBrush = Brushes.Black;
+        public static readonly SolidColorBrush SecondaryTextColorBrush = Brushes.LightGray;
     }
 }

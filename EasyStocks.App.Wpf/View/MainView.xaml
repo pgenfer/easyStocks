@@ -4,9 +4,81 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyStocks.View"
+        xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=EasyStocks"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:platform="clr-namespace:EasyStocks.Platform"
+        xmlns:converter="clr-namespace:EasyStocks.App.Converter"
+        xmlns:converter1="clr-namespace:EasyStocks.Converter"
+        xmlns:converter2="clr-namespace:EasyStocks.App.Wpf.Converter"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="775" Width="375">
-  <ContentControl x:Name="ActiveItem"/>
+        Title="MainWindow" Height="775" Width="375"
+        d:DataContext="{d:DesignInstance viewModel:MainViewModel}">
+  <ListView
+     ItemsSource="{Binding Portfolio.Items}"
+     cal:Message.Attach="[Event SelectionChanged] = [OnAccountItemSelected]"
+     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+     ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <ListView.ItemTemplate>
+      <DataTemplate 
+        DataType="{x:Type viewModel:AccountItemSlot}">
+        <Grid
+          Margin="16,1">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*" />
+            <ColumnDefinition Width="25*" />
+            <ColumnDefinition Width="25*" />
+          </Grid.ColumnDefinitions>
+          <StackPanel
+            Orientation="Vertical"
+            VerticalAlignment="Center"
+            Grid.Column="0"
+            Grid.Row="0">
+            <TextBlock
+              Text="{Binding Name}"
+              Foreground="{Binding IsStopQuoteReached,Converter={converter:ColorToStopRateReachedConverter}}"
+              Background="{Binding IsStopQuoteReached,Converter={converter1:BooleanToWarningColor}}"
+              Style="{StaticResource Title}"
+              TextTrimming="CharacterEllipsis"/>
+            <TextBlock
+              Text="{Binding Symbol}"
+              Style="{StaticResource Body1}"
+              Foreground="{x:Static platform:CustomColors.SecondaryTextColorBrush}"/>
+          </StackPanel>
+          <TextBlock
+            Grid.Column="1"
+            Grid.Row="0"
+            Text="{Binding CurrentRate}"
+            Style="{StaticResource Title}"
+            Foreground="{x:Static platform:CustomColors.PrimaryTextColorBrush}"
+            HorizontalAlignment="Center"/>
+          <TextBlock
+            Grid.Column="2"
+            Grid.Row="0"
+            Padding="2"
+            Background="{Binding DailyTrend,Converter={converter1:RateChangeToColorConverter}}"
+            Text="{Binding DailyChangeInPercentString}"
+            Style="{StaticResource Title}"
+            Foreground="{Binding DailyTrend,Converter={converter2:RateChangeToTextColorConverter}}"
+            HorizontalAlignment="Center"/>
+          <!-- separator -->
+          <Separator
+            Grid.ColumnSpan="3"
+            Grid.Column="0"
+            Grid.Row="1"
+            Height="2"/>
+        </Grid>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+    <ListView.ItemContainerStyle>
+      <Style TargetType="ListViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      </Style>
+    </ListView.ItemContainerStyle>
+  </ListView>
 </Window>

@@ -12,31 +12,46 @@ namespace EasyStocks.App.Wpf.Platform
     public class WpfNavigationService : INavigationService
     {
         private readonly SimpleContainer _container;
+        private readonly IPortfolioRepository _portfolio;
 
-        public WpfNavigationService(SimpleContainer container)
+        public WpfNavigationService(
+            SimpleContainer container,
+            IPortfolioRepository portfolio)
         {
             _container = container;
+            _portfolio = portfolio;
         }
 
-        public void NavigateToCreateAccountItem(Share newShare, Portfolio portfolio)
+        public void NavigateToCreateAccountItem(ShareDailyInformation stockInformation)
         {
             var mainViewModel = _container.GetInstance<MainViewModel>();
-            var createAccountItemViewModel = 
-                new AccountItemCreateViewModel(this) {Parameter = Tuple.Create(newShare, portfolio)};
-            mainViewModel.ActivateItem(createAccountItemViewModel);
+            var accountItemCreateViewModel = new AccountItemCreateViewModel(this, _portfolio)
+            {
+                Parameter = stockInformation
+            };
+            mainViewModel.ActivateItem(accountItemCreateViewModel);
+
         }
 
-        public void NavigateToEditAccountItem(AccountItem accountItem, Portfolio portfolio)
+        public void NavigateToEditAccountItem(AccountItemId accountItemId)
         {
             var mainViewModel = _container.GetInstance<MainViewModel>();
-            var editAccountItemViewModel = new AccountItemEditViewModel(this) {Parameter = Tuple.Create(accountItem, portfolio)};
-            mainViewModel.ActivateItem(editAccountItemViewModel);
+            var accountItemEditViewModel = new AccountItemEditViewModel(this, _portfolio)
+            {
+                Parameter = accountItemId
+            };
+            mainViewModel.ActivateItem(accountItemEditViewModel);
         }
 
         public void NavigateToPortfolio()
         {
             var mainViewModel = _container.GetInstance<MainViewModel>();
-            mainViewModel.ActivateItem(mainViewModel.PortfolioAndSearch);
+            mainViewModel.ActivateItem(mainViewModel.Portfolio);
+        }
+
+        public void NavigateToSearchView()
+        {
+            throw new NotImplementedException();
         }
     }
 }
