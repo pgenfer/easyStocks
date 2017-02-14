@@ -52,6 +52,7 @@
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80}"
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
     <ActivityIndicator
+      Color="{x:Static platform:CustomColors.DividerColor}"
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5,  Constant=-20 }"
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-20 }" 
       IsRunning="{Binding IsBusy}"/>

@@ -168,4 +168,10 @@
   <data name="SymbolNotFound" xml:space="preserve">
     <value>Symbol was not found</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
 </root>

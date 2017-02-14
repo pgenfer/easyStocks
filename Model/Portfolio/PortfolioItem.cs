@@ -76,6 +76,8 @@ namespace EasyStocks.Model.Account
         public bool StopQuoteReached => CurrentRate < StopRate;
         public RateChange DailyTrend => DailyChange.GetTrend();
         public RateChange OverallTrend => OverallChange.GetTrend();
+        public DateTime LastTradingDate { get; private set; }
+
 
         private void RecalculateStopRate()
         {
@@ -98,8 +100,10 @@ namespace EasyStocks.Model.Account
         public bool Update(ShareDailyInformation dailyInformation)
         {
             // check if the current rate has changed compared to the last time
-            // we received the values.
-            var rateHasChanged = Math.Abs(dailyInformation.CurrentRate - CurrentRate) > 0.009;
+            // we received the values (the new rate must be newer than our last one
+            var rateHasChanged = 
+                dailyInformation.LastTradingDate > LastTradingDate && 
+                Math.Abs(dailyInformation.CurrentRate - CurrentRate) > 0.009;
             // if rate has changed, also update the stop rate
             if (rateHasChanged)
             {
@@ -107,6 +111,7 @@ namespace EasyStocks.Model.Account
                 CurrentRate = dailyInformation.CurrentRate;
                 DailyChange = dailyInformation.DailyChange;
                 DailyChangeInPercent = dailyInformation.DailyChangeInPercent;
+                LastTradingDate = dailyInformation.LastTradingDate;
                 RecalculateStopRate();
             }
             return rateHasChanged;

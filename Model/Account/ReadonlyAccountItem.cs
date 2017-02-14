@@ -1,4 +1,5 @@
-﻿using EasyStocks.ViewModel;
+﻿using System;
+using EasyStocks.ViewModel;
 
 namespace EasyStocks.Model
 {
@@ -11,6 +12,7 @@ namespace EasyStocks.Model
         public float DailyChangeInPercent { get; }
         public RateChange DailyTrend { get; }
         public bool IsStopQuoteReached { get; }
+        public DateTime LastTradingDate { get; }
 
         public ReadonlyAccountItem(
             AccountItemId id, 
@@ -19,13 +21,15 @@ namespace EasyStocks.Model
             float currentRate, 
             float dailyChangeInPercent, 
             RateChange dailyTrend, 
-            bool isStopQuoteReached) : 
+            bool isStopQuoteReached,
+            DateTime lastTradingDate) : 
                 base(id, shareName, symbol)
         {
             CurrentRate = currentRate;
             DailyChangeInPercent = dailyChangeInPercent;
             DailyTrend = dailyTrend;
             IsStopQuoteReached = isStopQuoteReached;
+            LastTradingDate = lastTradingDate;
         }
     }
 }

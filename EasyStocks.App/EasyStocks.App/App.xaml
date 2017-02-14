@@ -117,10 +117,25 @@
                 TextColor="{Binding IsStopQuoteReached,Converter={StaticResource TextColorToStopRate}}"
                 BackgroundColor="{Binding IsStopQuoteReached,Converter={StaticResource BackgroundColorToStopRate}}"
                 Style="{StaticResource Title}"/>
-              <Label
-                Text="{Binding Symbol}"
-                Style="{StaticResource Body1}"
-                TextColor="{x:Static platform:CustomColors.SecondaryTextColor}"/>
+              <Grid
+                RowSpacing="0"
+                ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                  Grid.Column="0"
+                  Text="{Binding Symbol}"
+                  Style="{StaticResource Body1}"
+                  TextColor="{x:Static platform:CustomColors.SecondaryTextColor}"/>
+                <Label
+                  Grid.Column="1"
+                  Text="{Binding LastTradingDateString}"
+                  Style="{StaticResource Body1}"
+                  TextColor="{x:Static platform:CustomColors.SecondaryTextColor}"
+                  HorizontalOptions="EndAndExpand"/>
+              </Grid>
             </StackLayout>
             <Label
               Grid.Column="1"

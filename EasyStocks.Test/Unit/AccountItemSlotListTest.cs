@@ -27,7 +27,9 @@ namespace EasyStocks.Test.Unit
                     "SECOND",
                     0.0f,
                     2.0f,
-                    RateChange.Positive,false);
+                    RateChange.Positive,
+                    false,
+                    DateTime.Now);
 
             var list = new AccountItemSlotList {third, first};
             list.AddNewAccountItem(second);
@@ -55,7 +57,9 @@ namespace EasyStocks.Test.Unit
                     "MINUS SECOND",
                     0.0f,
                     -2.0f,
-                    RateChange.Negative, false);
+                    RateChange.Negative,
+                    false,
+                    DateTime.Now);
             var list = new AccountItemSlotList { third, secondSlot,first };
             list.ChangeAccountItem(secondItem);
 
@@ -92,7 +96,9 @@ namespace EasyStocks.Test.Unit
                     "FIRST",
                     0.0f,
                     1.0f,
-                    RateChange.Negative, false);
+                    RateChange.Negative, 
+                    false,
+                    DateTime.Now);
             var list = new AccountItemSlotList { fourth,third,second,zero };
             list.ChangeAccountItem(thirdToFirst);
 
@@ -120,7 +126,9 @@ namespace EasyStocks.Test.Unit
                     "FIRST",
                     0.0f,
                     1.0f,
-                    RateChange.Negative, false);
+                    RateChange.Negative,
+                    false,
+                    DateTime.Now);
             var list = new AccountItemSlotList { fourth, secondSlot, zero };
             list.ChangeAccountItem(fourthToFirst);
 
@@ -147,7 +155,9 @@ namespace EasyStocks.Test.Unit
                     "SECOND",
                     0.0f,
                     2.0f,
-                    RateChange.Negative, false);
+                    RateChange.Negative,
+                    false,
+                    DateTime.Now);
             var list = new AccountItemSlotList { third, first, secondSlot };
             list.ChangeAccountItem(secondItem);
 
@@ -174,7 +184,9 @@ namespace EasyStocks.Test.Unit
                     "SECOND",
                     0.0f,
                     2.0f,
-                    RateChange.Negative, false);
+                    RateChange.Negative,
+                    false,
+                    DateTime.Now);
             var list = new AccountItemSlotList { third, secondSlot, first };
             list.ChangeAccountItem(secondItem);
 

@@ -20,10 +20,10 @@ namespace EasyStocks.Model
     public class YahooFinanceStockTicker : IStockTicker
     {
         private readonly IErrorService _errorService;
-        private readonly HttpClient _yahooFinanceClient = new HttpClient{BaseAddress = new Uri("https://query.yahooapis.com/v1/public/yql")};
+        private readonly HttpClient _yahooFinanceClient = new HttpClient { BaseAddress = new Uri("https://query.yahooapis.com/v1/public/yql") };
         private const string Format = "json";
         private const string Environment = "store://datatables.org/alltableswithkeys";
-        private readonly HttpClient _yahooFinanceLookupClient = new HttpClient {BaseAddress = new Uri("https://s.yimg.com/aq/autoc")};
+        private readonly HttpClient _yahooFinanceLookupClient = new HttpClient { BaseAddress = new Uri("https://s.yimg.com/aq/autoc") };
 
         public YahooFinanceStockTicker(IErrorService errorService)
         {
@@ -53,7 +53,7 @@ namespace EasyStocks.Model
                     var result = query.results;
                     var quote = result.quote;
                     // if there is only one item, we cannot iterate so we store them in a list
-                    var quotes = count == 0 ? new dynamic[] {} : count == 1 ? new[] {quote} : quote;
+                    var quotes = count == 0 ? new dynamic[] { } : count == 1 ? new[] { quote } : quote;
                     foreach (var entry in quotes)
                     {
                         var symbol = entry.symbol;
@@ -63,14 +63,29 @@ namespace EasyStocks.Model
                         var change = entry.Change;
 
                         if (ask != null && percentageChange != null && change != null)
-                            dailyInformations.Add(new ShareDailyInformation(
+                        {
+
+                            var shareDailyData = new ShareDailyInformation(
                                 symbol.ToString(),
                                 name.ToString(),
                                 float.Parse(
                                     ask.ToString(CultureInfo.InvariantCulture),
                                     CultureInfo.InvariantCulture),
                                 StockDataParser.DailyChangeFromString(change.ToString()),
-                                StockDataParser.DailyChangeInPercentFromString(percentageChange.ToString())));
+                                StockDataParser.DailyChangeInPercentFromString(percentageChange.ToString()));
+
+                            // also try to store the last trading date we have for this stock
+                            var dateAndTime = $"{entry.LastTradeDate} {entry.LastTradeTime}";
+                            DateTime dateTimeResult;
+                            if (DateTime.TryParse(
+                                dateAndTime,
+                                new CultureInfo("en-US"),
+                                DateTimeStyles.None,
+                                out dateTimeResult))
+                                shareDailyData.LastTradingDate = dateTimeResult;
+
+                            dailyInformations.Add(shareDailyData);
+                        }
                     }
 
                 }

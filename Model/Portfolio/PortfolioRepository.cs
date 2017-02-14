@@ -52,7 +52,8 @@ namespace EasyStocks.Model.Account
                 portfolioItem.CurrentRate,
                 portfolioItem.DailyChangeInPercent,
                 portfolioItem.DailyTrend,
-                portfolioItem.StopQuoteReached);
+                portfolioItem.StopQuoteReached,
+                portfolioItem.LastTradingDate);
         }
 
         public event Action<IEnumerable<ReadonlyAccountItem>> AccountItemsUpdated;
@@ -88,7 +89,8 @@ namespace EasyStocks.Model.Account
                 portfolioItem.CurrentRate,
                 portfolioItem.DailyChangeInPercent,
                 portfolioItem.DailyTrend,
-                portfolioItem.StopQuoteReached));
+                portfolioItem.StopQuoteReached,
+                portfolioItem.LastTradingDate));
         }
 
         public void FirePortfolioLoaded() => PortfolioLoaded?.Invoke(GetAllAccountItems());

@@ -50,6 +50,7 @@
     <Compile Include="Error\IErrorService.cs" />
     <Compile Include="Error\Severity.cs" />
     <Compile Include="Error\ThrowExceptionErrorService.cs" />
+    <Compile Include="Extension\DateTimeExtension.cs" />
     <Compile Include="Storage\Dropbox\DropBoxStorage.cs" />
     <Compile Include="Storage\Dropbox\ITokenProvider.cs" />
     <Compile Include="Storage\IFileSystemStorage.cs" />

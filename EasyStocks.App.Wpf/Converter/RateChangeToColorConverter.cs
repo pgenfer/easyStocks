@@ -19,7 +19,7 @@ namespace EasyStocks.Converter
         {
             var rateChange = (RateChange)value;
             return rateChange == RateChange.NoChange
-                ? CustomColors.NeutralBrush
+                ? Brushes.Transparent 
                 : rateChange == RateChange.Negative
                     ? CustomColors.FailureBrush
                     : CustomColors.OkBrush;

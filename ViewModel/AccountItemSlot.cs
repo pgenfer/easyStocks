@@ -1,3 +1,4 @@
+using System;
 using Caliburn.Micro;
 using EasyStocks.Extension;
 using EasyStocks.Model;
@@ -13,7 +14,8 @@ namespace EasyStocks.ViewModel
         private float _dailyChangeInPercent;
         private RateChange _dailyTrend;
         private bool _isStopQuoteReached;
-       
+        private DateTime _lastTradingDate;
+
         public float DailyChangeInPercent
         {
             get { return _dailyChangeInPercent; }
@@ -80,6 +82,18 @@ namespace EasyStocks.ViewModel
             }
         }
 
+        public DateTime LastTradingDate
+        {
+            get { return _lastTradingDate; }
+            private set
+            {
+                if (value.Equals(_lastTradingDate)) return;
+                _lastTradingDate = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LastTradingDateString));
+            }
+        }
+
         public AccountItemSlot(
             AccountItemId id,
             string symbol,
@@ -117,6 +131,7 @@ namespace EasyStocks.ViewModel
             DailyChangeInPercent = accountItem.DailyChangeInPercent;
             DailyTrend = accountItem.DailyTrend;
             IsStopQuoteReached = accountItem.IsStopQuoteReached;
+            LastTradingDate = accountItem.LastTradingDate;
         }
 
         public AccountItemSlotCopy Copy()
@@ -128,7 +143,8 @@ namespace EasyStocks.ViewModel
                 CurrentRate,
                 DailyChangeInPercent,
                 DailyTrend,
-                IsStopQuoteReached);
+                IsStopQuoteReached,
+                LastTradingDate);
         }
 
         public void Set(AccountItemSlotCopy copy)
@@ -140,8 +156,10 @@ namespace EasyStocks.ViewModel
             DailyChangeInPercent = copy.DailyChange;
             DailyTrend = copy.DailyTrend;
             IsStopQuoteReached = copy.IsStopQuoteReached;
+            LastTradingDate = copy.LastTradingDate;
         }
 
         public override string ToString() => $"{Symbol} ({DailyChangeInPercentString})";
+        public string LastTradingDateString => $"{LastTradingDate.ToDailyString()}, {LastTradingDate:HH:mm}";
     }
 }

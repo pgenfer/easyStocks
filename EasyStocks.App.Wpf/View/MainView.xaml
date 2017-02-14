@@ -21,7 +21,7 @@
      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
      ScrollViewer.VerticalScrollBarVisibility="Auto">
     <ListView.ItemTemplate>
-      <DataTemplate 
+      <DataTemplate
         DataType="{x:Type viewModel:AccountItemSlot}">
         <Grid
           Margin="16,1">
@@ -45,10 +45,19 @@
               Background="{Binding IsStopQuoteReached,Converter={converter1:BooleanToWarningColor}}"
               Style="{StaticResource Title}"
               TextTrimming="CharacterEllipsis"/>
-            <TextBlock
-              Text="{Binding Symbol}"
-              Style="{StaticResource Body1}"
-              Foreground="{x:Static platform:CustomColors.SecondaryTextColorBrush}"/>
+            <!-- show symbol and last trading time -->
+            <DockPanel>
+              <TextBlock
+                DockPanel.Dock="Right"
+                Text="{Binding LastTradingDateString}"
+                Style="{StaticResource Body1}"
+                Foreground="{x:Static platform:CustomColors.SecondaryTextColorBrush}"/>
+              <TextBlock
+                DockPanel.Dock="Left"
+                Text="{Binding Symbol}"
+                Style="{StaticResource Body1}"
+                Foreground="{x:Static platform:CustomColors.SecondaryTextColorBrush}"/>
+            </DockPanel>
           </StackPanel>
           <TextBlock
             Grid.Column="1"

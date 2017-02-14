@@ -1,4 +1,6 @@
-﻿namespace EasyStocks.Model
+﻿using System;
+
+namespace EasyStocks.Model
 {
     /// <summary>
     /// the data that will be updated daily for this share
@@ -11,7 +13,8 @@
         public float CurrentRate { get; }
         public float DailyChange { get;}
         public float DailyChangeInPercent { get; }
-
+        public DateTime LastTradingDate { get; set; }
+        
         public ShareDailyInformation(
             string symbol,
             string shareName,
