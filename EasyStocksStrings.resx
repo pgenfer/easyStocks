@@ -138,6 +138,9 @@
   <data name="ChangePercent" xml:space="preserve">
     <value>Change (%)</value>
   </data>
+  <data name="EasyStocks" xml:space="preserve">
+    <value>easyStocks</value>
+  </data>
   <data name="EnterStockSymbol" xml:space="preserve">
     <value>Enter stock symbol here </value>
   </data>

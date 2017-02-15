@@ -16,7 +16,7 @@ namespace EasyStocks.ViewModel
     /// mainview model which is responsible for the navigation within
     /// the application.
     /// </summary>
-    public class MainViewModel : Conductor<object>.Collection.OneActive
+    public class MainViewModel : Screen
     {
         private readonly IPortfolioRepository _portfolio;
         private readonly INavigationService _navigationService;
@@ -75,11 +75,6 @@ namespace EasyStocks.ViewModel
         {
             _navigationService.NavigateToSearchView();
         }
-
-        /// <summary>
-        /// show the portfolio and search view as soon as the main view is activated
-        /// </summary>
-        protected override void OnActivate() => _navigationService.NavigateToPortfolio();
 
         private void OnEditAccountViewModel(AccountItemId accountItem)
         {

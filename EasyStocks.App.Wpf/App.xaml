@@ -18,7 +18,7 @@
               TargetType="{x:Type TextBlock}"
               BasedOn="{StaticResource TextBlockBase}">
               <Style.Setters>
-                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontSize" Value="20"/> 
               </Style.Setters>
             </Style>
             <Style
@@ -45,6 +45,16 @@
               BasedOn="{StaticResource TextBlockBase}">
               <Style.Setters>
                 <Setter Property="FontSize" Value="12"/>
+              </Style.Setters>
+            </Style>
+            <!-- Button -->
+            <Style 
+              TargetType="{x:Type Button}"
+              x:Key="ButtonStyle">
+              <Style.Setters>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Width" Value="125"/>
+                <Setter Property="Margin" Value="10"/>
               </Style.Setters>
             </Style>
           </ResourceDictionary>

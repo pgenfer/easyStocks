@@ -8,6 +8,7 @@ using EasyStocks.App.Wpf.Platform;
 using EasyStocks.Dto;
 using EasyStocks.Model;
 using EasyStocks.Setup;
+using EasyStocks.View;
 using EasyStocks.ViewModel;
 
 namespace EasyStocks.App.Wpf
@@ -31,13 +32,16 @@ namespace EasyStocks.App.Wpf
             _bootstrapperLogic.SetupContainer();
             // show view models before loading model,
             // otherwise view models cannot register for model changes
-            DisplayRootViewFor<MainViewModel>();
+            DisplayRootViewFor<RootViewModel>();
             await _bootstrapperLogic.LoadModelFromStorage();
             _bootstrapperLogic.StartNotification();
         }
 
         private void SetupViewLocators()
         {
+            _bootstrapperLogic.Container.Singleton<RootViewModel>();
+            _bootstrapperLogic.Container.Singleton<RootView>();
+            
             // mapping viewmodel and views from different assemblies
             // can be difficult, so configure the mapping explicitly:
             // http://www.jerriepelser.com/blog/split-views-and-viewmodels-in-caliburn-micro/

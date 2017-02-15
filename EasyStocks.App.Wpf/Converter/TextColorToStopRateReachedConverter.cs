@@ -13,11 +13,15 @@ namespace EasyStocks.App.Converter
     /// of the account item was reached. Another converter is responsible for changing
     /// the background color. User can define the color when creating the converter.
     /// </summary>
-    public class ColorToStopRateReachedConverter : MarkupExtension, IValueConverter
+    public class TextColorToStopRateReachedConverter : MarkupExtension, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool) value ? CustomColors.FailureBrush : CustomColors.PrimaryTextColorBrush;
+            // if the stop rate is reached, the background will become red,
+            // so the text color must become lighter
+            return (bool) value ? 
+                CustomColors.PrimaryTextLightColorBrush : 
+                CustomColors.PrimaryTextColorBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

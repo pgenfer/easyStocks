@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using EasyStocks.Model;
 using EasyStocks.ViewModel;
 
@@ -13,45 +8,51 @@ namespace EasyStocks.App.Wpf.Platform
     {
         private readonly SimpleContainer _container;
         private readonly IPortfolioRepository _portfolio;
+        private readonly IStockTicker _stockTicker;
 
         public WpfNavigationService(
             SimpleContainer container,
-            IPortfolioRepository portfolio)
+            IPortfolioRepository portfolio,
+            IStockTicker stockTicker)
         {
             _container = container;
             _portfolio = portfolio;
+            _stockTicker = stockTicker;
         }
 
         public void NavigateToCreateAccountItem(ShareDailyInformation stockInformation)
         {
-            var mainViewModel = _container.GetInstance<MainViewModel>();
+            var rootViewModel = _container.GetInstance<RootViewModel>();
             var accountItemCreateViewModel = new AccountItemCreateViewModel(this, _portfolio)
             {
                 Parameter = stockInformation
             };
-            mainViewModel.ActivateItem(accountItemCreateViewModel);
-
+            rootViewModel.ActivateItem(accountItemCreateViewModel);
         }
 
         public void NavigateToEditAccountItem(AccountItemId accountItemId)
         {
-            var mainViewModel = _container.GetInstance<MainViewModel>();
+            var rootViewModel = _container.GetInstance<RootViewModel>();
             var accountItemEditViewModel = new AccountItemEditViewModel(this, _portfolio)
             {
                 Parameter = accountItemId
             };
-            mainViewModel.ActivateItem(accountItemEditViewModel);
+            rootViewModel.ActivateItem(accountItemEditViewModel);
+
         }
 
         public void NavigateToPortfolio()
         {
+            var rootViewModel = _container.GetInstance<RootViewModel>();
             var mainViewModel = _container.GetInstance<MainViewModel>();
-            mainViewModel.ActivateItem(mainViewModel.Portfolio);
+            rootViewModel.ActivateItem(mainViewModel);
         }
 
         public void NavigateToSearchView()
         {
-            throw new NotImplementedException();
+            var rootViewModel = _container.GetInstance<RootViewModel>();
+            var searchViewModel = new SearchShareViewModel(_stockTicker, this);
+            rootViewModel.ActivateItem(searchViewModel);
         }
     }
 }

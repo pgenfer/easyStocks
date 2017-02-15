@@ -125,6 +125,15 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to easyStocks.
+        /// </summary>
+        public static string EasyStocks {
+            get {
+                return ResourceManager.GetString("EasyStocks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter stock symbol here .
         /// </summary>
         public static string EnterStockSymbol {

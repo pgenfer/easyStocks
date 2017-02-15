@@ -5,27 +5,106 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
              xmlns:platform="clr-namespace:EasyStocks.Platform"
+             xmlns:converter="clr-namespace:EasyStocks.Converter"
+             xmlns:converter1="clr-namespace:EasyStocks.App.Wpf.Converter"
+             xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=EasyStocks"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModel:AccountItemCreateViewModel}">
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <ContentControl x:Name="AccountData"/>
-    <Button
-    Grid.Row="1"
-    VerticalAlignment="Bottom"
-    Content="{x:Static easyStocks:EasyStocksStrings.AddToPortfolio}"
-    x:Name="CreateAccountItem"
-    Margin="20"
-    Foreground="{x:Static platform:CustomColors.OkBrush}"/>
-    <Button
-    Grid.Row="2"
-    VerticalAlignment="Bottom"
-    Content="{x:Static easyStocks:EasyStocksStrings.Cancel}"
-    x:Name="Cancel"
-    Margin="20"/>
+    <!-- header with share name -->
+    <Grid
+      Grid.Row="0"
+      Margin="16,16,16,8">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="75*"/>
+        <ColumnDefinition Width="25*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock
+        Grid.Row="0"
+        Grid.Column="0"
+        Text="{Binding ShareName}"
+        Style="{StaticResource Title}"/>
+      <TextBlock
+        Grid.Row="1"
+        Grid.Column="0"
+        Text="{Binding Symbol}"
+        Style="{StaticResource Body1}"/>
+      <TextBlock
+        Grid.Row="0"
+        Grid.RowSpan="2"
+        Grid.Column="1"
+        Background="{Binding DailyTrend,Converter={converter:RateChangeToColorConverter}}"
+        Text="{Binding DailyChangeInPercentString}"
+        Style="{StaticResource Title}"
+        Foreground="{Binding DailyTrend,Converter={converter1:RateChangeToTextColorConverter}}"/>
+    </Grid>
+    <!-- input data -->
+    <Grid
+      Margin="16"
+      Grid.Row="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <!-- rate -->
+      <TextBlock
+        Grid.Row="0"
+        Grid.Column="0"
+        Text="{x:Static easyStocks:EasyStocksStrings.BuyingQuote}"
+        Style="{StaticResource Caption}"/>
+      <TextBox
+        Grid.Row="0"
+        Grid.Column="1"
+        Text="{Binding CurrentRate}"/>
+      <!-- date -->
+      <TextBlock
+        Grid.Row="1"
+        Grid.Column="0"
+        Text="{x:Static easyStocks:EasyStocksStrings.BuyingDate}"
+        Style="{StaticResource Caption}"/>
+      <DatePicker
+        Grid.Row="1"
+        Grid.Column="1"
+        SelectedDate="{Binding BuyingDate}"/>
+      <TextBlock
+        Grid.Row="2"
+        Grid.Column="0"
+        Text="{x:Static easyStocks:EasyStocksStrings.StopQuote}"
+        Style="{StaticResource Caption}"/>
+      <TextBlock
+        Margin="5,8"
+        Grid.Row="2"
+        Grid.Column="1"
+        Text="{Binding StopRate}"
+        Style="{StaticResource Title}"/>
+    </Grid>
+    <StackPanel
+      Grid.Row="2"
+      Orientation="Horizontal"
+      HorizontalAlignment="Right">
+      <Button
+        Style="{StaticResource ButtonStyle}"
+        Content="{x:Static easyStocks:EasyStocksStrings.AddShare}"
+        Command="{Binding CreateAccountItemCommand}"/>
+      <Button
+        Style="{StaticResource ButtonStyle}"
+        Content="{x:Static easyStocks:EasyStocksStrings.Cancel}"
+        x:Name="TryClose"/>
+    </StackPanel>
   </Grid>
 </UserControl>

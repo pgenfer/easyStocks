@@ -73,6 +73,12 @@ namespace EasyStocks.ViewModel
             set { Setup(value); }
         }
 
+        public void RemoveAccountItemFromPortfolio()
+        {
+            _portfolio.RemoveAccountItem(_accountItem.Id);
+            _navigationService.NavigateToPortfolio();
+        }
+
         public void ConfirmChanges()
         {
             _portfolio.WriteDataToAccountItem(new UserChangeableAccountData(

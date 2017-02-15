@@ -1,0 +1,20 @@
+﻿<Window x:Class="EasyStocks.View.RootView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:EasyStocks.ViewModel"
+        xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen"
+        Height="775" 
+        Width="375"
+        d:DataContext="{d:DesignInstance viewModel:RootViewModel}">
+  <!-- 
+  the root view is the host for all other views,
+  navigating between the views can be done by
+  replacing the ActiveItem of the RootViewModel
+  -->
+ <ContentControl x:Name="ActiveItem"/>
+</Window>
