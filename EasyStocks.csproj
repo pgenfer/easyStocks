@@ -51,8 +51,9 @@
     <Compile Include="Error\Severity.cs" />
     <Compile Include="Error\ThrowExceptionErrorService.cs" />
     <Compile Include="Extension\DateTimeExtension.cs" />
+    <Compile Include="Settings\ISettingsService.cs" />
+    <Compile Include="Settings\ApplicationSettings.cs" />
     <Compile Include="Storage\Dropbox\DropBoxStorage.cs" />
-    <Compile Include="Storage\Dropbox\ITokenProvider.cs" />
     <Compile Include="Storage\IFileSystemStorage.cs" />
     <Compile Include="Storage\IStorage.cs" />
     <Compile Include="EasyStocksStrings.Designer.cs">
@@ -82,6 +83,7 @@
     <Compile Include="Model\Share\ShareDailyInformation.cs" />
     <Compile Include="Model\YahooStockTicker.cs" />
     <Compile Include="Setup\BootstrapperHelper.cs" />
+    <Compile Include="Storage\StorageType.cs" />
     <Compile Include="Storage\StorageWithBackupStrategy.cs" />
     <Compile Include="Styles\ColorValues.cs" />
     <Compile Include="ViewModel\AccountItemCreateViewModel.cs" />
@@ -89,12 +91,16 @@
     <Compile Include="ViewModel\AccountItemSlot.cs" />
     <Compile Include="ViewModel\AccountItemSlotCopy.cs" />
     <Compile Include="ViewModel\AccountItemSlotList.cs" />
+    <Compile Include="ViewModel\AwaitableViewModel.cs" />
+    <Compile Include="ViewModel\DropboxLoginViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\INavigationService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PortfolioViewModel.cs" />
     <Compile Include="ViewModel\RateChange.cs" />
     <Compile Include="ViewModel\SearchShareViewModel.cs" />
+    <Compile Include="ViewModel\StorageSelection.cs" />
+    <Compile Include="ViewModel\StorageSelectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">

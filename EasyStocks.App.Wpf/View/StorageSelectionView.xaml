@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="EasyStocks.View.StorageSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:platform="clr-namespace:EasyStocks.Platform"
+             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
+             xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=EasyStocks"
+             xmlns:storage="clr-namespace:EasyStocks.Storage;assembly=EasyStocks"
+             mc:Ignorable="d">
+  <Grid
+    Margin="50,20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <TextBlock
+      Grid.Row="0"
+      Text="{x:Static easyStocks:EasyStocksStrings.ChooseStorage}"
+      Style="{StaticResource Title}"
+      TextWrapping="Wrap"/>
+    <ListView
+      Grid.Row="1"
+      ItemsSource="{Binding Items}"
+      SelectedItem="{Binding SelectedItem}"
+      VerticalAlignment="Center"
+      BorderThickness="0">
+      <ListView.ItemTemplate>
+        <DataTemplate DataType="{x:Type viewModel:StorageSelection}">
+          <StackPanel 
+            Orientation="Horizontal">
+            <Image Width="64" Height="64">
+              <Image.Style>
+                <Style>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding StorageType}" Value="{x:Static storage:StorageType.DropBox}">
+                      <Setter Property="Image.Source" Value="{StaticResource DropboxLogo}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding StorageType}" Value="{x:Static storage:StorageType.Local}">
+                      <Setter Property="Image.Source" Value="{StaticResource WindowsLogo}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </Image.Style>
+            </Image>
+            <TextBlock
+              Margin="10,0,0,0"
+              Style="{StaticResource Title}"
+              HorizontalAlignment="Left"
+              TextAlignment="Left"
+              Text="{Binding StorageName}"
+              Foreground="{x:Static platform:CustomColors.PrimaryTextColorBrush}"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+</UserControl>

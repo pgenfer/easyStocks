@@ -1,21 +1,29 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Caliburn.Micro.Xamarin.Forms;
 using EasyStocks.Model;
+using EasyStocks.Settings;
 using EasyStocks.ViewModel;
 using Xamarin.Forms;
 using INavigationService = EasyStocks.ViewModel.INavigationService;
 using IXamarinNavigationService = Caliburn.Micro.Xamarin.Forms.INavigationService;
+using Caliburn.Micro;
 
 namespace EasyStocks.App.Platform
 {
     public class XamarinNavigationServiceAdapter : INavigationService
     {
         private readonly IXamarinNavigationService _xamarinNavigationService;
+        // container is needed so that we can create view models directly
+        private readonly SimpleContainer _container;
         private int _pageCount = 0; // we count how many pages were added to the root page so we know when we reach the top
 
-        public XamarinNavigationServiceAdapter(IXamarinNavigationService xamarinNavigationService)
+        public XamarinNavigationServiceAdapter(
+            IXamarinNavigationService xamarinNavigationService,
+            SimpleContainer container)
         {
             _xamarinNavigationService = xamarinNavigationService;
+            _container = container;
         }
 
         public void NavigateToCreateAccountItem(ShareDailyInformation shareInfo)
@@ -44,6 +52,24 @@ namespace EasyStocks.App.Platform
         {
             _pageCount++;
             _xamarinNavigationService.NavigateToViewModelAsync<SearchShareViewModel>();
+        }
+
+        public async Task NavigateToStorageSelection(ApplicationSettings settings)
+        {
+            _pageCount++;
+            // there is only one instance of this view model, so we can get it from the container
+            var selectStorageByUser = _container.GetInstance<StorageSelectionViewModel>();
+            await _xamarinNavigationService.NavigateToViewModelAsync<StorageSelectionViewModel>(settings);
+            // when the dialog closes, it should set its task state
+            await selectStorageByUser.ViewModelClosedTask;
+        }
+
+        public async Task NavigateToDropBoxLogin(ApplicationSettings settings)
+        {
+            _pageCount++;
+            var dropboxLogin = _container.GetInstance<DropboxLoginViewModel>();
+            await _xamarinNavigationService.NavigateToViewModelAsync<DropboxLoginViewModel>(settings);
+            await dropboxLogin.ViewModelClosedTask;
         }
     }
 }

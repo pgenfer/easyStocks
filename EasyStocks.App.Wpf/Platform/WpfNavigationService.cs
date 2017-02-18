@@ -1,5 +1,7 @@
-﻿using Caliburn.Micro;
+﻿using System.Threading.Tasks;
+using Caliburn.Micro;
 using EasyStocks.Model;
+using EasyStocks.Settings;
 using EasyStocks.ViewModel;
 
 namespace EasyStocks.App.Wpf.Platform
@@ -53,6 +55,22 @@ namespace EasyStocks.App.Wpf.Platform
             var rootViewModel = _container.GetInstance<RootViewModel>();
             var searchViewModel = new SearchShareViewModel(_stockTicker, this);
             rootViewModel.ActivateItem(searchViewModel);
+        }
+
+        public async Task NavigateToStorageSelection(ApplicationSettings settings)
+        {
+            var rootViewModel = _container.GetInstance<RootViewModel>();
+            var storageSelectionViewModel = new StorageSelectionViewModel {Parameter = settings};
+            rootViewModel.ActivateItem(storageSelectionViewModel);
+            await storageSelectionViewModel.ViewModelClosedTask;
+        }
+
+        public async Task NavigateToDropBoxLogin(ApplicationSettings settings)
+        {
+            var rootViewModel = _container.GetInstance<RootViewModel>();
+            var dropboxLoginViewModel = new DropboxLoginViewModel(this) { Parameter = settings };
+            rootViewModel.ActivateItem(dropboxLoginViewModel);
+            await dropboxLoginViewModel.ViewModelClosedTask;
         }
     }
 }

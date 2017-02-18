@@ -289,3 +289,7 @@ $RECYCLE.BIN/
 
 # ignore token files
 *.token
+
+# ignore temp folder
+tmp/
+temp/

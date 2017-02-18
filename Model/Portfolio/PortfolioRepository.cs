@@ -145,5 +145,12 @@ namespace EasyStocks.Model.Account
                 Symbol = x.Symbol
             });
         }
+
+        public void RegisterSerializerForChanges(PortfolioSerializer serializer)
+        {
+            AccountItemAdded += async _ => await serializer.SaveAsync(this);
+            AccountItemRemoved += async _ => await serializer.SaveAsync(this);
+            AccountItemsUpdated += async _ => await serializer.SaveAsync(this);
+        }
     }
 }

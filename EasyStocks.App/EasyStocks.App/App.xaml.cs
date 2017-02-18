@@ -41,17 +41,8 @@ namespace EasyStocks.App
             // this is a bit weird, but in order to have a working navigation, you have
             // to start with a View and not with a ViewModel. See here:
             // https://github.com/Caliburn-Micro/Caliburn.Micro/issues/71
-            try
-            {
-                DisplayRootView<MainView>();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            
-            await _bootstrapper.LoadModelFromStorage();
-            _bootstrapper.StartNotification();
+            DisplayRootView<MainView>();
+            await _bootstrapper.StartApplication();
         }
 
         protected override void PrepareViewFirst(NavigationPage navigationPage)

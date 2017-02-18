@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Model;
+using EasyStocks.Settings;
 
 namespace EasyStocks.ViewModel
 {
@@ -16,5 +17,7 @@ namespace EasyStocks.ViewModel
         void NavigateToEditAccountItem(AccountItemId accountItemId);
         void NavigateToPortfolio();
         void NavigateToSearchView();
+        Task NavigateToStorageSelection(ApplicationSettings settings);
+        Task NavigateToDropBoxLogin(ApplicationSettings settings);
     }
 }

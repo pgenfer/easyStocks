@@ -13,14 +13,14 @@ namespace EasyStocks.Storage.Dropbox
 {
     public class DropBoxStorage : JsonBaseStorage
     {
-        private readonly ITokenProvider _tokenProvider;
+        private readonly string _token;
         private readonly IErrorService _errorService;
 
         public DropBoxStorage(
-            ITokenProvider tokenProvider, 
+            string token, 
             IErrorService errorService)
         {
-            _tokenProvider = tokenProvider;
+            _token = token;
             _errorService = errorService;
         }
 
@@ -28,7 +28,7 @@ namespace EasyStocks.Storage.Dropbox
         {
             try
             {
-                using (var client = new DropboxClient(_tokenProvider.Token))
+                using (var client = new DropboxClient(_token))
                 {
                     var response = await client.Files.DownloadAsync("/easystocks.json");
                     if (response != null)
@@ -51,7 +51,7 @@ namespace EasyStocks.Storage.Dropbox
         {
             try
             {
-                using (var client = new DropboxClient(_tokenProvider.Token))
+                using (var client = new DropboxClient(_token))
                 {
                     var content = ToJson(portfolio);
                     var commitInfo = new CommitInfo("/easystocks.json",WriteMode.Overwrite.Instance,mute:true);
@@ -66,12 +66,12 @@ namespace EasyStocks.Storage.Dropbox
 
         public override Task<bool> HasDataAsync()
         {
-           throw new NotImplementedException("Dropbox Storage should not need HasData");
+           throw new NotImplementedException("Dropbox StorageType should not need HasData");
         }
 
         public override Task ClearAsync()
         {
-            throw new NotImplementedException("Dropbox Storage should not need Clear");
+            throw new NotImplementedException("Dropbox StorageType should not need Clear");
         }
     }
 }

@@ -4,6 +4,14 @@
              xmlns:wpf="clr-namespace:EasyStocks.App.Wpf">
     <Application.Resources>
       <ResourceDictionary>
+        <!-- 
+        images 
+        Important: Images must be outside the MergedDictionaries, otherwise you get a "IsFrozen=false" exception
+        See here:
+        http://stackoverflow.com/questions/41469750/trying-to-add-an-image-on-the-window-throws-bitmapimage-must-have-isfrozen-set
+        -->
+        <BitmapImage x:Key="DropboxLogo" UriSource="Resources/Images/dropbox_logo.png"/>
+        <BitmapImage x:Key="WindowsLogo" UriSource="Resources/Images/windows_10_logo.png"/>
         <ResourceDictionary.MergedDictionaries>
           <ResourceDictionary>
             <!-- bootstrapper must be in resource dictionary, otherwise it won't be called! -->

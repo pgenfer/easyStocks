@@ -138,6 +138,15 @@
   <data name="ChangePercent" xml:space="preserve">
     <value>Change (%)</value>
   </data>
+  <data name="ChooseStorage" xml:space="preserve">
+    <value>Where do you want to store your portfolio?</value>
+  </data>
+  <data name="ChooseStorageTitle" xml:space="preserve">
+    <value>Choose your storage</value>
+  </data>
+  <data name="Dropbox" xml:space="preserve">
+    <value>Dropbox</value>
+  </data>
   <data name="EasyStocks" xml:space="preserve">
     <value>easyStocks</value>
   </data>
@@ -146,6 +155,12 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="LocalDevice" xml:space="preserve">
+    <value>On my device</value>
+  </data>
+  <data name="LoginToDropbox" xml:space="preserve">
+    <value>Login to your Dropbox</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>

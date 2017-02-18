@@ -33,8 +33,7 @@ namespace EasyStocks.App.Wpf
             // show view models before loading model,
             // otherwise view models cannot register for model changes
             DisplayRootViewFor<RootViewModel>();
-            await _bootstrapperLogic.LoadModelFromStorage();
-            _bootstrapperLogic.StartNotification();
+            await _bootstrapperLogic.StartApplication();
         }
 
         private void SetupViewLocators()

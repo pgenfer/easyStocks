@@ -8,9 +8,11 @@ using EasyStocks.Dto;
 using EasyStocks.Error;
 using EasyStocks.Model;
 using EasyStocks.Model.Account;
+using EasyStocks.Settings;
 using EasyStocks.Storage;
 using EasyStocks.Storage.Dropbox;
 using EasyStocks.ViewModel;
+
 
 namespace EasyStocks.Setup
 {
@@ -41,15 +43,6 @@ namespace EasyStocks.Setup
             container.Instance<IPortfolioRepository>(portfolio);
             container.Instance<IPortfolioPersistentRepository>(portfolio);
             container.Instance<IPortfolioUpdateRepository>(portfolio);
-
-            var storage = container.GetInstance<IStorage>();
-            // serializer used to save portfolio data
-            var serializer = new PortfolioSerializer(storage);
-
-            // save the portfolio whenever it changes
-            portfolio.AccountItemAdded += async _ => await serializer.SaveAsync(portfolio);
-            portfolio.AccountItemRemoved += async _ => await serializer.SaveAsync(portfolio);
-            portfolio.AccountItemsUpdated += async _ => await serializer.SaveAsync(portfolio);
         }
 
         private static void SetupViewModel(SimpleContainer container)
@@ -60,6 +53,8 @@ namespace EasyStocks.Setup
             // https://github.com/Caliburn-Micro/Caliburn.Micro/issues/182
             container.PerRequest<AccountItemCreateViewModel>();
             container.PerRequest<AccountItemEditViewModel>();
+            container.Singleton<StorageSelectionViewModel>();
+            container.Singleton<DropboxLoginViewModel>();
         }
 
         public void SetupContainer()
@@ -67,43 +62,113 @@ namespace EasyStocks.Setup
             // register error service as soon as possible to track all problems
             // during setup
             Container.Instance<IErrorService>(new ErrorService());
-
             RegisterPlatformDependentServices(Container);
-            SetupStorage(Container);
+            SetupApplicationSettings(Container);
             SetupModel(Container);
             SetupViewModel(Container);
         }
 
-        protected virtual void SetupStorage(SimpleContainer container)
+        private static void SetupApplicationSettings(SimpleContainer container)
         {
-            // token provider is registered at location where assetmanager is available
-            var tokenProvider = container.GetInstance<ITokenProvider>();
-            var fileStorage = container.GetInstance<IFileSystemStorage>();
-            var errorService = container.GetInstance<IErrorService>();
-            // use drop box as default storage and the file system as failover
-            container.Instance<IStorage>(
-                new StorageWithBackupStrategy(
-                    new DropBoxStorage(
-                        tokenProvider,
-                        new ThrowExceptionErrorService()),
-                    fileStorage,
-                    errorService));
+            var settingsService = container.GetInstance<ISettingsService>();
+            var settings = new ApplicationSettings(settingsService);
+            container.Instance(settings);
         }
 
-        public async Task LoadModelFromStorage()
+        public async Task StartApplication()
+        {
+            await SetupStorage(Container);
+            await LoadModelFromStorage();
+            StartNotification();
+        }
+
+        /// <summary>
+        /// loads the portfolio data from the storage 
+        /// and also tries to load stock data initially.
+        /// </summary>
+        /// <returns></returns>
+        private async Task LoadModelFromStorage()
         {
             var storage = Container.GetInstance<IStorage>();
             var portfolio = Container.GetInstance<PortfolioRepository>();
             var stockTicker = Container.GetInstance<IStockTicker>();
-
+            
             var deserializer = new PortfolioSerializer(storage);
             await deserializer.LoadAsync(portfolio);
             await portfolio.CheckForUpdatesAsync(stockTicker);
             portfolio.FirePortfolioLoaded();
         }
 
-        public void StartNotification()
+        /// <summary>
+        /// checks what storage to use for the portfolio.
+        /// If no settings were stored so far, the user is ask
+        /// </summary>
+        private async Task CheckStorageForFirstTime()
         {
+            // check if we need to ask the user for the storage first
+            // or we do not have a valid token
+            var settings = Container.GetInstance<ApplicationSettings>();
+            if (!settings.StorageWasSetup || string.IsNullOrEmpty(settings.DropBoxToken))
+            {
+                var navigationService = Container.GetInstance<INavigationService>();
+                await navigationService.NavigateToStorageSelection(settings);
+                // now if the user choses the Dropbox storage, let him login
+                if (settings.StorageType == StorageType.DropBox)
+                {
+                    await navigationService.NavigateToDropBoxLogin(settings);
+                }
+                settings.StorageWasSetup = true;
+            }
+        }
+
+        /// <summary>
+        /// setups the storage type that is used to load and store the portfolio.
+        /// </summary>
+        /// <param name="container"></param>
+        private async Task SetupStorage(SimpleContainer container)
+        {
+            await CheckStorageForFirstTime();
+
+            var settings = container.GetInstance<ApplicationSettings>();
+            IStorage storageToUse;
+            if (settings.StorageType == StorageType.Local)
+            {
+                storageToUse = container.GetInstance<IFileSystemStorage>();
+            }
+            else
+            {
+                // token provider is registered at location where assetmanager is available
+                var fileStorage = container.GetInstance<IFileSystemStorage>();
+                var errorService = container.GetInstance<IErrorService>();
+                // use drop box as default storage and the file system as failover
+                storageToUse =
+                    new StorageWithBackupStrategy(
+                        new DropBoxStorage(
+                            settings.DropBoxToken,
+                            new ThrowExceptionErrorService()),
+                        fileStorage,
+                        errorService);
+            }
+
+            container.Instance(storageToUse);
+        }
+
+        /// <summary>
+        /// starts notification for the portfolio
+        /// and also hooks up the serializer to get notified whenever the portfolio
+        /// changes.
+        /// </summary>
+        private void StartNotification()
+        {
+            // save whenever the portfolio changes
+            var storage = Container.GetInstance<IStorage>();
+            var persistentPortfolio = Container.GetInstance<IPortfolioPersistentRepository>();
+            // serializer used to save portfolio data
+            var serializer = new PortfolioSerializer(storage);
+            // save the portfolio whenever it changes
+            persistentPortfolio.RegisterSerializerForChanges(serializer);
+
+            // start update notification process for the portfolio
             var portfolio = Container.GetInstance<IPortfolioUpdateRepository>();
             var stockTicker = Container.GetInstance<IStockTicker>();
             var portfolioUpdater = new PortfolioUpdater(portfolio, stockTicker);

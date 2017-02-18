@@ -125,6 +125,33 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Where do you want to store your portfolio?.
+        /// </summary>
+        public static string ChooseStorage {
+            get {
+                return ResourceManager.GetString("ChooseStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose your storage.
+        /// </summary>
+        public static string ChooseStorageTitle {
+            get {
+                return ResourceManager.GetString("ChooseStorageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dropbox.
+        /// </summary>
+        public static string Dropbox {
+            get {
+                return ResourceManager.GetString("Dropbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to easyStocks.
         /// </summary>
         public static string EasyStocks {
@@ -148,6 +175,24 @@ namespace EasyStocks {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On my device.
+        /// </summary>
+        public static string LocalDevice {
+            get {
+                return ResourceManager.GetString("LocalDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login to your Dropbox.
+        /// </summary>
+        public static string LoginToDropbox {
+            get {
+                return ResourceManager.GetString("LoginToDropbox", resourceCulture);
             }
         }
         

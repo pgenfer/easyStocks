@@ -41,12 +41,18 @@
     <Compile Include="Converter\RateChangeToColorConverter.cs" />
     <Compile Include="Converter\RateChangeToTextColorConverter.cs" />
     <Compile Include="Converter\SeverityToColorConverter.cs" />
+    <Compile Include="Converter\StorageTypeToImageConverter.cs" />
     <Compile Include="Converter\TestConverter.cs" />
     <Compile Include="Converter\TextColorToStopRateReachedConverter.cs" />
+    <Compile Include="Converter\UriToWebViewSourceConverter.cs" />
     <Compile Include="Platform\CustomColors.cs" />
     <Compile Include="Platform\XamarinFormsBootstrapper.cs" />
     <Compile Include="Platform\XamarinNavigationService.cs" />
+    <Compile Include="Platform\XamarinSettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\DropboxLoginView.xaml.cs">
+      <DependentUpon>DropboxLoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -72,6 +78,14 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.2.5.4\lib\portable-net45+wp80+win8+wpa81\Plugin.Settings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=2.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.2.5.4\lib\portable-net45+wp80+win8+wpa81\Plugin.Settings.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Syncfusion.DataSource.Portable, Version=14.4451.0.20, Culture=neutral, processorArchitecture=MSIL">
@@ -139,6 +153,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="View\MainView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\StorageSelectionView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\DropboxLoginView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
