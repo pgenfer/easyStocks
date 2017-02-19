@@ -58,5 +58,17 @@ namespace EasyStocks.App.Wpf.Properties {
                 this["DropBoxToken"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BackupStorageWasUsed {
+            get {
+                return ((bool)(this["BackupStorageWasUsed"]));
+            }
+            set {
+                this["BackupStorageWasUsed"] = value;
+            }
+        }
     }
 }

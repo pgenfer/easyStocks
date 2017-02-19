@@ -67,6 +67,7 @@
     <Compile Include="Integration\YahooStockTickerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\AccountItemSlotListTest.cs" />
+    <Compile Include="Unit\StorageWithBackupStrategyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

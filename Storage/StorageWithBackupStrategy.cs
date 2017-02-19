@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyStocks.Dto;
 using EasyStocks.Error;
+using EasyStocks.Settings;
 
 namespace EasyStocks.Storage
 {
@@ -17,33 +18,32 @@ namespace EasyStocks.Storage
         private readonly IStorage _defaultStorage;
         private readonly IStorage _fallbackStorage;
         private readonly IErrorService _errorService;
+        private readonly ApplicationSettings _settings;
 
         public StorageWithBackupStrategy(
             IStorage defaultStorage, 
             IStorage fallbackStorage,
-            IErrorService errorService)
+            IErrorService errorService,
+            ApplicationSettings settings)
         {
             _defaultStorage = defaultStorage;
             _fallbackStorage = fallbackStorage;
             _errorService = errorService;
+            _settings = settings;
         }
 
         public async Task<PortfolioDto> LoadFromStorageAsync()
         {
             try
             {
-                // before reading the default storage, we should sync the fallback storage
-                // with our current one
-                var hasFallbackData = await _fallbackStorage.HasDataAsync();
-                // TODO: we need a flag (which should be set if fallback is more recent than primary storage)
-                // checking fallback for data is not enough because fallback will always have the latest data.
-                // Until then, do not restore from local storage
-                hasFallbackData = false;
-                if (hasFallbackData)
+                // there is something in the backup storage, we should
+                // load it and sync the default storage with it
+                if (_settings.BackupStorageWasUsed)
                 {
                     // read data from fallback and store it in default
                     var fallbackData = await _fallbackStorage.LoadFromStorageAsync();
                     await _defaultStorage.SaveToStorageAsync(fallbackData);
+                    _settings.BackupStorageWasUsed = false;
                     await _fallbackStorage.ClearAsync();
                     return fallbackData;
                 }
@@ -91,6 +91,9 @@ namespace EasyStocks.Storage
                 try
                 {
                     await _fallbackStorage.SaveToStorageAsync(portfolio);
+                    // there was a problem writing data to the default storage,
+                    // so we use the default storage instead now.
+                    _settings.BackupStorageWasUsed = true;
                 }
                 catch (Exception fallbackSavingException)
                 {

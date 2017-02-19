@@ -147,7 +147,8 @@ namespace EasyStocks.Setup
                             settings.DropBoxToken,
                             new ThrowExceptionErrorService()),
                         fileStorage,
-                        errorService);
+                        errorService,
+                        settings);
             }
 
             container.Instance(storageToUse);
