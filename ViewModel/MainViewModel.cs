@@ -34,6 +34,7 @@ namespace EasyStocks.ViewModel
         }
 
         public ICommand SearchCommand { get; }
+        public ICommand RefreshPortfolioCommand { get; }
 
         /// <summary>
         /// view model that handles the search and navigation within the portfolio.
@@ -61,6 +62,7 @@ namespace EasyStocks.ViewModel
                 portfolio,
                 OnEditAccountViewModel);
             SearchCommand = new SimpleCommand(OnSearchNewShare,() => true);
+            RefreshPortfolioCommand = new SimpleCommand(async () => await RefreshPortfolio(portfolio as IPortfolioUpdateRepository, stockTicker), () => !IsBusy);
 
             Error = new ErrorViewModel(errorService);
 
@@ -69,6 +71,11 @@ namespace EasyStocks.ViewModel
             // get notified if a request is processed by the stock ticker
             stockTicker.RequestStarted += () => IsBusy = true;
             stockTicker.RequestFinished += () => IsBusy = false;
+        }
+
+        private static async Task RefreshPortfolio(IPortfolioUpdateRepository portfolio,IStockTicker stockTicker)
+        {
+            await portfolio.CheckForUpdatesAsync(stockTicker);
         }
 
         private void OnSearchNewShare()

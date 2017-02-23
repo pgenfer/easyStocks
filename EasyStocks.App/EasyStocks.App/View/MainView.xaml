@@ -10,11 +10,18 @@
              xmlns:forms1="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              x:Class="EasyStocks.View.MainView"
              Title="{x:Static easyStocks:EasyStocksStrings.Home}">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Icon="add_24.png"
+                 Text="{x:Static easyStocks:EasyStocksStrings.AddShare}"
+                 Command="{Binding SearchCommand}"/>
+    <ToolbarItem Icon="refresh_24.png"
+                 Text="{x:Static easyStocks:EasyStocksStrings.Refresh}"
+                 Command="{Binding RefreshPortfolioCommand}"/>
+  </ContentPage.ToolbarItems>
   <!-- 
   somehow Syncfusion ListView does not render when placed inside a content view
   so we have to put all controls inside this content page directly.
   -->
-
   <RelativeLayout
       VerticalOptions="FillAndExpand"
       HorizontalOptions="FillAndExpand">
@@ -45,12 +52,16 @@
         </DataTemplate>
       </xForms:SfListView.RightSwipeTemplate>
     </xForms:SfListView>
+    <!--
+    problem with action button here is that it hides the last entry in the portfolio list
+    so it is replaced with a toolbar button instead    
     <forms1:FloatingActionButton
       Style="{StaticResource FloatingActionButton}"
       Source="add_24.png"
       Command="{Binding SearchCommand}"
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80}"
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
+    -->
     <ActivityIndicator
       Color="{x:Static platform:CustomColors.DividerColor}"
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5,  Constant=-20 }"
