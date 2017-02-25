@@ -83,6 +83,7 @@
     </ApplicationDefinition>
     <Compile Include="Converter\StorageTypeToImageConverter.cs" />
     <Compile Include="Platform\WindowsFileStorage.cs" />
+    <Compile Include="Platform\WpfConnectivityService.cs" />
     <Compile Include="Platform\WpfSettingsService.cs" />
     <Compile Include="ViewModel\RootViewModel.cs" />
     <Compile Include="View\DropboxLoginView.xaml.cs">

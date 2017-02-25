@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Dto;
 using EasyStocks.Error;
+using EasyStocks.Network;
 using EasyStocks.Settings;
 using EasyStocks.Setup;
 using EasyStocks.Storage;
@@ -26,6 +27,7 @@ namespace EasyStocks.App.Wpf.Platform
             container.Singleton<INavigationService, WpfNavigationService>();
             container.Singleton<ISettingsService, WpfSettingsService>();
             container.Singleton<IFileSystemStorage, WindowsFileStorage>();
+            container.Singleton<IConnectivityService, WpfConnectivityService>();
         }
     }
 }
