@@ -8,6 +8,7 @@ using EasyStocks.Dto;
 using EasyStocks.Error;
 using EasyStocks.Model;
 using EasyStocks.Model.Account;
+using EasyStocks.Network;
 using EasyStocks.Settings;
 using EasyStocks.Storage;
 using EasyStocks.Storage.Dropbox;
@@ -91,11 +92,8 @@ namespace EasyStocks.Setup
         {
             var storage = Container.GetInstance<IStorage>();
             var portfolio = Container.GetInstance<PortfolioRepository>();
-            var stockTicker = Container.GetInstance<IStockTicker>();
-            
             var deserializer = new PortfolioSerializer(storage);
             await deserializer.LoadAsync(portfolio);
-            await portfolio.CheckForUpdatesAsync(stockTicker);
             portfolio.FirePortfolioLoaded();
         }
 
@@ -161,6 +159,9 @@ namespace EasyStocks.Setup
         /// </summary>
         private void StartNotification()
         {
+            // start with observing the network connection
+            var connectivityManager = Container.GetInstance<IConnectivityService>();
+            
             // save whenever the portfolio changes
             var storage = Container.GetInstance<IStorage>();
             var persistentPortfolio = Container.GetInstance<IPortfolioPersistentRepository>();
@@ -173,7 +174,10 @@ namespace EasyStocks.Setup
             var portfolio = Container.GetInstance<IPortfolioUpdateRepository>();
             var stockTicker = Container.GetInstance<IStockTicker>();
             var portfolioUpdater = new PortfolioUpdater(portfolio, stockTicker);
-            portfolioUpdater.StartUpdate();
+            connectivityManager.ConnectivityChanged += portfolioUpdater.ReactOnNetworkChanges;
+
+            // start observing the network, this should also start the update process of the portfolio
+            connectivityManager.StartObserving();
         }
     }
 }

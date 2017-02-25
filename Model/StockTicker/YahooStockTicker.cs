@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
-using System.Reflection;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using EasyStocks.Error;
 using EasyStocks.Model.Share;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace EasyStocks.Model
@@ -20,14 +21,22 @@ namespace EasyStocks.Model
     public class YahooFinanceStockTicker : IStockTicker
     {
         private readonly IErrorService _errorService;
+        /// <summary>
+        /// service is needed to retrieve the data for a stock symbol
+        /// </summary>
         private readonly HttpClient _yahooFinanceClient = new HttpClient { BaseAddress = new Uri("https://query.yahooapis.com/v1/public/yql") };
         private const string Format = "json";
         private const string Environment = "store://datatables.org/alltableswithkeys";
-        private readonly HttpClient _yahooFinanceLookupClient = new HttpClient { BaseAddress = new Uri("https://s.yimg.com/aq/autoc") };
+        private readonly StockExchangeFinder _stockExchangeFinder;
+        /// <summary>
+        /// service is needed to lookup information for a stock by ID (ex. by ISIN)
+        /// </summary>
+        private readonly HttpClient _openFigi = new HttpClient {BaseAddress = new Uri("https://api.openfigi.com/v1/mapping")};
 
         public YahooFinanceStockTicker(IErrorService errorService)
         {
             _errorService = errorService;
+            _stockExchangeFinder = new StockExchangeFinder();
         }
 
         public async Task<IEnumerable<ShareDailyInformation>> GetDailyInformationForShareAsync(IEnumerable<string> symbols)
@@ -64,7 +73,6 @@ namespace EasyStocks.Model
 
                         if (ask != null && percentageChange != null && change != null)
                         {
-
                             var shareDailyData = new ShareDailyInformation(
                                 symbol.ToString(),
                                 name.ToString(),
@@ -109,8 +117,10 @@ namespace EasyStocks.Model
             var dailyInformations = new List<ShareDailyInformation>();
             try
             {
-                var response =
-                    await _yahooFinanceLookupClient.GetAsync($"?query={searchString}&region=\"US, DE\"&lang=en-EN");
+                // the data we send to the lookup service
+                var array = new [] {new{idType = "ID_ISIN",idValue = searchString}};
+                var jsonData = JsonConvert.SerializeObject(array);
+                var response = await _openFigi.PostAsync(string.Empty, new StringContent(jsonData,Encoding.UTF8, "text/json"));
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
@@ -119,19 +129,34 @@ namespace EasyStocks.Model
                     // read the result information from the response
                     var contentResult = content.Result;
                     // convert to json object
-                    var json = JObject.Parse(contentResult);
-                    // retrieve data from content
-                    var resultSet = json["ResultSet"];
-                    var result = resultSet["Result"];
-
-                    // we store each share with its stock exchange in a list
-                    // for retrieving the daily information later.
-                    var sharesAndStockExchanges = result
-                        .Where(x => x["type"].ToString() == "S")
-                        .ToDictionary(
-                            x => x["symbol"].ToString(),
-                            x => x["exchDisp"].ToString());
-
+                    var jsonDataArray = JArray.Parse(contentResult);
+                    var sharesAndStockExchanges = new Dictionary<string, string>();
+                    foreach (var resultEntries in jsonDataArray)
+                    {
+                        if (resultEntries["data"] != null) // stocks found for the id
+                        {
+                            foreach (var dataEntry in resultEntries["data"]) // there is an entry for every stock exchange
+                            {
+                                var ticker = dataEntry["ticker"].ToString();
+                                var exchangeCode = dataEntry["exchCode"].ToString();
+                                var stockExchange = _stockExchangeFinder.FindByExchangeCode(exchangeCode);
+                                var symbol = stockExchange != null ? stockExchange.AddSuffixToSymbol(ticker) : ticker;
+                                string stockExchangeName;
+                                // remember the name of the stock exchange for this symbol, 
+                                // if we did not have a name of the exchange so far, take the newest stock exchange where this symbol is traded
+                                if (sharesAndStockExchanges.TryGetValue(symbol, out stockExchangeName))
+                                {
+                                    if (string.IsNullOrEmpty(stockExchangeName))
+                                        sharesAndStockExchanges[symbol] = stockExchange?.Name ?? EasyStocksStrings.NoStockExchange;
+                                }
+                                else
+                                {
+                                    sharesAndStockExchanges.Add(symbol, stockExchange?.Name);
+                                }
+                            }
+                        }
+                    }
+                    
                     // now retrieve the daily data for each stock
                     dailyInformations = new List<ShareDailyInformation>(
                         await GetDailyInformationForShareAsync(sharesAndStockExchanges.Keys));

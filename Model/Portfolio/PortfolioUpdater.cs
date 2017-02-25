@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using EasyStocks.Network;
 
 namespace EasyStocks.Model
 {
@@ -8,12 +9,17 @@ namespace EasyStocks.Model
     /// </summary>
     public class PortfolioUpdater
     {
+        private static readonly TimeSpan _IntervalForWifiConnection = TimeSpan.FromSeconds(15);
+        private static readonly TimeSpan _IntervalForRoamingConnection = TimeSpan.FromSeconds(60);
+
         private readonly IPortfolioUpdateRepository _portfolio;
         private readonly IStockTicker _stockTicker;
-        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(60);
+        private TimeSpan _currentInterval = _IntervalForWifiConnection;
         private readonly Timer _portfolioUpdateTimer;
 
-        public PortfolioUpdater(IPortfolioUpdateRepository portfolio,IStockTicker stockTicker)
+        public PortfolioUpdater(
+            IPortfolioUpdateRepository portfolio,
+            IStockTicker stockTicker)
         {
             _portfolio = portfolio;
             _stockTicker = stockTicker;
@@ -29,6 +35,7 @@ namespace EasyStocks.Model
         /// explicitly start the update process
         /// </summary>
         public void StartUpdate() => _portfolioUpdateTimer.Change(0,Timeout.Infinite);
+        private void StopUpdate() => _portfolioUpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
         /// <summary>
         /// updates the portfolio. 
@@ -42,7 +49,23 @@ namespace EasyStocks.Model
         {
             _portfolioUpdateTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             await _portfolio.CheckForUpdatesAsync(_stockTicker);
-            _portfolioUpdateTimer.Change(_updateInterval, Timeout.InfiniteTimeSpan);
+            _portfolioUpdateTimer.Change(_currentInterval, Timeout.InfiniteTimeSpan);
+        }
+
+        internal void ReactOnNetworkChanges(Connectivity connectivity)
+        {
+            StopUpdate();
+            if (connectivity == Connectivity.Wifi)
+            {
+                _currentInterval = _IntervalForWifiConnection;
+                StartUpdate();
+            }
+            if (connectivity == Connectivity.Other)
+            {
+                _currentInterval = _IntervalForRoamingConnection;
+                StartUpdate();
+            }
+
         }
     }
 }

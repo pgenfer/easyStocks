@@ -107,7 +107,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Syncfusion.SfNumericTextBox.Android, Version=15.1451.0.33, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Syncfusion.Xamarin.SfNumericTextBox.Android.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNumericTextBox.Android.dll</HintPath>
+      <HintPath>..\..\packages\Syncfusion.Xamarin.SfNumericTextBox.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNumericTextBox.Android.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfNumericTextBox.XForms, Version=15.1451.0.33, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Syncfusion.Xamarin.SfNumericTextBox.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNumericTextBox.XForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfNumericTextBox.XForms.Android, Version=15.1451.0.33, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Syncfusion.Xamarin.SfNumericTextBox.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNumericTextBox.XForms.Android.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -167,6 +175,7 @@
     <Compile Include="AndroidApplication.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Platform\AndroidBootstrapperHelper.cs" />
+    <Compile Include="Platform\AndroidConnectivityService.cs" />
     <Compile Include="Platform\AndroidFileStorage.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

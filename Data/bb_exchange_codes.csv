@@ -1,0 +1,277 @@
+Exchange Name;Country;Region;Exchange Code;Composite Code;MIC Code
+;;;;;
+Bolsa de Comercio de Buenos Aires;Argentina;South America;AF;AR;XBUE
+Chi-X Australia;Australia;Asia Pacific;AH;AU;CHIA
+Australian Securities Exchange;Australia;Asia Pacific;AT;AU;XASX
+Bovespa Soma;Brazil;South America;BO;BZ;XSOM
+Bovespa;Brazil;South America;BS;BZ;BVMF
+BX Worldcaps;Switzerland;Europe;BW;SW;XBRN
+Bolsa de Comercio de Santiago de Chile;Chile;South America;CC;CI;XSGO
+Bolsa Electronica de Chile;Chile;South America;CE;CI;XBCL
+Canadian Securities Exchange;Canada;North America;CF;CN;XCNQ
+Shanghai Stock Exchange;China;Asia Pacific;CG;CH;XSHG
+PURE Trading;Canada;North America;CJ;CN;PURE
+Prague Stock Exchange;Czech Republic;Europe;CK;CP;XPRA
+Shenzhen Stock Exchange;China;Asia Pacific;CS;CH;XSHE
+TSX Toronto Exchange;Canada;North America;CT;CN;XTSE
+TSX Venture Exchange;Canada;North America;CV;CN;XTSX
+Bolsa de Valores de Colombia;Colombia;South America;CX;CB;XBOG
+Dubai Financial Market;U.A.E.;Middle East;DB;UH;XDFM
+Dansk OTC;Denmark;Europe;DD;DC;DKTC
+First North Copenhagen;Denmark;Europe;DF;DC;XCSE
+Lynx ATS;Canada;North America;DG;CN;LYNX
+Abu Dhabi Securities Exchange;U.A.E.;Middle East;DH;UH;XADS
+CX2 Canada Venture;Canada;North America;DS;CN;XCX2
+CX2 Canada Toronto;Canada;North America;DT;CN;XCX2
+Chi-X Venture ATS;Canada;North America;DV;CN;CHIC
+Egyptian Exchange;Egypt;Africa;EC;EY;XCAI
+Nile Stock Exchange;Egypt;Africa;EI;EY;NILX
+Bolsa de Valores de Quito;Ecuador;South America;EQ;ED;XQUI
+Berlin Stock Exchange;Germany;Europe;GB;GR;XBER
+Dusseldorf Stock Exchange;Germany;Europe;GD;GR;XDUS
+Frankfurt Stock Exchange;Germany;Europe;GF;GR;XFRA
+Hamburg Stock Exchange;Germany;Europe;GH;GR;XHAM
+Hanover Stock Exchange;Germany;Europe;GI;GR;XHAN
+Munich Stock Exchange;Germany;Europe;GM;GR;XMUN
+Stuttgart Stock Exchange;Germany;Europe;GS;GR;XSTU
+XETRA;Germany;Europe;GY;GR;XETR
+BSE India;India;Asia Pacific;IB;IN;XBOM
+National Stock Exchange of India;India;Asia Pacific;IS;IN;XNSE
+SBI Japannext;Japan;Asia Pacific;JE;JP;SBIJ
+Fukuoka Stock Exchange;Japan;Asia Pacific;JF;JP;XFKA
+Nagoya Stock Exchange;Japan;Asia Pacific;JN;JP;XNGO
+Sapporo Securities Exchange;Japan;Asia Pacific;JS;JP;XSAP
+Tokyo Stock Exchange;Japan;Asia Pacific;JT;JP;XTKS
+Aktie Torget;Sweden;Europe;KA;SS;XSAT
+KONEX;South Korea;Asia Pacific;KE;KS;XKON
+KOSPI Stock Market;South Korea;Asia Pacific;KP;KS;XKRX
+KOSDAQ;South Korea;Asia Pacific;KQ;KS;XKOS
+NASDAQ OMX Riga;Latvia;Europe;LG;LR;XRIS
+Nordic Growth Market;Sweden;Europe;NG;SS;XNGM
+PFTS Stock Exchange;Ukraine;Europe;OU;UZ;PFTS
+Pakistan Stock Exchange;Pakistan;Asia Pacific;PK;PA;XKAR
+OTC Markets (Quotes Only);United States;North America;PQ;US;PINX, OTCM
+Aequitas NEO Exchange (Lit Book);Canada;North America;QF;CN;NEOE
+Aequitas NEO Exchange (Neo Book);Canada;North America;QH;CN;N/A
+Bucharest Stock Exchange;Romania;Europe;RE;RO;XBSE
+First North Iceland;Iceland;Europe;RF;IR;XICE
+Russian Trading System;Russia;Europe;RR;RU;MISX
+Moscow Exchange - MICEX;Russia;Europe;RX;RM;MISX
+SIBEX - Sibiu Stock Exchange;Romania;Europe;RZ;RO;BMFX
+Valencia Stock Exchange;Spain;Europe;SA;SM;XVAL
+Barcelona Stock Exchange;Spain;Europe;SB;SM;XBAR
+First North Stockholm;Sweden;Europe;SF;SS;FNSE
+Madrid Stock Exchange;Spain;Europe;SN;SM;XMAD
+Bilbao Stock Exchange;Spain;Europe;SO;SM;XBIL
+Sociedad de Bolsas (SIBE);Spain;Europe;SQ;SM;XMCE, XLAT, MABX
+Berne Stock Exchange;Switzerland;Europe;SR;SW;XBRN
+NASDAQ OMX Stockholm;Sweden;Europe;SS;SS;XSTO
+SIX Structured Products Exchange;Switzerland;Europe;SX;SW;XQMH
+Alpha Toronto;Canada;North America;TA;CN;XATS
+Omega ATS;Canada;North America;TG;CN;OMGA
+TMX Select;Canada;North America;TJ;CN;TMXS
+Liquidnet Canada;Canada;North America;TK;CN;LICA
+Alpha Venture;Canada;North America;TN;CN;XATS
+TriAct Canada;Canada;North America;TR;CN;MATN
+TriAct Venture;Canada;North America;TV;CN;N/A
+Chi-X Toronto ATS;Canada;North America;TX;CN;CHIC
+NYSE MKT;United States;North America;UA;US;XASE
+NASDAQ OMX BX;United States;North America;UB;US;XBOS
+National Stock Exchange;United States;North America;UC;US;XCIS
+FINRA ADF;United States;North America;UD;US;XADF
+BATS BZX Exchange;United States;North America;UF;US;BATS
+Chicago Stock Exchange;United States;North America;UM;US;XCHI
+New York Stock Exchange;United States;North America;UN;US;XNYS
+NYSE Arca;United States;North America;UP;US;ARCX
+NASDAQ Global Market;United States;North America;UQ;US;XNMS
+NASDAQ Capital Market;United States;North America;UR;US;XNCM
+NASDAQ InterMarket;United States;North America;UT;US;XNIM
+OTC Bulletin Board;United States;North America;UU;US;XOTC
+OTC Markets (Trades Only);United States;North America;UV;US;OOTC
+NASDAQ Global Select;United States;North America;UW;US;XNGS
+NASDAQ OMX PSX;United States;North America;UX;US;XPSX
+Hanoi Stock Exchange;Vietnam;Asia Pacific;VH;VN;HSTC
+EDGA Exchange;United States;North America;VJ;US;EDGA
+EDGX Exchange;United States;North America;VK;US;EDGX
+Ho Chi Minh Stock Exchange;Vietnam;Asia Pacific;VM;VN;XSTC
+Hanoi UPCoM;Vietnam;Asia Pacific;VU;VN;XHNX
+BATS BYX Exchange;United States;North America;VY;US;BATY
+OTC-X Berner KantonalBank;Switzerland;Europe;XK;SW;N/A
+SIX Swiss Exchange;Switzerland;Europe;XW;SW;XSWX
+Zagreb Stock Exchange;Croatia;Europe;ZA;CZ;XZAG
+Asset Match MTF;United Kingdom;Europe;A0;N/A;SHAR
+Athens Exchange Alternative Market;Greece;Europe;AA;N/A;ENAX
+Saudi Arabian Stock Exchange;Saudi Arabia;Middle East;AB;N/A;XSAU
+National Stock Exchange of Australia;Australia;Asia Pacific;AO;N/A;XNEC
+Athens Derivatives Exchange;Greece;Europe;AP;N/A;XADE
+Vienna Stock Exchange;Austria;Europe;AV;N/A;XWBO
+NASDAQ OMX Armenia;Armenia;Europe;AY;N/A;XARM
+*Baku Stock Exchange;Azerbaijan;Europe;AZ;N/A;BSEX
+BlockMatch;United Kingdom;Europe;B3;N/A;BLOX
+Barbados Stock Exchange;Barbados;North America;BA;N/A;XBAB
+Euronext Brussels;Belgium;Europe;BB;N/A;XBRU
+Bourse Regionale des Valeurs Mobilieres;West African Economic and Monetary Union;Africa;BC;N/A;XBRV
+Dhaka Stock Exchange;Bangladesh;Asia Pacific;BD;N/A;XDHA
+Botswana Stock Exchange;Botswana;Africa;BG;N/A;XBOT
+Bermuda Stock Exchange;Bermuda;North America;BH;N/A;XBDA
+Bahrain Bourse;Bahrain;Middle East;BI;N/A;XBAH
+Banja Luka Stock Exchange;Bosnia-Herzegovina;Europe;BK;N/A;XBLB
+Bahamas International Securities Exchange;Bahamas;North America;BM;N/A;XBAA
+Equiduct Trading;Germany;Europe;BQ;N/A;XEQT
+Sarajevo Stock Exchange;Bosnia-Herzegovina;Europe;BT;N/A;XSSE
+Bulgarian Stock Exchange;Bulgaria;Europe;BU;N/A;XBUL
+SH-HK Connect Northbound;China;Asia Pacific;C1;N/A;XSSC
+Bolsa Nacional de Valores Costa Rica;Costa Rica;South America;CR;N/A;XBNV
+Cyprus Stock Exchange;Cyprus;Europe;CY;N/A;XCYS
+NASDAQ OMX Copenhagen;Denmark;Europe;DC;N/A;XCSE
+NASDAQ Dubai;U.A.E.;Middle East;DU;N/A;DIFX
+BATS Trading Europe;United Kingdom;Europe;EB;N/A;BATE
+NASDAQ OMX Tallinn;Estonia;Europe;ET;N/A;XTAL
+First North Helsinki;Finland;Europe;FF;N/A;FNFI
+NASDAQ OMX Helsinki;Finland;Europe;FH;N/A;XHEL
+Euronext Paris;France;Europe;FP;N/A;XPAR
+South Pacific Stock Exchange;Fiji;Asia Pacific;FS;N/A;XSPS
+Georgia Stock Exchange;Georgia;Europe;GG;N/A;XGSE
+Ghana Stock Exchange;Ghana;Africa;GN;N/A;XGHA
+Xetra ETF;Germany;Europe;GT;N/A;XETR
+Channel Islands Stock Exchange;Guernsey;Europe;GU;N/A;XCIE
+SH-HK Connect Southbound;Hong Kong;Asia Pacific;H1;N/A;SHSC
+Budapest Stock Exchange;Hungary;Europe;HB;N/A;XBUD
+Hong Kong Stock Exchange;Hong Kong;Asia Pacific;HK;N/A;XHKG, XGEM
+Growth Enterprise Market;Hong Kong;Asia Pacific;HK;N/A;XGEM
+Hi-MTF;Italy;Europe;HM;N/A;HMTF
+Irish Stock Exchange;Ireland;Europe;ID;N/A;XDUB
+Metropolitan Stock Exchange;India;Asia Pacific;IG;N/A;MCXX
+Indonesia Stock Exchange;Indonesia;Asia Pacific;IJ;N/A;XIDX
+Borsa Italiana;Italy;Europe;IM;N/A;XMIL
+Iraq Stock Exchange;Iraq;Middle East;IQ;N/A;XIQS
+NASDAQ OMX Iceland;Iceland;Europe;IR;N/A;XICE
+Tel Aviv Stock Exchange;Israel;Middle East;IT;N/A;XTAE
+Chi-X Europe;United Kingdom;Europe;IX;N/A;CHIX
+Jamaica Stock Exchange;Jamaica;North America;JA;N/A;XJAM
+Chi-X Japan;Japan;Asia Pacific;JI;N/A;CHIJ
+Japan Securities Dealers Association;Japan;Asia Pacific;JJ;N/A;N/A
+Amman Stock Exchange;Jordan;Middle East;JR;N/A;XAMM
+SBI Japannext X-Market;Japan;Asia Pacific;JU;N/A;XSBI
+SBI Japannext U-Market;Japan;Asia Pacific;JW;N/A;SBIU
+Korea Freeboard;South Korea;Asia Pacific;KF;N/A;XKFB
+Cambodia Securities Exchange;Cambodia;Asia Pacific;KH;N/A;XCSX
+Kuwait Stock Exchange;Kuwait;Middle East;KK;N/A;XKUW
+Nairobi Securities Exchange;Kenya;Africa;KN;N/A;XNAI
+Cayman Islands Stock Exchange;Cayman Islands;North America;KY;N/A;XCAY
+Kazakhstan Stock Exchange;Kazakhstan;Asia Pacific;KZ;N/A;XKAZ
+Liquidnet;United Kingdom;Europe;L3;N/A;LIQU
+Beirut Stock Exchange;Lebanon;Middle East;LB;N/A;XBEY
+Euronext London;United Kingdom;Europe;LD;N/A;XLDN
+NASDAQ OMX Vilnius;Lithuania;Europe;LH;N/A;XLIT
+London Stock Exchange (international);United Kingdom;Europe;LI;N/A;XLON
+London Stock Exchange (domestic);United Kingdom;Europe;LN;N/A;XLON
+London Stock Exchange (EQS);United Kingdom;Europe;LO;N/A;XLON
+Lao Securities Exchange;Laos;Asia Pacific;LS;N/A;XLAO
+Luxembourg Stock Exchange;Luxembourg;Europe;LX;N/A;XLUX
+Moldova Stock Exchange;Moldova;Europe;MB;N/A;XMOL
+Casablanca Stock Exchange;Morocco;Africa;MC;N/A;XCAS
+Montenegro Stock Exchange;Montenegro;Europe;ME;N/A;XMNX
+Bursa Malaysia;Malaysia;Asia Pacific;MK;N/A;XKLS
+Mexico Stock Exchange;Mexico;North America;MM;N/A;XMEX
+Mongolian Stock Exchange;Mongolia;Asia Pacific;MO;N/A;XULA
+Mauritius Stock Exchange;Mauritius;Africa;MP;N/A;XMAU
+Macedonian Stock Exchange;Macedonia;Europe;MS;N/A;XMAE
+TOM MTF;Netherlands;Europe;MT;N/A;TOMX
+Malta Stock Exchange;Malta;Europe;MV;N/A;XMAL
+Malawi Stock Exchange;Malawi;Africa;MW;N/A;XMSW
+Maldives Stock Exchange;Maldives;Asia Pacific;MX;N/A;MALX
+Mozambique Stock Exchange;Mozambique;Africa;MZ;N/A;XMAP
+Euronext Amsterdam;Netherlands;Europe;NA;N/A;XAMS
+Nepal Stock Exchange;Nepal;Asia Pacific;NK;N/A;XNEP
+Nigerian Stock Exchange;Nigeria;Africa;NL;N/A;XNSA
+Oslo Bors;Norway;Europe;NO;N/A;XOSL
+Norwegian OTC Market;Norway;Europe;NS;N/A;NOTC
+Namibian Stock Exchange;Namibia;Africa;NW;N/A;XNAM
+New Zealand Exchange;New Zealand;Asia Pacific;NZ;N/A;XNZE
+Muscat Securities Market;Oman;Middle East;OM;N/A;XMUS
+Port Moresby Stock Exchange;Papua New Guinea;Asia Pacific;PB;N/A;XPOM
+Lima Stock Exchange;Peru;South America;PE;N/A;XLIM
+Euronext Lisbon;Portugal;Europe;PL;N/A;XLIS
+Philippine Stock Exchange;Philippines;Asia Pacific;PM;N/A;XPHS
+Asuncion Bolsa Valores;Paraguay;South America;PN;N/A;XVPA
+ITG Posit;United Kingdom;Europe;PO;N/A;XPOS
+Panama Stock Exchange;Panama;South America;PP;N/A;XPTY
+Palestine Securities Exchange;Palestine;Middle East;PS;N/A;XPAE
+Warsaw Stock Exchange;Poland;Europe;PW;N/A;XWAR
+PEX Private Exchange;Portugal;Europe;PX;N/A;OPEX
+ICAP Securities and Derivatives Exchange;United Kingdom;Europe;PZ;N/A;ISDX
+Qatar Exchange;Qatar;Middle East;QD;N/A;DSMD
+QUOTRIX;Germany;Europe;QT;N/A;XQTX
+Aquis Exchange;United Kingdom;Europe;QX;N/A;AQXE
+Rwanda Stock Exchange;Rwanda;Africa;RW;N/A;RSEX
+SIGMA X MTF;United Kingdom;Europe;S1;N/A;SGMX
+UBS MTF;United Kingdom;Europe;S2;N/A;XUBS
+Swaziland Stock Exchange;Swaziland;Africa;SD;N/A;XSWA
+Belgrade Stock Exchange;Serbia;Europe;SG;N/A;XBEL
+SIM VSE;Australia;Asia Pacific;SI;N/A;SIMV
+Johannesburg Stock Exchange;South Africa;Africa;SJ;N/A;XJSE
+Bratislava Stock Exchange;Slovakia;Europe;SK;N/A;XBRA
+Colombo Stock Exchange;Sri Lanka;Asia Pacific;SL;N/A;XCOL
+Singapore Exchange;Singapore;Asia Pacific;SP;N/A;XSES, XSIM, XSCA, XSCE
+Sierra Leone Stock Exchange;Sierra Leone;Africa;SU;N/A;N/A
+Ljubljana Stock Exchange;Slovenia;Europe;SV;N/A;XLJU
+Damascus Securities Exchange;Syria;Middle East;SY;N/A;XDSE
+Seychelles Securities Exchange;Seychelles;Africa;SZ;N/A;TRPX
+The Stock Exchange of Thailand;Thailand;Asia Pacific;TB;N/A;XBKK,XMAI
+EuroTLX;Italy;Europe;TE;N/A;ETLX
+Deutsche Boerse Tradegate;Germany;Europe;TH;N/A;XGAT
+Trinidad and Tobago Stock Exchange;Trinidad and Tobago;North America;TP;N/A;XTRN
+Turquoise;United Kingdom;Europe;TQ;N/A;TRQX
+Borsa Istanbul;Turkey;Europe;TS;N/A;XIST
+Taiwan Stock Exchange;Taiwan;Asia Pacific;TT;N/A;XTAI
+Taipei Exchange;Taiwan;Asia Pacific;TT;N/A;ROCO
+Tunis Stock Exchange;Tunisia;Africa;TU;N/A;XTUN
+Dar Es Salaam Stock Exchange;Tanzania;Africa;TZ;N/A;XDAR
+Uganda Securities Exchange;Uganda;Africa;UG;N/A;XUGA
+Ukrainian Stock Exchange;Ukraine;Europe;UK;N/A;UKEX
+Bolsa De Valores De Caracas;Venezuela;South America;VS;N/A;BVCA
+SIX Swiss Exchange Europe;Switzerland;Europe;VX;N/A;XVTX
+Cinnober BOAT;United Kingdom;Europe;XB;N/A;BOAT
+London Stock Exchange (OTC and ITR);United Kingdom;Europe;XL;N/A;N/A
+Athens Stock Exchange;Greece;Europe;XT;N/A;ASEX
+AIAF Mercado De Renta Fija;Spain;Europe;Z1;N/A;XDRF
+Zimbabwe Stock Exchange;Zimbabwe;Africa;ZH;N/A;XZIM
+Lusaka Stock Exchange;Zambia;Africa;ZL;N/A;XLUS
+Chicago Mercantile Exchange;United States;North America;N/A;N/A;XCME
+St. Petersburg Stock Exchange;Russia;Europe;N/A;N/A;XPET
+ASX 24 (formerly Sydney Futures Exchange);Australia;Asia Pacific;N/A;N/A;XSFE
+Osaka Exchange;Japan;Asia Pacific;N/A;N/A;XOSE
+Chicago Board Options Exchange;United States;North America;N/A;N/A;XCBO
+Eurex;Germany;Europe;N/A;N/A;XEUR
+Alternate Investment Market;United Kingdom;Europe;N/A;N/A;AIMX
+Buenos Aires Mercato De Valores;Argentina;South America;N/A;N/A;XMEV
+Euro MTF;Luxembourg;Europe;N/A;N/A;EMTF
+European Warrant Exchange;Germany;Europe;N/A;N/A;EUWX
+CME Globex;United States;North America;N/A;N/A;GLBX
+Hong Kong Futures Exchange;Hong Kong;Asia Pacific;N/A;N/A;XHKF
+ICE Futures Europe - Commodities;United Kingdom;Europe;N/A;N/A;IFEU
+KRX Derivatives Market;South Korea;Asia Pacific;N/A;N/A;XKFE
+MEFF Renta Variable;Spain;Europe;N/A;N/A;XMRV
+MEXDER Exchange;Mexico;North America;N/A;N/A;XEMD
+Montreal Exchange;Canada;North America;N/A;N/A;XMOD
+MTS Austria;Austria;Europe;N/A;N/A;MTSA
+MTS Denmark;Denmark;Europe;N/A;N/A;MTSD
+MTS Ireland;Ireland;Europe;N/A;N/A;IMTS
+NASDAQ OMX BX Options Exchange;United States;North America;N/A;N/A;XNDQ
+New York Mercantile Exchange;United States;North America;N/A;N/A;XNYM, XNYL
+One Chicago;United States;North America;N/A;N/A;XOCH
+South African Futures Exchange;South Africa;Africa;N/A;N/A;XSAF
+Taiwan Futures Exchange;Taiwan;Asia Pacific;N/A;N/A;XTAF
+Thailand Futures Exchange;Thailand;Asia Pacific;N/A;N/A;TFEX
+NEX;Canada;North America;N/A;N/A;XTNX
+Euronext Derivatives Amsterdam;Netherlands;Europe;N/A;N/A;XEUE
+Euronext Derivatives Brussels;Belgium;Europe;N/A;N/A;XBRD
+Euronext Derivatives Lisbon;Portugal;Europe;N/A;N/A;MFOX
+ICE Futures Europe - Financials;United Kingdom;Europe;N/A;N/A;IFLL
+Euronext Derivatives Paris;France;Europe;N/A;N/A;XMON, XMAT
+CBOE C2 Options Exchange;United States;North America;N/A;N/A;C2OX
+BATS Options Exchange;United States;North America;N/A;N/A;BATO
+MIAX Options Exchange;United States;North America;N/A;N/A;XMIO
+Central European Gas Hub AG;Austria;Europe;N/A;N/A;XCEG
+ISE Gemini;United States;North America;N/A;N/A;GMNI

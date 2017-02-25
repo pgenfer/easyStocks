@@ -30,7 +30,8 @@
       Grid.Row="1"
       Margin="0,16"
       ItemsSource="{Binding Items}"
-      SelectionChanged="OnSearchItemSelected">
+      SelectionChanged="OnSearchItemSelected"
+      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
       <ListView.ItemTemplate>
         <!-- data template for search items -->
         <DataTemplate>
@@ -44,19 +45,25 @@
               <ColumnDefinition Width="75*" />
               <ColumnDefinition Width="25*" />
             </Grid.ColumnDefinitions>
-            <StackPanel
-              Orientation="Vertical"
+            <Grid
               Grid.Column="0"
               Grid.Row="0">
+              <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+              </Grid.RowDefinitions>
               <TextBlock
+                Grid.Row="0"
                 Text="{Binding ShareName}"
                 Foreground="{x:Static platform:CustomColors.PrimaryTextColorBrush}"
-                Style="{StaticResource Title}"/>
+                Style="{StaticResource Title}"
+                TextTrimming="CharacterEllipsis"/>
               <TextBlock
+                Grid.Row="1"
                 Text="{Binding StockExchange}"
                 Style="{StaticResource Body1}"
                 Foreground="{x:Static platform:CustomColors.SecondaryTextColorBrush}"/>
-            </StackPanel>
+            </Grid>
             <TextBlock
               Grid.Column="1"
               Grid.Row="0"

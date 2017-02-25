@@ -197,6 +197,15 @@ namespace EasyStocks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No stock exchange available.
+        /// </summary>
+        public static string NoStockExchange {
+            get {
+                return ResourceManager.GetString("NoStockExchange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string Ok {
@@ -247,6 +256,15 @@ namespace EasyStocks {
         public static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retrieving data....
+        /// </summary>
+        public static string RetrievingData {
+            get {
+                return ResourceManager.GetString("RetrievingData", resourceCulture);
             }
         }
         

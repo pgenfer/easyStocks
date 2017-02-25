@@ -39,6 +39,7 @@ namespace EasyStocks.Model.Account
         {
             var portfolioItem = new PortfolioItem
             {
+                ShareName = EasyStocksStrings.RetrievingData, // name will be received later
                 Symbol = symbol,
                 BuyingRate = buyingRate,
                 BuyingDate = buyingDate,
@@ -73,10 +74,16 @@ namespace EasyStocks.Model.Account
         /// </summary>
         public float OverallChange => CurrentRate - BuyingRate;
         public float OverallChangeInPercent => 100f / BuyingRate * OverallChange;
-        public bool StopQuoteReached => CurrentRate < StopRate;
+        public bool StopQuoteReached => _dataReceived && CurrentRate < StopRate;
         public RateChange DailyTrend => DailyChange.GetTrend();
         public RateChange OverallTrend => OverallChange.GetTrend();
         public DateTime LastTradingDate { get; private set; }
+
+        /// <summary>
+        /// flag is used to control whether we have already
+        /// received any information for this portfolio item
+        /// </summary>
+        private bool _dataReceived = false;
 
 
         private void RecalculateStopRate()

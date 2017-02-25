@@ -9,6 +9,7 @@ using Caliburn.Micro;
 using EasyStocks.Commands;
 using EasyStocks.Error;
 using EasyStocks.Model;
+using EasyStocks.Network;
 
 namespace EasyStocks.ViewModel
 {
@@ -21,6 +22,7 @@ namespace EasyStocks.ViewModel
         private readonly IPortfolioRepository _portfolio;
         private readonly INavigationService _navigationService;
         private bool _isBusy;
+        private bool _isConnected;
 
         public bool IsBusy
         {
@@ -29,6 +31,21 @@ namespace EasyStocks.ViewModel
             {
                 if (value == _isBusy) return;
                 _isBusy = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// flag is used to control visibility
+        /// of the refresh button. Depends on the network connectivity
+        /// </summary>
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+            private set
+            {
+                if (value == _isConnected) return;
+                _isConnected = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -54,7 +71,8 @@ namespace EasyStocks.ViewModel
             IPortfolioRepository portfolio,
             INavigationService navigationService,
             IStockTicker stockTicker,
-            IErrorService errorService)
+            IErrorService errorService,
+            IConnectivityService connectivityService)
         {
             _portfolio = portfolio;
             _navigationService = navigationService;
@@ -62,7 +80,7 @@ namespace EasyStocks.ViewModel
                 portfolio,
                 OnEditAccountViewModel);
             SearchCommand = new SimpleCommand(OnSearchNewShare,() => true);
-            RefreshPortfolioCommand = new SimpleCommand(async () => await RefreshPortfolio(portfolio as IPortfolioUpdateRepository, stockTicker), () => !IsBusy);
+            RefreshPortfolioCommand = new SimpleCommand(async () => await RefreshPortfolio(portfolio as IPortfolioUpdateRepository, stockTicker), () => !IsConnected);
 
             Error = new ErrorViewModel(errorService);
 
@@ -71,11 +89,14 @@ namespace EasyStocks.ViewModel
             // get notified if a request is processed by the stock ticker
             stockTicker.RequestStarted += () => IsBusy = true;
             stockTicker.RequestFinished += () => IsBusy = false;
+
+            connectivityService.ConnectivityChanged += x => IsConnected = x != Connectivity.None;
         }
 
-        private static async Task RefreshPortfolio(IPortfolioUpdateRepository portfolio,IStockTicker stockTicker)
+        private async Task RefreshPortfolio(IPortfolioUpdateRepository portfolio,IStockTicker stockTicker)
         {
-            await portfolio.CheckForUpdatesAsync(stockTicker);
+            if(IsConnected)
+                await portfolio.CheckForUpdatesAsync(stockTicker);
         }
 
         private void OnSearchNewShare()

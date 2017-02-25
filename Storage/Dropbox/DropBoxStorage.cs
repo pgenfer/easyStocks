@@ -28,17 +28,21 @@ namespace EasyStocks.Storage.Dropbox
         {
             try
             {
-                using (var client = new DropboxClient(_token))
+                var hasFile = await HasDataAsync();
+                if (hasFile)
                 {
-                    var response = await client.Files.DownloadAsync("/easystocks.json");
-                    if (response != null)
+                    using (var client = new DropboxClient(_token))
                     {
-                        var content = await response.GetContentAsStringAsync();
-                        var portfolioDto = FromJson(content);
-                        return portfolioDto;
+                        var response = await client.Files.DownloadAsync("/easystocks.json");
+                        if (response != null)
+                        {
+                            var content = await response.GetContentAsStringAsync();
+                            var portfolioDto = FromJson(content);
+                            return portfolioDto;
+                        }
                     }
-                    return new PortfolioDto();
                 }
+                return new PortfolioDto();
             }
             catch (Exception ex)
             {
@@ -64,9 +68,14 @@ namespace EasyStocks.Storage.Dropbox
             }
         }
 
-        public override Task<bool> HasDataAsync()
+        public override async Task<bool> HasDataAsync()
         {
-           throw new NotImplementedException("Dropbox StorageType should not need HasData");
+            using (var client = new DropboxClient(_token))
+            {
+                var files = await client.Files.ListFolderAsync(string.Empty);
+                var hasFile = files.Entries.Any(x => x.Name == "easystocks.json");
+                return hasFile;
+            }
         }
 
         public override Task ClearAsync()
