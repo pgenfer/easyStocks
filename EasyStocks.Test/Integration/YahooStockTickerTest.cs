@@ -39,7 +39,7 @@ namespace EasyStocks.Test.Integration
         [Test]
         public async Task FindStocksByName()
         {
-            var result = await _ticker.FindStocksForSearchString("TES");
+            var result = await _ticker.FindStocksForSearchString("US88160R1014");
             Assert.That(result.Any(x => x.Symbol == "TSLA"));
         }
     }

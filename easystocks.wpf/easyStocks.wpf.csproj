@@ -161,7 +161,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyStocks.csproj">
+    <ProjectReference Include="..\easyStocks.common\easyStocks.common.csproj">
       <Project>{92b99dde-dd03-4ddf-88db-bf5199dadbea}</Project>
       <Name>EasyStocks</Name>
     </ProjectReference>
