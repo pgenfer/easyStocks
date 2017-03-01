@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
              xmlns:xForms="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
-             xmlns:view="clr-namespace:EasyStocks.View;assembly=EasyStocks.App"
-             xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
-             xmlns:model="clr-namespace:EasyStocks.Model;assembly=EasyStocks"
+             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=easyStocks.common"
+             xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=easyStocks.mobile"
              x:Class="EasyStocks.View.SearchShareView">
   <StackLayout Orientation="Vertical">
     <SearchBar

@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:platform="clr-namespace:EasyStocks.Platform"
-             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
-             xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=EasyStocks"
              xmlns:storage="clr-namespace:EasyStocks.Storage;assembly=EasyStocks"
+             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=easyStocks.common"
+             xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=easyStocks.common"
+             xmlns:storage1="clr-namespace:EasyStocks.Storage;assembly=easyStocks.common"
              mc:Ignorable="d">
   <Grid
     Margin="50,20">
@@ -34,10 +35,10 @@
               <Image.Style>
                 <Style>
                   <Style.Triggers>
-                    <DataTrigger Binding="{Binding StorageType}" Value="{x:Static storage:StorageType.DropBox}">
+                    <DataTrigger Binding="{Binding StorageType}" Value="{x:Static storage1:StorageType.DropBox}">
                       <Setter Property="Image.Source" Value="{StaticResource DropboxLogo}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding StorageType}" Value="{x:Static storage:StorageType.Local}">
+                    <DataTrigger Binding="{Binding StorageType}" Value="{x:Static storage1:StorageType.Local}">
                       <Setter Property="Image.Source" Value="{StaticResource WindowsLogo}"/>
                     </DataTrigger>
                   </Style.Triggers>

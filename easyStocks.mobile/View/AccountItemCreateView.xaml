@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
              xmlns:xForms="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
              xmlns:forms="clr-namespace:FAB.Forms;assembly=FAB.Forms"
+             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=easyStocks.common"
              x:Class="EasyStocks.View.AccountItemCreateView">
   <RelativeLayout>
     <Grid

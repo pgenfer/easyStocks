@@ -2,9 +2,9 @@
 <ContentPage
   xmlns="http://xamarin.com/schemas/2014/forms"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-  xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
-  xmlns:converter="clr-namespace:EasyStocks.App.Converter;assembly=EasyStocks.App"
-  xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
+  xmlns:converter="clr-namespace:EasyStocks.App.Converter;assembly=easyStocks.mobile"
+  xmlns:easyStocks="clr-namespace:EasyStocks;assembly=easyStocks.common"
+  xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=easyStocks.mobile"
   x:Class="EasyStocks.View.StorageSelectionView"
   NavigationPage.HasBackButton="False"
   Title="{Binding DisplayName}">

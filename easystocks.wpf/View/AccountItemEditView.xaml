@@ -9,6 +9,7 @@
              xmlns:viewModel="clr-namespace:EasyStocks.ViewModel;assembly=EasyStocks"
              xmlns:converter1="clr-namespace:EasyStocks.App.Wpf.Converter"
              xmlns:converter2="clr-namespace:EasyStocks.App.Converter"
+             xmlns:easyStocks1="clr-namespace:EasyStocks;assembly=easyStocks.common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance viewModel:AccountItemEditViewModel}">
@@ -97,7 +98,7 @@
       <TextBlock
         Grid.Row="0"
         Grid.Column="0"
-        Text="{x:Static easyStocks:EasyStocksStrings.BuyingQuote}"
+        Text="{x:Static easyStocks1:EasyStocksStrings.BuyingQuote}"
         Style="{StaticResource Caption}"/>
       <TextBox
         Grid.Row="0"
@@ -107,7 +108,7 @@
       <TextBlock
         Grid.Row="1"
         Grid.Column="0"
-        Text="{x:Static easyStocks:EasyStocksStrings.BuyingDate}"
+        Text="{x:Static easyStocks1:EasyStocksStrings.BuyingDate}"
         Style="{StaticResource Caption}"/>
       <DatePicker
         Grid.Row="1"
@@ -117,7 +118,7 @@
       <TextBlock
         Grid.Row="2"
         Grid.Column="0"
-        Text="{x:Static easyStocks:EasyStocksStrings.StopQuote}"
+        Text="{x:Static easyStocks1:EasyStocksStrings.StopQuote}"
         Style="{StaticResource Caption}"/>
       <TextBlock
         Margin="5,8"
@@ -138,7 +139,7 @@
       <TextBlock
         Grid.Row="4"
         Grid.Column="0"
-        Text="{x:Static easyStocks:EasyStocksStrings.Change}"
+        Text="{x:Static easyStocks1:EasyStocksStrings.Change}"
         Style="{StaticResource Caption}"/>
       <TextBlock
         Margin="5,8"
@@ -152,7 +153,7 @@
       <TextBlock
         Grid.Row="5"
         Grid.Column="0"
-        Text="{x:Static easyStocks:EasyStocksStrings.Overall}"
+        Text="{x:Static easyStocks1:EasyStocksStrings.Overall}"
         Style="{StaticResource Caption}"/>
       <TextBlock
         Margin="5,8"
@@ -166,7 +167,7 @@
       <TextBlock
         Grid.Row="6"
         Grid.Column="0"
-        Text="{x:Static easyStocks:EasyStocksStrings.OverallPercent}"
+        Text="{x:Static easyStocks1:EasyStocksStrings.OverallPercent}"
         Style="{StaticResource Caption}"/>
       <TextBlock
         Margin="5,8"
@@ -184,7 +185,7 @@
         Grid.ColumnSpan="3"
         Style="{StaticResource ButtonStyle}"
         HorizontalAlignment="Right"
-        Content="{x:Static easyStocks:EasyStocksStrings.Remove}"
+        Content="{x:Static easyStocks1:EasyStocksStrings.Remove}"
         x:Name="RemoveAccountItemFromPortfolio"/>
     </Grid>
     <StackPanel 
@@ -193,11 +194,11 @@
       HorizontalAlignment="Right">
       <Button 
         Style="{StaticResource ButtonStyle}"
-        Content="{x:Static easyStocks:EasyStocksStrings.Ok}"
+        Content="{x:Static easyStocks1:EasyStocksStrings.Ok}"
         Command="{Binding ConfirmAccountItemChangesCommand}"/>
       <Button
         Style="{StaticResource ButtonStyle}"
-        Content="{x:Static easyStocks:EasyStocksStrings.Cancel}"
+        Content="{x:Static easyStocks1:EasyStocksStrings.Cancel}"
         x:Name="TryClose"/>
     </StackPanel>
   </Grid>

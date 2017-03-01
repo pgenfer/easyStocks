@@ -10,6 +10,8 @@
         xmlns:converter1="clr-namespace:EasyStocks.Converter"
         xmlns:converter2="clr-namespace:EasyStocks.App.Wpf.Converter"
         xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
+        xmlns:viewModel1="clr-namespace:EasyStocks.ViewModel;assembly=easyStocks.common"
+        xmlns:easyStocks1="clr-namespace:EasyStocks;assembly=easyStocks.common"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewModel:MainViewModel}">
   <Grid>
@@ -23,12 +25,12 @@
       <Button
         Style="{StaticResource ButtonStyle}"
         HorizontalAlignment="Right"
-        Content="{x:Static easyStocks:EasyStocksStrings.Search}"
+        Content="{x:Static easyStocks1:EasyStocksStrings.Search}"
         Command="{Binding SearchCommand}"/>
       <Button
         Style="{StaticResource ButtonStyle}"
         HorizontalAlignment="Right"
-        Content="{x:Static easyStocks:EasyStocksStrings.Refresh}"
+        Content="{x:Static easyStocks1:EasyStocksStrings.Refresh}"
         Command="{Binding RefreshPortfolioCommand}"/>
     </StackPanel>
     <ListView
@@ -40,7 +42,7 @@
       ScrollViewer.VerticalScrollBarVisibility="Auto">
       <ListView.ItemTemplate>
         <DataTemplate
-          DataType="{x:Type viewModel:AccountItemSlot}">
+          DataType="{x:Type viewModel1:AccountItemSlot}">
           <Grid
             Margin="16,1">
             <Grid.RowDefinitions>

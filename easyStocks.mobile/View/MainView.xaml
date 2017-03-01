@@ -1,21 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:forms="clr-namespace:Caliburn.Micro.Xamarin.Forms;assembly=Caliburn.Micro.Platform.Xamarin.Forms"
-             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=EasyStocks"
              xmlns:xForms="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
-             xmlns:view="clr-namespace:EasyStocks.View;assembly=EasyStocks.App"
-             xmlns:dataSource="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
-             xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=EasyStocks.App"
-             xmlns:forms1="clr-namespace:FAB.Forms;assembly=FAB.Forms"
+             xmlns:easyStocks1="clr-namespace:EasyStocks;assembly=easyStocks.common"
+             xmlns:view1="clr-namespace:EasyStocks.View;assembly=easyStocks.mobile"
+             xmlns:platform1="clr-namespace:EasyStocks.App.Platform;assembly=easyStocks.mobile"
              x:Class="EasyStocks.View.MainView"
-             Title="{x:Static easyStocks:EasyStocksStrings.Home}">
+             Title="{x:Static easyStocks1:EasyStocksStrings.Home}">
   <ContentPage.ToolbarItems>
     <ToolbarItem Icon="add_24.png"
-                 Text="{x:Static easyStocks:EasyStocksStrings.AddShare}"
+                 Text="{x:Static easyStocks1:EasyStocksStrings.AddShare}"
                  Command="{Binding SearchCommand}"/>
     <ToolbarItem Icon="refresh_24.png"
-                 Text="{x:Static easyStocks:EasyStocksStrings.Refresh}"
+                 Text="{x:Static easyStocks1:EasyStocksStrings.Refresh}"
                  Command="{Binding RefreshPortfolioCommand}"/>
   </ContentPage.ToolbarItems>
   <!-- 
@@ -37,12 +34,12 @@
       ItemsSource="{Binding Items}"
       ItemTemplate="{StaticResource AccountItemDataTemplate}"
       SwipeThreshold="30"
-      SwipeOffset="{x:Static view:MainView.SwipeOffset}"
+      SwipeOffset="{x:Static view1:MainView.SwipeOffset}"
       SwipeEnded="OnSwipeEnded"
       ItemTapped="OnPortfolioItemTapped">
       <xForms:SfListView.RightSwipeTemplate>
         <DataTemplate x:Name="DeleteSwipeTemplate">
-          <Grid BackgroundColor="{x:Static platform:CustomColors.FailureColor}"
+          <Grid BackgroundColor="{x:Static platform1:CustomColors.FailureColor}"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
                 HeightRequest="35"
@@ -63,7 +60,7 @@
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-85}" />
     -->
     <ActivityIndicator
-      Color="{x:Static platform:CustomColors.DividerColor}"
+      Color="{x:Static platform1:CustomColors.DividerColor}"
       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5,  Constant=-20 }"
       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-20 }" 
       IsRunning="{Binding IsBusy}"/>
@@ -77,7 +74,7 @@
       <Label
         Text="{Binding Error.Message}"
         IsVisible="{Binding Error.HasMessage}"
-        TextColor="{x:Static platform:CustomColors.PrimaryTextLightColor}"
+        TextColor="{x:Static platform1:CustomColors.PrimaryTextLightColor}"
         HorizontalTextAlignment="Center"/>  
     </StackLayout>
   </RelativeLayout>
