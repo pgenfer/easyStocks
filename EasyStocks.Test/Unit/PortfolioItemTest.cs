@@ -18,9 +18,11 @@ namespace EasyStocks.Test.Unit
             // Arrange: a new, unitilizaed portfolio item
             var portfolioItem = new PortfolioItem();
             var noStopRate = portfolioItem.StopQuoteReached;
+            var firstDate = DateTime.Now;
+            var secondDate = firstDate.AddDays(1);
             // Act: portfolio item retrieves new data
-            portfolioItem.Update(new ShareDailyInformation("SYMBOL", "shareName", 100, -10, 10) { LastTradingDate = DateTime.Now });
-            portfolioItem.Update(new ShareDailyInformation("SYMBOL", "shareName", 80, -10, 10) { LastTradingDate = DateTime.Now });
+            portfolioItem.Update(new ShareDailyInformation("SYMBOL", "shareName", 100, -10, 10) { LastTradingDate = firstDate });
+            portfolioItem.Update(new ShareDailyInformation("SYMBOL", "shareName", 80, -10, 10) { LastTradingDate = secondDate });
             // Assert: After the update, the stop quote flag should be set if reached
             var stopRate = portfolioItem.StopQuoteReached;
 
