@@ -7,7 +7,7 @@ namespace EasyStocks.Model.Account
     {
         void Clear();
         void AddAccountItemFromPersistentStorage(AccountItemDto dto);
-        IEnumerable<AccountItemDto> ToDtos();
+        PortfolioDto ToDto();
         // when a serializer is registered, it will save the portfolio whenever
         // it changes
         void RegisterSerializerForChanges(PortfolioSerializer serializer);

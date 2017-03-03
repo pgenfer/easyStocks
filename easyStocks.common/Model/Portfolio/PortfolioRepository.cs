@@ -135,15 +135,18 @@ namespace EasyStocks.Model.Account
             _portfolioItems.Add(new AccountItemId(), portfolioItem);
         }
 
-        public IEnumerable<AccountItemDto> ToDtos()
+        public PortfolioDto ToDto()
         {
-            return _portfolioItems.Values.Select(x => new AccountItemDto
+            return new PortfolioDto
             {
-                BuyingDate = x.BuyingDate,
-                BuyingRate = x.BuyingRate,
-                StopRate = x.StopRate,
-                Symbol = x.Symbol
-            });
+                AccountItems = _portfolioItems.Values.Select(x => new AccountItemDto
+                {
+                    BuyingDate = x.BuyingDate,
+                    BuyingRate = x.BuyingRate,
+                    StopRate = x.StopRate,
+                    Symbol = x.Symbol
+                }).ToList()
+            };
         }
 
         public void RegisterSerializerForChanges(PortfolioSerializer serializer)
