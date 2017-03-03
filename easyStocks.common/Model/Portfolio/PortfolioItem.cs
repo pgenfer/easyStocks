@@ -7,7 +7,7 @@ namespace EasyStocks.Model.Account
     /// <summary>
     /// stores information and logic for a single portfolio item
     /// </summary>
-    internal class PortfolioItem
+    public class PortfolioItem
     {
         public static PortfolioItem CreateByUser(
             string symbol,
@@ -106,6 +106,7 @@ namespace EasyStocks.Model.Account
         /// returns false in case the account item did not change</returns>
         public bool Update(ShareDailyInformation dailyInformation)
         {
+            _dataReceived = true;
             // check if the current rate has changed compared to the last time
             // we received the values (the new rate must be newer than our last one
             var rateHasChanged = 
