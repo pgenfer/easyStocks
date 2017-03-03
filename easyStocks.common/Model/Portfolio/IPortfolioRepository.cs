@@ -50,6 +50,11 @@ namespace EasyStocks.Model
         /// <param name="id"></param>
         void RemoveAccountItem(AccountItemId id);
         /// <summary>
+        /// removes all given account items at once
+        /// </summary>
+        /// <param name="ids"></param>
+        void RemoveAccountItems(IEnumerable<AccountItemId> ids);
+        /// <summary>
         /// creates a new account item with the given initial data
         /// </summary>
         /// <param name="newItem"></param>

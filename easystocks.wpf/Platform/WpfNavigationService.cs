@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Model;
 using EasyStocks.Settings;
@@ -32,7 +33,7 @@ namespace EasyStocks.App.Wpf.Platform
             rootViewModel.ActivateItem(accountItemCreateViewModel);
         }
 
-        public void NavigateToEditAccountItem(AccountItemId accountItemId)
+        public void NavigateToEditAccountItem(IEnumerable<AccountItemId> accountItemId)
         {
             var rootViewModel = _container.GetInstance<RootViewModel>();
             var accountItemEditViewModel = new AccountItemEditViewModel(this, _portfolio)

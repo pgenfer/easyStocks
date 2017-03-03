@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 
-[assembly: InternalsVisibleTo("EasyStocks.Test.dll")]
+[assembly: InternalsVisibleTo("easyStocks.test.dll")]
 
 // Version information for an assembly consists of the following four values:
 //

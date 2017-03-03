@@ -68,6 +68,15 @@ namespace EasyStocks.Model.Account
             AccountItemRemoved?.Invoke(id);
         }
 
+        public void RemoveAccountItems(IEnumerable<AccountItemId> ids)
+        {
+            foreach (var id in ids)
+            {
+                _portfolioItems.Remove(id);
+                AccountItemRemoved?.Invoke(id);
+            }
+        }
+
         public void CreateNewAccountItem(NewAccountItem newItem)
         {
             // create new portfolio item and store it

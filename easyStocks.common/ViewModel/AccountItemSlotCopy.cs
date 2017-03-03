@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
@@ -6,7 +7,7 @@ namespace EasyStocks.ViewModel
     public class AccountItemSlotCopy
     {
         public AccountItemSlotCopy(
-            AccountItemId id,
+            IEnumerable<AccountItemId> id,
             string name, 
             string symbol, 
             string currentRate,
@@ -15,7 +16,7 @@ namespace EasyStocks.ViewModel
             bool isStopQuoteReached,
             DateTime lastTradingDate)
         {
-            Id = id;
+            _ids.AddRange(id);
             Name = name;
             Symbol = symbol;
             CurrentRate = currentRate;
@@ -25,7 +26,7 @@ namespace EasyStocks.ViewModel
             LastTradingDate = lastTradingDate;
         }
 
-        public AccountItemId Id { get; }
+        private readonly List<AccountItemId> _ids = new List<AccountItemId>();
         public string Name { get; }
         public string Symbol { get; }
         public string CurrentRate { get; }
@@ -33,5 +34,6 @@ namespace EasyStocks.ViewModel
         public RateChange DailyTrend { get; }
         public bool IsStopQuoteReached { get; }
         public DateTime LastTradingDate { get; }
+        public IEnumerable<AccountItemId> Ids => _ids;
     }
 }

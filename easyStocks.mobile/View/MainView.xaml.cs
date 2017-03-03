@@ -16,7 +16,7 @@ namespace EasyStocks.View
             if (accountItemSlot != null)
             {
                 var mainViewModel = BindingContext as MainViewModel;
-                mainViewModel?.Portfolio.SelectAccountItem(accountItemSlot.Id);
+                mainViewModel?.Portfolio.SelectAccountItem(accountItemSlot.Ids);
             }
         }
 
@@ -30,7 +30,7 @@ namespace EasyStocks.View
                 if (accountItemSlot != null)
                 {
                     var mainViewModel = BindingContext as MainViewModel;
-                    mainViewModel?.RemoveAccountItem(accountItemSlot.Id);
+                    mainViewModel?.RemoveAccountItem(accountItemSlot.Ids);
                 }
             }
             PortfolioListView.ResetSwipe();

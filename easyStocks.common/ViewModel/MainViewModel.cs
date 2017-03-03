@@ -104,14 +104,14 @@ namespace EasyStocks.ViewModel
             _navigationService.NavigateToSearchView();
         }
 
-        private void OnEditAccountViewModel(AccountItemId accountItem)
+        private void OnEditAccountViewModel(IEnumerable<AccountItemId> accountItems)
         {
-            _navigationService.NavigateToEditAccountItem(accountItem);
+            _navigationService.NavigateToEditAccountItem(accountItems);
         }
 
-        public void RemoveAccountItem(AccountItemId accountItem)
+        public void RemoveAccountItem(IEnumerable<AccountItemId> accountItems)
         {
-            _portfolio.RemoveAccountItem(accountItem);
+            _portfolio.RemoveAccountItems(accountItems);
         }
     }
 }

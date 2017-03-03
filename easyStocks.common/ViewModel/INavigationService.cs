@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using EasyStocks.Model;
@@ -14,7 +15,7 @@ namespace EasyStocks.ViewModel
     public interface INavigationService
     {
         void NavigateToCreateAccountItem(ShareDailyInformation stockInformation);
-        void NavigateToEditAccountItem(AccountItemId accountItemId);
+        void NavigateToEditAccountItem(IEnumerable<AccountItemId> accountItemIds);
         void NavigateToPortfolio();
         void NavigateToSearchView();
         Task NavigateToStorageSelection(ApplicationSettings settings);

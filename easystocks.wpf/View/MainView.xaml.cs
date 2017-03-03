@@ -17,7 +17,7 @@ namespace EasyStocks.View
             viewModel?.Portfolio.SelectAccountItem(
                 e.AddedItems
                 .OfType<AccountItemSlot>()
-                .FirstOrDefault()?.Id);
+                .FirstOrDefault()?.Ids);
         }
     }
 }

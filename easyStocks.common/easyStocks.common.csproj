@@ -98,6 +98,7 @@
     <Compile Include="ViewModel\PortfolioViewModel.cs" />
     <Compile Include="ViewModel\RateChange.cs" />
     <Compile Include="ViewModel\SearchShareViewModel.cs" />
+    <Compile Include="ViewModel\SortMode.cs" />
     <Compile Include="ViewModel\StorageSelection.cs" />
     <Compile Include="ViewModel\StorageSelectionViewModel.cs" />
   </ItemGroup>

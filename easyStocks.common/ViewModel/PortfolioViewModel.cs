@@ -19,11 +19,11 @@ namespace EasyStocks.ViewModel
     {
         public AccountItemSlotList Items { get; } = new AccountItemSlotList();
         private readonly IPortfolioRepository _portfolio;
-        private readonly Action<AccountItemId> _editAccountItemAction;
+        private readonly Action<IEnumerable<AccountItemId>> _editAccountItemAction;
 
         public PortfolioViewModel(
             IPortfolioRepository portfolio,
-            Action<AccountItemId> editAccountItemAction)
+            Action<IEnumerable<AccountItemId>> editAccountItemAction)
         {
             _portfolio = portfolio;
             _editAccountItemAction = editAccountItemAction;
@@ -38,10 +38,10 @@ namespace EasyStocks.ViewModel
             Items.AddAccountItems(accountItems);
         }
 
-        public void SelectAccountItem(AccountItemId accountItemId)
+        public void SelectAccountItem(IEnumerable<AccountItemId> accountItemIds)
         {
-            if(accountItemId != null)
-               _editAccountItemAction(accountItemId);
+            if(accountItemIds != null)
+               _editAccountItemAction(accountItemIds);
         }
     }
 }

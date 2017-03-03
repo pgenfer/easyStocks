@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro.Xamarin.Forms;
 using EasyStocks.Model;
@@ -35,10 +36,10 @@ namespace EasyStocks.App.Platform
             _xamarinNavigationService.NavigateToViewModelAsync<AccountItemCreateViewModel>(shareInfo);
     }
 
-        public void NavigateToEditAccountItem(AccountItemId accountItemId)
+        public void NavigateToEditAccountItem(IEnumerable<AccountItemId> accountItemIds)
         {
             _pageCount++;
-            _xamarinNavigationService.NavigateToViewModelAsync<AccountItemEditViewModel>(accountItemId);
+            _xamarinNavigationService.NavigateToViewModelAsync<AccountItemEditViewModel>(accountItemIds);
         }
 
         public void NavigateToPortfolio()

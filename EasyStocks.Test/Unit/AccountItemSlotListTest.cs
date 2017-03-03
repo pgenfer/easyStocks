@@ -40,6 +40,23 @@ namespace EasyStocks.Test.Unit
         }
 
         [Test]
+        public void AddItemWithSameSymbolToList()
+        {
+            // Arrange: two items with the same symbol
+            var first = new ReadonlyAccountItem(
+                new AccountItemId(), "FIRST", "FIRST", 1.0f, 1.0f, RateChange.Positive, false, DateTime.Now);
+            var nextFirst = new ReadonlyAccountItem(
+                new AccountItemId(), "FIRST", "FIRST", 1.0f, 1.0f, RateChange.Positive, false, DateTime.Now);
+            // Act: add both items to the list
+            var list = new AccountItemSlotList();
+            list.AddNewAccountItem(first);
+            list.AddNewAccountItem(nextFirst);
+            // Assert: both items should be grouped in one slot item
+            Assert.That(list.Count, Is.EqualTo(1));
+            Assert.That(list[0].Ids.Count, Is.EqualTo(2));
+        }
+
+        [Test]
         public void MoveItemDownInList()
         {
             var third =
@@ -52,7 +69,7 @@ namespace EasyStocks.Test.Unit
                 new AccountItemId(), "FIRST", 1);
             var secondItem =
                 new ReadonlyAccountItem(
-                    secondSlot.Id,
+                    secondSlot.Ids.Single(),
                     string.Empty,
                     "MINUS SECOND",
                     0.0f,
@@ -91,7 +108,7 @@ namespace EasyStocks.Test.Unit
                 new AccountItemId(), "ZERO",0 );
             var thirdToFirst =
                 new ReadonlyAccountItem(
-                    third.Id,
+                    third.Ids.Single(),
                     string.Empty,
                     "FIRST",
                     0.0f,
@@ -121,7 +138,7 @@ namespace EasyStocks.Test.Unit
                 new AccountItemId(), "ZERO", 0);
             var fourthToFirst =
                 new ReadonlyAccountItem(
-                    fourth.Id,
+                    fourth.Ids.Single(),
                     string.Empty,
                     "FIRST",
                     0.0f,
@@ -150,7 +167,7 @@ namespace EasyStocks.Test.Unit
                 new AccountItemId(), "FIRST", 1);
             var secondItem =
                 new ReadonlyAccountItem(
-                    secondSlot.Id,
+                    secondSlot.Ids.Single(),
                     string.Empty,
                     "SECOND",
                     0.0f,
@@ -179,7 +196,7 @@ namespace EasyStocks.Test.Unit
                 new AccountItemId(), "FIRST", 1);
             var secondItem =
                 new ReadonlyAccountItem(
-                    secondSlot.Id,
+                    secondSlot.Ids.Single(),
                     string.Empty,
                     "SECOND",
                     0.0f,
@@ -193,6 +210,29 @@ namespace EasyStocks.Test.Unit
             Assert.That(list[0].Symbol, Is.EqualTo("THIRD"));
             Assert.That(list[1].Symbol, Is.EqualTo("SECOND"));
             Assert.That(list[2].Symbol, Is.EqualTo("FIRST"));
+        }
+
+        [Test]
+        public void ChangeItem_DuplicateInList()
+        {
+            // Arrange: We have two items in the list, one slot holds two account ids
+            var nextFirst = new ReadonlyAccountItem(
+                new AccountItemId(), "FIRST", "FIRST", 1.0f, 4f, RateChange.Positive, false, DateTime.Now);
+            var firstSlot = new AccountItemSlot(new AccountItemId(), "FIRST", 1.0f, 1.0f);
+            firstSlot.AddAccountItem(nextFirst);
+            var secondSlot =
+               new AccountItemSlot(
+               new AccountItemId(), "SECOND", 2);
+            var third =
+                new AccountItemSlot(
+                new AccountItemId(), "THIRD", 3);
+            var list = new AccountItemSlotList { third, secondSlot, firstSlot };
+            // Act: the first item changes, should be at the top position now
+            list.ChangeAccountItem(nextFirst);
+
+            Assert.That(list[0].Symbol, Is.EqualTo("FIRST"));
+            Assert.That(list[1].Symbol, Is.EqualTo("THIRD"));
+            Assert.That(list[2].Symbol, Is.EqualTo("SECOND"));
         }
     }
 }

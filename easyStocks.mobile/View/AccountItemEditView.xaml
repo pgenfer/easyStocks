@@ -4,6 +4,8 @@
              xmlns:xForms="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
              xmlns:forms1="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              xmlns:platform="clr-namespace:EasyStocks.App.Platform;assembly=easyStocks.mobile"
+             xmlns:easyStocks="clr-namespace:EasyStocks;assembly=easyStocks.common"
+             xmlns:xForms1="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              x:Class="EasyStocks.View.AccountItemEditView">
   <RelativeLayout>
     <Grid
@@ -13,6 +15,16 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
+      <!-- 
+      1. on top we have the name of the share, the daily change in percent and absolute.
+      2. then we have a list with all account related data
+        - buying date
+        - buying rate
+        - overall change
+        - overall change in percent
+        - stop quote reached
+       -->
+
       <!-- header with share name -->
       <Grid
         Grid.Row="0"
@@ -26,18 +38,21 @@
           <ColumnDefinition Width="25*"/>
           <ColumnDefinition Width="25*"/>
         </Grid.ColumnDefinitions>
+        <!-- share name -->
         <Label
           Grid.Row="0"
           Grid.Column="0"
           Text="{Binding ShareName}"
           TextColor="{x:Static platform:CustomColors.PrimaryTextColor}"
           Style="{StaticResource Title}"/>
+        <!-- symbol -->
         <Label
           Grid.Row="1"
           Grid.Column="0"
           Text="{Binding Symbol}"
           Style="{StaticResource Body1}"
           TextColor="{x:Static platform:CustomColors.SecondaryTextColor}"/>
+        <!-- current rate -->
         <Label
           Grid.Row="0"
           Grid.RowSpan="2"
@@ -46,131 +61,145 @@
           Style="{StaticResource Title}"
           TextColor="{x:Static platform:CustomColors.PrimaryTextColor}"
           HorizontalTextAlignment="Center"/>
+        <!-- change in percent -->
         <Label
           Grid.Row="0"
-          Grid.RowSpan="2"
           Grid.Column="2"
           BackgroundColor="{Binding DailyTrend,Converter={StaticResource RateChangeToColor}}"
           Text="{Binding DailyChangeInPercentString}"
           Style="{StaticResource Title}"
           TextColor="{Binding DailyTrend,Converter={StaticResource RateChangeToTextColorConverter}}"
           HorizontalTextAlignment="Center"/>
-      </Grid>
-      <!-- input data -->
-      <Grid
-        Margin="16"
-        Grid.Row="1">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-          <!-- separator -->
-          <RowDefinition Height="Auto"/>
-          <!-- trend data -->
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="37*"/>
-          <ColumnDefinition Width="37*"/>
-          <ColumnDefinition Width="25*"/>
-        </Grid.ColumnDefinitions>
-        <!-- rate -->
-        <Label
-          Grid.Row="0"
-          Grid.Column="0"
-          Text="{x:Static easyStocks:EasyStocksStrings.BuyingQuote}"
-          Style="{StaticResource Caption}"/>
-        <xForms:SfNumericTextBox
-          Grid.Row="0"
-          Grid.Column="2"
-          Value="{Binding BuyingRate}"
-          HorizontalOptions="Center"/>
-        <!-- date -->
+        <!-- change absolute -->
         <Label
           Grid.Row="1"
-          Grid.Column="0"
-          Text="{x:Static easyStocks:EasyStocksStrings.BuyingDate}"
-          Style="{StaticResource Caption}"/>
-        <DatePicker
-          Grid.Row="1"
-          Grid.Column="1"
-          Grid.ColumnSpan="2"
-          Date="{Binding BuyingDate}"
-          Style="{StaticResource CaptionDatePicker}"
-          HorizontalOptions="End"/>
-        <Label
-          Grid.Row="2"
-          Grid.Column="0"
-          Text="{x:Static easyStocks:EasyStocksStrings.StopQuote}"
-          Style="{StaticResource Caption}"/>
-        <Label
-          Margin="5,8"
-          Grid.Row="2"
-          Grid.Column="2"
-          Text="{Binding StopRate}"
-          Style="{StaticResource Title}"
-          TextColor="{Binding IsStopRateReached,Converter={StaticResource TextColorToStopRate}}"
-          BackgroundColor="{Binding IsStopRateReached,Converter={StaticResource BackgroundColorToStopRate}}"
-          HorizontalTextAlignment="Center"/>
-        <!-- separator -->
-        <StackLayout
-          Grid.ColumnSpan="3"
-          Grid.Column="0"
-          Grid.Row="3"
-          Spacing="0"
-          Padding="0"
-          BackgroundColor="{x:Static platform:CustomColors.DividerColor}"
-          HeightRequest="1"
-          HorizontalOptions="FillAndExpand"/>
-        <!-- trend data -->
-        <!-- daily change -->
-        <Label
-          Grid.Row="4"
-          Grid.Column="0"
-          Text="{x:Static easyStocks:EasyStocksStrings.Change}"
-          Style="{StaticResource Caption}"/>
-        <Label
-          Margin="5,8"
-          Grid.Row="4"
           Grid.Column="2"
           Text="{Binding DailyChangeString}"
           Style="{StaticResource Title}"
           TextColor="{Binding DailyTrend,Converter={StaticResource RateChangeToTextColorConverter}}"
           BackgroundColor="{Binding DailyTrend,Converter={StaticResource RateChangeToColor}}"
           HorizontalTextAlignment="Center"/>
-        <!-- overall change -->
-        <Label
-          Grid.Row="5"
-          Grid.Column="0"
-          Text="{x:Static easyStocks:EasyStocksStrings.Overall}"
-          Style="{StaticResource Caption}"/>
-        <Label
-          Margin="5,8"
-          Grid.Row="5"
-          Grid.Column="2"
-          Text="{Binding OverallChangeString}"
-          Style="{StaticResource Title}"
-          TextColor="{Binding OverallTrend,Converter={StaticResource RateChangeToTextColorConverter}}"
-          BackgroundColor="{Binding OverallTrend,Converter={StaticResource RateChangeToColor}}"
-          HorizontalTextAlignment="Center"/>
-        <!-- overall change (%) -->
-        <Label
-          Grid.Row="6"
-          Grid.Column="0"
-          Text="{x:Static easyStocks:EasyStocksStrings.OverallPercent}"
-          Style="{StaticResource Caption}"/>
-        <Label
-          Margin="5,8"
-          Grid.Row="6"
-          Grid.Column="2"
-          Text="{Binding OverallChangeInPercentString}"
-          Style="{StaticResource Title}"
-          TextColor="{Binding OverallTrend,Converter={StaticResource RateChangeToTextColorConverter}}"
-          BackgroundColor="{Binding OverallTrend,Converter={StaticResource RateChangeToColor}}"
-          HorizontalTextAlignment="Center"/>
       </Grid>
+      <!-- list with data per account data -->
+      <xForms1:SfListView
+        Grid.Row="1"
+        ItemsSource="{Binding AccountItems}"
+        SelectionMode="None"
+        ItemSize="175">
+        <xForms1:SfListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Grid
+                Margin="16,0"
+                RowSpacing="0"
+                ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                  <!-- trend data -->
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                  <!-- separator -->
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="37*"/>
+                  <ColumnDefinition Width="37*"/>
+                  <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
+                <!-- rate -->
+                <Label
+                  Margin="0"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Text="{x:Static easyStocks:EasyStocksStrings.BuyingQuote}"
+                  Style="{StaticResource Caption}"/>
+                <xForms:SfNumericTextBox
+                  Margin="0"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  Value="{Binding BuyingRate}"
+                  HorizontalOptions="Center"/>
+                <!-- date -->
+                <Label
+                  Margin="0"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Text="{x:Static easyStocks:EasyStocksStrings.BuyingDate}"
+                  Style="{StaticResource Caption}"/>
+                <DatePicker
+                  Margin="0"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="2"
+                  Date="{Binding BuyingDate}"
+                  Style="{StaticResource CaptionDatePicker}"
+                  HorizontalOptions="End"/>
+                <Label
+                  Margin="0"
+                  Grid.Row="2"
+                  Grid.Column="0"
+                  Text="{x:Static easyStocks:EasyStocksStrings.StopQuote}"
+                  Style="{StaticResource Caption}"/>
+                <Label
+                  Margin="0"
+                  Grid.Row="2"
+                  Grid.Column="2"
+                  Text="{Binding StopRate}"
+                  Style="{StaticResource Title}"
+                  TextColor="{Binding IsStopRateReached,Converter={StaticResource TextColorToStopRate}}"
+                  BackgroundColor="{Binding IsStopRateReached,Converter={StaticResource BackgroundColorToStopRate}}"
+                  HorizontalTextAlignment="Center"/>
+                <!-- trend data -->
+                <!-- overall change -->
+                <Label
+                  Margin="0"
+                  Grid.Row="3"
+                  Grid.Column="0"
+                  Text="{x:Static easyStocks:EasyStocksStrings.Overall}"
+                  Style="{StaticResource Caption}"/>
+                <Label
+                  Margin="0"
+                  Grid.Row="3"
+                  Grid.Column="2"
+                  Text="{Binding OverallChangeString}"
+                  Style="{StaticResource Title}"
+                  TextColor="{Binding OverallTrend,Converter={StaticResource RateChangeToTextColorConverter}}"
+                  BackgroundColor="{Binding OverallTrend,Converter={StaticResource RateChangeToColor}}"
+                  HorizontalTextAlignment="Center"/>
+                <!-- overall change (%) -->
+                <Label
+                  Margin="0"
+                  Grid.Row="4"
+                  Grid.Column="0"
+                  Text="{x:Static easyStocks:EasyStocksStrings.OverallPercent}"
+                  Style="{StaticResource Caption}"/>
+                <Label
+                  Margin="0"
+                  Grid.Row="4"
+                  Grid.Column="2"
+                  Text="{Binding OverallChangeInPercentString}"
+                  Style="{StaticResource Title}"
+                  TextColor="{Binding OverallTrend,Converter={StaticResource RateChangeToTextColorConverter}}"
+                  BackgroundColor="{Binding OverallTrend,Converter={StaticResource RateChangeToColor}}"
+                  HorizontalTextAlignment="Center"/>
+                <!-- separator -->
+                <StackLayout
+                  Margin="0"
+                  Grid.ColumnSpan="3"
+                  Grid.Column="0"
+                  Grid.Row="5"
+                  Spacing="0"
+                  Padding="0"
+                  BackgroundColor="{x:Static platform:CustomColors.DividerColor}"
+                  HeightRequest="1"
+                  HorizontalOptions="FillAndExpand"/>
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+        </xForms1:SfListView.ItemTemplate>
+      </xForms1:SfListView>
     </Grid>
     <forms1:FloatingActionButton
       Style="{StaticResource FloatingActionButton}"
