@@ -85,7 +85,7 @@
         Grid.Row="1"
         ItemsSource="{Binding AccountItems}"
         SelectionMode="None"
-        ItemSize="175">
+        ItemSize="200">
         <xForms1:SfListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
