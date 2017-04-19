@@ -180,7 +180,7 @@
               Style="{StaticResource ButtonStyle}"
               HorizontalAlignment="Right"
               Content="{x:Static easyStocks1:EasyStocksStrings.Remove}"
-              x:Name="RemoveAccountItemFromPortfolio"/>
+              Command="{Binding RemoveCommand}"/>
             <!-- separator -->
             <Separator
               Grid.ColumnSpan="3"

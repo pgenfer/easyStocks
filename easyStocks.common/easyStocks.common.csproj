@@ -92,6 +92,7 @@
     <Compile Include="ViewModel\AccountItemSlotList.cs" />
     <Compile Include="ViewModel\AwaitableViewModel.cs" />
     <Compile Include="ViewModel\DropboxLoginViewModel.cs" />
+    <Compile Include="ViewModel\EditableAccountItem.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\INavigationService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

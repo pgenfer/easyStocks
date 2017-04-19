@@ -42,8 +42,8 @@
           <Grid BackgroundColor="{x:Static platform1:CustomColors.FailureColor}"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
-                HeightRequest="35"
-                WidthRequest="35">
+                HeightRequest="24"
+                WidthRequest="24">
             <Image Source="delete_24.png"/>
           </Grid>
         </DataTemplate>

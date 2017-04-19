@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -11,46 +10,6 @@ using EasyStocks.Model;
 
 namespace EasyStocks.ViewModel
 {
-    public class EditableAccountItem : PropertyChangedBase
-    {
-        private readonly WritableAccountItem _accountItem;
-        private readonly Action<EditableAccountItem> _deleteAction;
-
-        public string OverallChangeInPercentString => _accountItem.OverallChangeInPercent.ToPercentStringWithSign();
-        public string OverallChangeString => _accountItem.OverallChange.ToStringWithSign();
-        public RateChange OverallTrend => _accountItem.OverallTrend;
-        public float StopRate => _accountItem.StopRate;
-        public bool IsStopRateReached => _accountItem.IsStopQuoteReached;
-
-        public AccountItemId Id => _accountItem.Id;
-
-        public float BuyingRate
-        {
-            get { return _accountItem.BuyingRate; }
-            set
-            {
-                _accountItem.BuyingRate = value;
-                NotifyOfPropertyChange(nameof(OverallChangeInPercentString));
-                NotifyOfPropertyChange(nameof(OverallChangeString));
-                NotifyOfPropertyChange(nameof(OverallTrend));
-            }
-        }
-
-        public DateTime BuyingDate
-        {
-            get { return _accountItem.BuyingDate; }
-            set { _accountItem.BuyingDate = value; }
-        }
-
-        public void RemoveAccountItem() => _deleteAction(this);
-
-        public EditableAccountItem(WritableAccountItem accountItem,Action<EditableAccountItem> deleteAction)
-        {
-            _accountItem = accountItem;
-            _deleteAction = deleteAction;
-        }
-    }
-
     public class AccountItemEditViewModel : Screen
     {
         private readonly IPortfolioRepository _portfolio;

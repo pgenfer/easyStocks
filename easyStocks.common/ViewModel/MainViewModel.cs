@@ -111,7 +111,7 @@ namespace EasyStocks.ViewModel
 
         public void RemoveAccountItem(IEnumerable<AccountItemId> accountItems)
         {
-            _portfolio.RemoveAccountItems(accountItems);
+            _portfolio.RemoveAccountItems(accountItems.ToList());
         }
     }
 }
