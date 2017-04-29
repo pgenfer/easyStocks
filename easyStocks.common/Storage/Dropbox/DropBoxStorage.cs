@@ -16,6 +16,8 @@ namespace EasyStocks.Storage.Dropbox
         private readonly string _token;
         private readonly IErrorService _errorService;
 
+        protected virtual string StorageFileName => "easystocks.json";
+
         public DropBoxStorage(
             string token, 
             IErrorService errorService)
@@ -33,7 +35,7 @@ namespace EasyStocks.Storage.Dropbox
                 {
                     using (var client = new DropboxClient(_token))
                     {
-                        var response = await client.Files.DownloadAsync("/easystocks.json");
+                        var response = await client.Files.DownloadAsync($"/{StorageFileName}");
                         if (response != null)
                         {
                             var content = await response.GetContentAsStringAsync();
@@ -58,7 +60,7 @@ namespace EasyStocks.Storage.Dropbox
                 using (var client = new DropboxClient(_token))
                 {
                     var content = ToJson(portfolio);
-                    var commitInfo = new CommitInfo("/easystocks.json",WriteMode.Overwrite.Instance,mute:true);
+                    var commitInfo = new CommitInfo($"/{StorageFileName}", WriteMode.Overwrite.Instance,mute:true);
                     await client.Files.UploadAsync(commitInfo, new MemoryStream(Encoding.UTF8.GetBytes(content)));
                 }
             }
@@ -73,7 +75,7 @@ namespace EasyStocks.Storage.Dropbox
             using (var client = new DropboxClient(_token))
             {
                 var files = await client.Files.ListFolderAsync(string.Empty);
-                var hasFile = files.Entries.Any(x => x.Name == "easystocks.json");
+                var hasFile = files.Entries.Any(x => x.Name == StorageFileName);
                 return hasFile;
             }
         }

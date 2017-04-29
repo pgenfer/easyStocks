@@ -139,11 +139,14 @@ namespace EasyStocks.Setup
                 var fileStorage = container.GetInstance<IFileSystemStorage>();
                 var errorService = container.GetInstance<IErrorService>();
                 // use drop box as default storage and the file system as failover
+#if DEBUG
+                IStorage realStorage = new DebugDropBoxStorage(settings.DropBoxToken,new ThrowExceptionErrorService());
+#else
+                IStorage realStorage = new DropBoxStorage(settings.DropBoxToken,new ThrowExceptionErrorService());
+#endif
                 storageToUse =
                     new StorageWithBackupStrategy(
-                        new DropBoxStorage(
-                            settings.DropBoxToken,
-                            new ThrowExceptionErrorService()),
+                        realStorage,
                         fileStorage,
                         errorService,
                         settings);

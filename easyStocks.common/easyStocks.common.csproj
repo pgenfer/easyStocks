@@ -52,6 +52,7 @@
     <Compile Include="Network\IConnectivityService.cs" />
     <Compile Include="Settings\ISettingsService.cs" />
     <Compile Include="Settings\ApplicationSettings.cs" />
+    <Compile Include="Storage\Dropbox\DebugDropBoxStorage.cs" />
     <Compile Include="Storage\Dropbox\DropBoxStorage.cs" />
     <Compile Include="Storage\IFileSystemStorage.cs" />
     <Compile Include="Storage\IStorage.cs" />
