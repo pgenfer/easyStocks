@@ -8,11 +8,16 @@ using EasyStocks.Dto;
 namespace EasyStocks.Model.Account
 {
     public class PortfolioRepository : 
-        IPortfolioRepository, 
-        IPortfolioUpdateRepository, 
+        IPortfolioRepository,
         IPortfolioPersistentRepository
     {
         private readonly Dictionary<AccountItemId,PortfolioItem> _portfolioItems = new Dictionary<AccountItemId, PortfolioItem>();
+
+        /// <summary>
+        /// we store the date whenever an item was added or removed from the portfolio.
+        /// Initializes with null means the portfolio was not changed by the user so far
+        /// </summary>
+        public DateTime? TimeOfLastChange { get; set; } = null;
 
         public WritableAccountItem GetWriteableAccountItemById(AccountItemId id)
         {
@@ -70,6 +75,8 @@ namespace EasyStocks.Model.Account
 
         public void RemoveAccountItems(IEnumerable<AccountItemId> ids)
         {
+            TimeOfLastChange = DateTime.Now;
+
             foreach (var id in ids)
             {
                 _portfolioItems.Remove(id);
@@ -90,6 +97,8 @@ namespace EasyStocks.Model.Account
                 newItem.DailyChangeInPercent);
             _portfolioItems.Add(newAccountItemId, portfolioItem);
 
+            TimeOfLastChange = DateTime.Now;
+            
             // fire event that new item was created
             AccountItemAdded?.Invoke(new ReadonlyAccountItem(
                 newAccountItemId,
@@ -100,6 +109,7 @@ namespace EasyStocks.Model.Account
                 portfolioItem.DailyTrend,
                 portfolioItem.StopQuoteReached,
                 portfolioItem.LastTradingDate));
+
         }
 
         public void FirePortfolioLoaded() => PortfolioLoaded?.Invoke(GetAllAccountItems());
@@ -154,8 +164,35 @@ namespace EasyStocks.Model.Account
                     BuyingRate = x.BuyingRate,
                     StopRate = x.StopRate,
                     Symbol = x.Symbol
-                }).ToList()
+                }).ToList(),
+                LastChange = TimeOfLastChange ?? DateTime.MinValue
             };
+        }
+
+        public IEnumerable<AccountItemId> GetItemsNotInDto(PortfolioDto dto)
+        {
+            var ids = new List<AccountItemId>();
+            foreach (var item in _portfolioItems)
+            {
+                var found = false;
+                foreach (var dtoItem in dto.AccountItems)
+                {
+                    if (item.Value.Symbol == dtoItem.Symbol && 
+                        item.Value.BuyingDate == dtoItem.BuyingDate)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    ids.Add(item.Key);
+            }
+            return ids;
+        }
+
+        public bool HasItem(string symbolName, DateTime buyingDate)
+        {
+            return _portfolioItems.Values.Any(x => x.Symbol == symbolName && x.BuyingDate == buyingDate);
         }
 
         public void RegisterSerializerForChanges(PortfolioSerializer serializer)

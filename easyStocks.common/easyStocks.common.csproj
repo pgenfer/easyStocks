@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\bin\release\wpf\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -47,6 +47,10 @@
     <Compile Include="Error\Severity.cs" />
     <Compile Include="Error\ThrowExceptionErrorService.cs" />
     <Compile Include="Extension\DateTimeExtension.cs" />
+    <Compile Include="Model\Portfolio\Synchronization\PortfolioRemoteChange.cs" />
+    <Compile Include="Model\Portfolio\Synchronization\PortfolioSynchronizer.cs" />
+    <Compile Include="Model\Portfolio\Synchronization\ShareRemoteAdded.cs" />
+    <Compile Include="Model\Portfolio\Synchronization\ShareRemoteRemoved.cs" />
     <Compile Include="Model\StockTicker\StockExchange.cs" />
     <Compile Include="Model\StockTicker\StockExchangeFinder.cs" />
     <Compile Include="Network\IConnectivityService.cs" />

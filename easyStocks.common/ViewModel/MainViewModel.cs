@@ -9,6 +9,7 @@ using Caliburn.Micro;
 using EasyStocks.Commands;
 using EasyStocks.Error;
 using EasyStocks.Model;
+using EasyStocks.Model.Account;
 using EasyStocks.Network;
 
 namespace EasyStocks.ViewModel
@@ -68,7 +69,7 @@ namespace EasyStocks.ViewModel
         /// <param name="stockTicker"></param>
         /// <param name="errorService"></param>
         public MainViewModel(
-            IPortfolioRepository portfolio,
+            PortfolioRepository portfolio,
             INavigationService navigationService,
             IStockTicker stockTicker,
             IErrorService errorService,
@@ -80,7 +81,7 @@ namespace EasyStocks.ViewModel
                 portfolio,
                 OnEditAccountViewModel);
             SearchCommand = new SimpleCommand(OnSearchNewShare,() => true);
-            RefreshPortfolioCommand = new SimpleCommand(async () => await RefreshPortfolio(portfolio as IPortfolioUpdateRepository, stockTicker), () => !IsConnected);
+            RefreshPortfolioCommand = new SimpleCommand(async () => await RefreshPortfolio(portfolio, stockTicker), () => !IsConnected);
 
             Error = new ErrorViewModel(errorService);
 
@@ -93,7 +94,7 @@ namespace EasyStocks.ViewModel
             connectivityService.ConnectivityChanged += x => IsConnected = x != Connectivity.None;
         }
 
-        private async Task RefreshPortfolio(IPortfolioUpdateRepository portfolio,IStockTicker stockTicker)
+        private async Task RefreshPortfolio(PortfolioRepository portfolio,IStockTicker stockTicker)
         {
             if(IsConnected)
                 await portfolio.CheckForUpdatesAsync(stockTicker);

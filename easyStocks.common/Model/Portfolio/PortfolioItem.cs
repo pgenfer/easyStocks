@@ -112,8 +112,9 @@ namespace EasyStocks.Model.Account
             var rateHasChanged = 
                 dailyInformation.LastTradingDate > LastTradingDate && 
                 Math.Abs(dailyInformation.CurrentRate - CurrentRate) > 0.009;
-            // if rate has changed, also update the stop rate
-            if (rateHasChanged)
+            // if rate has changed or share has no name yet (because it was added remotly), update all information
+            var itemHasChanged = rateHasChanged || string.IsNullOrEmpty(ShareName);
+            if (itemHasChanged)
             {
                 ShareName = dailyInformation.ShareName;
                 CurrentRate = dailyInformation.CurrentRate;
@@ -122,7 +123,7 @@ namespace EasyStocks.Model.Account
                 LastTradingDate = dailyInformation.LastTradingDate;
                 RecalculateStopRate();
             }
-            return rateHasChanged;
+            return itemHasChanged;
         }
     }
 }

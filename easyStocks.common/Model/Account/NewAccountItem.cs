@@ -27,12 +27,13 @@ namespace EasyStocks.Model
             string symbol, 
             float buyingRate,
             float dailyChange, 
-            float dailyChangeInPercent)
+            float dailyChangeInPercent,
+            DateTime? buyingDate = null) // optional in case it was added during synchronization
         {
             ShareName = shareName;
             Symbol = symbol;
             BuyingRate = buyingRate;
-            BuyingDate = DateTime.Now;
+            BuyingDate = buyingDate ?? DateTime.Now;
             DailyChange = dailyChange;
             DailyChangeInPercent = dailyChangeInPercent;
             DailyTrend = dailyChange.GetTrend();

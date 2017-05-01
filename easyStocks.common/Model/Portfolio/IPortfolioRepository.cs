@@ -64,17 +64,4 @@ namespace EasyStocks.Model
         /// </summary>
         void FirePortfolioLoaded();
     }
-
-    /// <summary>
-    /// interface called by the update timer
-    /// to check whether there are any updates for account items.
-    /// </summary>
-    public interface IPortfolioUpdateRepository
-    {
-        /// <summary>
-        /// uses the stock ticker and checks if there are any updates available
-        /// </summary>
-        /// <param name="stockTicker"></param>
-        Task CheckForUpdatesAsync(IStockTicker stockTicker);
-    }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading;
+using EasyStocks.Dto;
+using EasyStocks.Model.Account;
+using EasyStocks.Model.Portfolio;
 using EasyStocks.Network;
 
 namespace EasyStocks.Model
@@ -12,17 +15,24 @@ namespace EasyStocks.Model
         private static readonly TimeSpan _IntervalForWifiConnection = TimeSpan.FromSeconds(15);
         private static readonly TimeSpan _IntervalForRoamingConnection = TimeSpan.FromSeconds(60);
 
-        private readonly IPortfolioUpdateRepository _portfolio;
+        private readonly PortfolioRepository _portfolio;
+        /// <summary>
+        /// synchronizer is used to keep local version of repository in sync with remote one
+        /// </summary>
+        private readonly PortfolioSynchronizer _synchronizer = new PortfolioSynchronizer();
         private readonly IStockTicker _stockTicker;
+        private readonly IStorage _storage;
         private TimeSpan _currentInterval = _IntervalForWifiConnection;
         private readonly Timer _portfolioUpdateTimer;
 
         public PortfolioUpdater(
-            IPortfolioUpdateRepository portfolio,
-            IStockTicker stockTicker)
+            PortfolioRepository portfolio,
+            IStockTicker stockTicker,
+            IStorage storage)
         {
             _portfolio = portfolio;
             _stockTicker = stockTicker;
+            _storage = storage;
             // create the timer but do not start it yet
             _portfolioUpdateTimer = new Timer(
                 OnUpdatePortfolioAsync,
@@ -48,6 +58,11 @@ namespace EasyStocks.Model
         public async void OnUpdatePortfolioAsync(object state)
         {
             _portfolioUpdateTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+
+            // first check if we must keep the portfolios up to date
+            await _synchronizer.SyncPortfolioFromRemote(_portfolio, _storage);
+            _synchronizer.ExecuteChanges(_portfolio);
+            // then update the stock updates
             await _portfolio.CheckForUpdatesAsync(_stockTicker);
             _portfolioUpdateTimer.Change(_currentInterval, Timeout.InfiniteTimeSpan);
         }

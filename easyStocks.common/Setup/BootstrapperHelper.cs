@@ -43,7 +43,6 @@ namespace EasyStocks.Setup
             container.Instance(portfolio);
             container.Instance<IPortfolioRepository>(portfolio);
             container.Instance<IPortfolioPersistentRepository>(portfolio);
-            container.Instance<IPortfolioUpdateRepository>(portfolio);
         }
 
         private static void SetupViewModel(SimpleContainer container)
@@ -167,16 +166,15 @@ namespace EasyStocks.Setup
             
             // save whenever the portfolio changes
             var storage = Container.GetInstance<IStorage>();
-            var persistentPortfolio = Container.GetInstance<IPortfolioPersistentRepository>();
+            var portfolio = Container.GetInstance<PortfolioRepository>();
             // serializer used to save portfolio data
             var serializer = new PortfolioSerializer(storage);
             // save the portfolio whenever it changes
-            persistentPortfolio.RegisterSerializerForChanges(serializer);
+            portfolio.RegisterSerializerForChanges(serializer);
 
             // start update notification process for the portfolio
-            var portfolio = Container.GetInstance<IPortfolioUpdateRepository>();
             var stockTicker = Container.GetInstance<IStockTicker>();
-            var portfolioUpdater = new PortfolioUpdater(portfolio, stockTicker);
+            var portfolioUpdater = new PortfolioUpdater(portfolio, stockTicker, storage);
             connectivityManager.ConnectivityChanged += portfolioUpdater.ReactOnNetworkChanges;
 
             // start observing the network, this should also start the update process of the portfolio
