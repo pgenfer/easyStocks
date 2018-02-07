@@ -16,5 +16,6 @@ namespace EasyStocks.Dto
         public DateTime BuyingDate { get; set; }
         public float BuyingRate { get; set; }
         public float StopRate { get; set; }
+        public string Name { get; set; }
     }
 }

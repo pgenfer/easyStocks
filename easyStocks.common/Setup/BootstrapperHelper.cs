@@ -13,7 +13,7 @@ using EasyStocks.Settings;
 using EasyStocks.Storage;
 using EasyStocks.Storage.Dropbox;
 using EasyStocks.ViewModel;
-
+using EasyStocks.Model.StockTicker;
 
 namespace EasyStocks.Setup
 {
@@ -35,7 +35,8 @@ namespace EasyStocks.Setup
         {
             var errorService = container.GetInstance<IErrorService>();
             // stock ticker for retrieving stock information
-            var stockTicker = new YahooFinanceStockTicker(errorService);
+            //var stockTicker = new YahooFinanceStockTicker(errorService);
+            var stockTicker = new YahooQueryTicker(errorService,container.GetInstance<StockNameRepository>());
             container.Instance<IStockTicker>(stockTicker);
             // portfolio where stocks are stored
             // must be registered for every interface
@@ -61,6 +62,7 @@ namespace EasyStocks.Setup
         {
             // register error service as soon as possible to track all problems
             // during setup
+            Container.Instance(new StockNameRepository());
             Container.Instance<IErrorService>(new ErrorService());
             RegisterPlatformDependentServices(Container);
             SetupApplicationSettings(Container);
@@ -93,6 +95,9 @@ namespace EasyStocks.Setup
             var portfolio = Container.GetInstance<PortfolioRepository>();
             var deserializer = new PortfolioSerializer(storage);
             await deserializer.LoadAsync(portfolio);
+            // register the names in the name
+            var nameRepository = Container.GetInstance<StockNameRepository>();
+            nameRepository.RegisterNames(portfolio.GetAllAccountItems());
             portfolio.FirePortfolioLoaded();
         }
 

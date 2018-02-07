@@ -1,6 +1,7 @@
 using System;
 using EasyStocks.Extension;
 using EasyStocks.ViewModel;
+using EasyStocks.Dto;
 
 namespace EasyStocks.Model.Account
 {
@@ -31,19 +32,15 @@ namespace EasyStocks.Model.Account
             return portfolioItem;
         }
 
-        public static PortfolioItem CreateFromStorage(
-            string symbol,
-            float buyingRate,
-            DateTime buyingDate,
-            float stopRate)
+        public static PortfolioItem CreateFromStorage(AccountItemDto accountItem)
         {
             var portfolioItem = new PortfolioItem
             {
-                ShareName = EasyStocksStrings.RetrievingData, // name will be received later
-                Symbol = symbol,
-                BuyingRate = buyingRate,
-                BuyingDate = buyingDate,
-                StopRate = stopRate
+                ShareName = accountItem.Name,
+                Symbol = accountItem.Symbol,
+                BuyingRate = accountItem.BuyingRate,
+                BuyingDate = accountItem.BuyingDate,
+                StopRate = accountItem.StopRate
             };
             return portfolioItem;
         }
@@ -113,7 +110,7 @@ namespace EasyStocks.Model.Account
                 dailyInformation.LastTradingDate > LastTradingDate && 
                 Math.Abs(dailyInformation.CurrentRate - CurrentRate) > 0.009;
             // if rate has changed or share has no name yet (because it was added remotly), update all information
-            var itemHasChanged = rateHasChanged || string.IsNullOrEmpty(ShareName);
+            var itemHasChanged = rateHasChanged || string.IsNullOrEmpty(ShareName) || dailyInformation.ShareName != ShareName;
             if (itemHasChanged)
             {
                 ShareName = dailyInformation.ShareName;

@@ -33,6 +33,8 @@
       BindingContext="{Binding Portfolio}"
       ItemsSource="{Binding Items}"
       ItemTemplate="{StaticResource AccountItemDataTemplate}"
+      ItemTapped="OnPortfolioItemTapped"/>
+     <!--
       SwipeThreshold="30"
       SwipeOffset="{x:Static view1:MainView.SwipeOffset}"
       SwipeEnded="OnSwipeEnded"
@@ -49,6 +51,7 @@
         </DataTemplate>
       </xForms:SfListView.RightSwipeTemplate>
     </xForms:SfListView>
+    -->
     <!--
     problem with action button here is that it hides the last entry in the portfolio list
     so it is replaced with a toolbar button instead    

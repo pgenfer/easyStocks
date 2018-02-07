@@ -7,37 +7,37 @@ using EasyStocks.Error;
 using EasyStocks.Model;
 using NUnit.Framework;
 using static NSubstitute.Substitute;
+using EasyStocks.Model.StockTicker;
 
 namespace EasyStocks.Test.Integration
 {
-    // Yahoo stock ticker is obsolete, use YahooQueryTicker instead
-    //[TestFixture]
-    public class YahooStockTickerTest
+    [TestFixture]
+    public class YahooQueryTickerTest
     {
         private IStockTicker _ticker;
 
         [SetUp]
         public void Setup()
         {
-            _ticker = new YahooFinanceStockTicker(For<IErrorService>());
+            _ticker = new YahooQueryTicker(For<IErrorService>(),For<StockNameRepository>());
         }
 
-        //[Test]
+        [Test]
         public async Task RetrieveStockData()
         {
-            var result = await _ticker.GetDailyInformationForShareAsync(new [] {"TSLA"});
+            var result = await _ticker.GetDailyInformationForShareAsync(new[] { "TSLA" });
             Assert.That(result.Count(), Is.EqualTo(1));
             Assert.That(result.Single().Symbol, Is.EqualTo("TSLA"));
         }
 
-        //[Test]
+        [Test]
         public async Task RetrieveSeveralStockData()
         {
-            var result = await _ticker.GetDailyInformationForShareAsync(new[] { "TSLA","MSFT" });
+            var result = await _ticker.GetDailyInformationForShareAsync(new[] { "TSLA", "MSFT" });
             Assert.That(result.Count(), Is.EqualTo(2));
         }
 
-        //[Test]
+        [Test]
         public async Task FindStocksByName()
         {
             var result = await _ticker.FindStocksForSearchString("US88160R1014");

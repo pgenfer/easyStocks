@@ -47,6 +47,20 @@ namespace EasyStocks.Model
         private readonly Dictionary<string,StockExchange> _stocksByExchangeCode = new Dictionary<string, StockExchange>();
 
         /// <summary>
+        /// the other way round: We provide the suffix of the exchange and we get the local exchange code.
+        /// Used to find the name for a symbol (as we only have the exchange suffix in the symbol but have to
+        /// match it to an exchange code).
+        /// </summary>
+        private readonly Dictionary<string, string> _exchangeCodeBySuffix = new Dictionary<string, string>();
+
+        public string ExchangeCodeForSuffix(string suffix)
+        {
+            string exchangeCode = string.Empty;
+            _exchangeCodeBySuffix.TryGetValue(suffix, out exchangeCode);
+            return exchangeCode;
+        }
+
+        /// <summary>
         /// reads the BB exchange codes and names
         /// and then the Yahoo names and suffixes and joins all together in a dictionary.
         /// </summary>
@@ -90,7 +104,11 @@ namespace EasyStocks.Model
                 var suffix = stockSuffix[1].Trim().Replace("N/A", string.Empty).Replace(".",string.Empty);
                 StockExchange stockExchange;
                 if (stockExchangesByName.TryGetValue(name, out stockExchange))
+                {
                     stockExchange.Suffix = suffix;
+                    if (!_exchangeCodeBySuffix.ContainsKey(stockExchange.ExchangeCode))
+                        _exchangeCodeBySuffix.Add(suffix, stockExchange.ExchangeCode);
+                }
             }
 
             // exchange codes are not unique, so in case we have duplicates, we simply take the first one

@@ -53,6 +53,8 @@
     <Compile Include="Model\Portfolio\Synchronization\ShareRemoteRemoved.cs" />
     <Compile Include="Model\StockTicker\StockExchange.cs" />
     <Compile Include="Model\StockTicker\StockExchangeFinder.cs" />
+    <Compile Include="Model\StockTicker\StockNameRepository.cs" />
+    <Compile Include="Model\StockTicker\YahooQueryTicker.cs" />
     <Compile Include="Network\IConnectivityService.cs" />
     <Compile Include="Settings\ISettingsService.cs" />
     <Compile Include="Settings\ApplicationSettings.cs" />

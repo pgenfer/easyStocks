@@ -146,11 +146,7 @@ namespace EasyStocks.Model.Account
 
         public void AddAccountItemFromPersistentStorage(AccountItemDto dto)
         {
-            var portfolioItem = PortfolioItem.CreateFromStorage(
-                dto.Symbol,
-                dto.BuyingRate,
-                dto.BuyingDate,
-                dto.StopRate);
+            var portfolioItem = PortfolioItem.CreateFromStorage(dto);
             _portfolioItems.Add(new AccountItemId(), portfolioItem);
         }
 
@@ -163,7 +159,8 @@ namespace EasyStocks.Model.Account
                     BuyingDate = x.BuyingDate,
                     BuyingRate = x.BuyingRate,
                     StopRate = x.StopRate,
-                    Symbol = x.Symbol
+                    Symbol = x.Symbol,
+                    Name = x.ShareName
                 }).ToList(),
                 LastChange = TimeOfLastChange ?? DateTime.MinValue
             };
